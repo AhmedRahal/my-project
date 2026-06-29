@@ -1,0 +1,3436 @@
+===== C:\DEV\my project\index.html =====
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My App</title>
+  <link rel="stylesheet" href="./assets/css/style2.css">
+</head>
+<body>
+  <div id="overlay"></div>
+<div id="signUp-card" class="modal">
+    <h2>signUp</h2>
+    <input id="signUp-username" type="text" placeholder="Username">
+    <input id="signUp-password" type="password" placeholder="Password">
+
+    <div class="file-upload-wrapper">
+        <input type="file" id="signUp-profile-picture" accept="image/*">
+        <label for="signUp-profile-picture" class="file-upload-btn">Choose File</label>
+        <span id="file-name-display">No file chosen</span>
+    </div>
+
+    <button id="submit-signUp" type="submit">signUp</button>
+</div>
+<div id="login-card" class="modal">
+    <h2>Login</h2>
+    <input id="login-username" type="text" placeholder="Username">
+    <input id="login-password" type="password" placeholder="Password">
+    <button id="submit-login" type="submit">Login</button>
+</div>
+<div id="add-note-card" class="modal">
+    <h2>New Note</h2>
+    <input id="note-title" type="text" placeholder="Title">
+    <textarea id="note-content" placeholder="Content"></textarea>
+    <div class="add-tag">
+        <input type="text" placeholder="Add a tag...">
+        <button id="add-tag-btn" type="button">Add Tag</button>
+    </div>
+    <div class="tags"></div>
+    <div id="isPinned">
+      <label for="pin-note">
+        <div class="tg-container">
+          <span class="pin-note-text" style="margin-right: 10px;">Pin Note</span>
+          <label class="toggle">
+            <input type="checkbox" id="pinNote">
+            <span class="slider"></span>
+              </label>
+            <!-- get tags from the server dynamically -->
+          </label>
+    </div>
+  <button id="save-note-btn" type="submit">Save Note</button>
+</div>
+</div>
+  <header>
+    <div class="container">
+      <!-- <div class="logo">
+        <img src="assets/images/logo.png" id="websiteLogo" alt="logo">
+      </div> -->
+      <div class="website-title">
+        <h1>my notes</h1>
+      </div>
+      <div class="search-bar modal">
+                <div class="icon">
+          <svg width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M14.9536 14.9458L21 21M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+        </div>
+        <input type="search" placeholder="Search..." name="" id="">
+      </div>
+      <div class="user">
+        <img src="assets/images/df_user.png" alt="user-image">
+        <span class="username">user name</span>
+      </div>
+      
+      <div class="settings-menu ">
+        <div class="icon">
+          <div class="line"></div>
+          <div class="line"></div>
+          <div class="line"></div>
+        </div>
+        <div class="settings-dropdown modal" id="settings-dropdown-modal">
+          <ul>
+            <li id="dark-mode">
+              <span class="text">Dark Mode</span>
+              <div class="tg-container">
+                <label class="toggle">
+                <input type="checkbox" id="darkModeToggle">
+                <span class="slider"></span>
+              </label>
+              </div>
+            </li>
+            <li id="open-at-startup">
+              <span class="text">Open at Startup</span>
+              <div class="tg-container">
+                <label class="toggle">
+                <input type="checkbox" id="openAtStartupToggle">
+                <span class="slider"></span>
+              </label>
+
+            </li>
+            <li id="user-signUp-logout">
+
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </header>
+    <div class="no-notes-message">
+    
+  </div> 
+  <div class="notes-content">
+
+  </div>
+
+  <div class="add-note-btn" id="addNoteBtn"> 
+    <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="800px" height="800px" viewBox="0 0 24 24" fill="none">
+<path d="M12.75 9C12.75 8.58579 12.4142 8.25 12 8.25C11.5858 8.25 11.25 8.58579 11.25 9L11.25 11.25H9C8.58579 11.25 8.25 11.5858 8.25 12C8.25 12.4142 8.58579 12.75 9 12.75H11.25V15C11.25 15.4142 11.5858 15.75 12 15.75C12.4142 15.75 12.75 15.4142 12.75 15L12.75 12.75H15C15.4142 12.75 15.75 12.4142 15.75 12C15.75 11.5858 15.4142 11.25 15 11.25H12.75V9Z" fill="#1C274C"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M12.0574 1.25H11.9426C9.63424 1.24999 7.82519 1.24998 6.41371 1.43975C4.96897 1.63399 3.82895 2.03933 2.93414 2.93414C2.03933 3.82895 1.63399 4.96897 1.43975 6.41371C1.24998 7.82519 1.24999 9.63422 1.25 11.9426V12.0574C1.24999 14.3658 1.24998 16.1748 1.43975 17.5863C1.63399 19.031 2.03933 20.1711 2.93414 21.0659C3.82895 21.9607 4.96897 22.366 6.41371 22.5603C7.82519 22.75 9.63423 22.75 11.9426 22.75H12.0574C14.3658 22.75 16.1748 22.75 17.5863 22.5603C19.031 22.366 20.1711 21.9607 21.0659 21.0659C21.9607 20.1711 22.366 19.031 22.5603 17.5863C22.75 16.1748 22.75 14.3658 22.75 12.0574V11.9426C22.75 9.63423 22.75 7.82519 22.5603 6.41371C22.366 4.96897 21.9607 3.82895 21.0659 2.93414C20.1711 2.03933 19.031 1.63399 17.5863 1.43975C16.1748 1.24998 14.3658 1.24999 12.0574 1.25ZM3.9948 3.9948C4.56445 3.42514 5.33517 3.09825 6.61358 2.92637C7.91356 2.75159 9.62177 2.75 12 2.75C14.3782 2.75 16.0864 2.75159 17.3864 2.92637C18.6648 3.09825 19.4355 3.42514 20.0052 3.9948C20.5749 4.56445 20.9018 5.33517 21.0736 6.61358C21.2484 7.91356 21.25 9.62177 21.25 12C21.25 14.3782 21.2484 16.0864 21.0736 17.3864C20.9018 18.6648 20.5749 19.4355 20.0052 20.0052C19.4355 20.5749 18.6648 20.9018 17.3864 21.0736C16.0864 21.2484 14.3782 21.25 12 21.25C9.62177 21.25 7.91356 21.2484 6.61358 21.0736C5.33517 20.9018 4.56445 20.5749 3.9948 20.0052C3.42514 19.4355 3.09825 18.6648 2.92637 17.3864C2.75159 16.0864 2.75 14.3782 2.75 12C2.75 9.62177 2.75159 7.91356 2.92637 6.61358C3.09825 5.33517 3.42514 4.56445 3.9948 3.9948Z" fill="#1C274C"/>
+</svg></span> 
+    <div class="hover-text">
+      Add Note
+    </div>
+</div>
+  <div class="notification-container">
+  </div>
+  <script src="./assets/main.js" type="module"></script>
+  <script src="renderer.js"></script>
+</body>
+</html>
+
+
+===== C:\DEV\my project\main.js =====
+const { app, BrowserWindow, ipcMain, Menu ,nativeTheme} = require('electron');
+const path = require('path');
+
+function createWindow() {
+    const win = new BrowserWindow({
+        width: 1000,
+        height: 700,
+        backgroundColor: '#1e1e1e',
+        frame: true,
+        webPreferences: {
+            preload: path.join(__dirname, 'preload.js'),
+            contextIsolation: true,
+            nodeIntegration: false
+        }
+    });
+
+    win.loadFile('index.html');
+}
+
+
+app.whenReady().then(() => {
+
+    nativeTheme.themeSource = 'dark';
+    createWindow();
+});
+
+app.on('activate', () => {
+    if (BrowserWindow.getAllWindows().length === 0) {
+        createWindow();
+    }
+});
+
+app.on('window-all-closed', () => {
+    if (process.platform !== 'darwin') app.quit();
+});
+
+// --- IPC HANDLERS ---
+ipcMain.on('set-startup', (event, value) => {
+    app.setLoginItemSettings({ openAtLogin: value });
+});
+
+ipcMain.handle('get-startup', () => {
+    return app.getLoginItemSettings().openAtLogin;
+});
+
+
+===== C:\DEV\my project\package-lock.json =====
+{
+  "name": "my-project",
+  "version": "1.0.0",
+    "scripts": {
+    "start": "electron ."
+  },
+  "lockfileVersion": 3,
+  "requires": true,
+  "packages": {
+    "": {
+      "name": "my-project",
+      "version": "1.0.0",
+      "license": "ISC",
+      "dependencies": {
+        "better-sqlite3": "^12.6.2",
+        "mysql2": "^3.17.2"
+      },
+      "devDependencies": {
+        "electron": "^40.4.1"
+      }
+    },
+    "node_modules/@electron/get": {
+      "version": "2.0.3",
+      "resolved": "https://registry.npmjs.org/@electron/get/-/get-2.0.3.tgz",
+      "integrity": "sha512-Qkzpg2s9GnVV2I2BjRksUi43U5e6+zaQMcjoJy0C+C5oxaKl+fmckGDQFtRpZpZV0NQekuZZ+tGz7EA9TVnQtQ==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "debug": "^4.1.1",
+        "env-paths": "^2.2.0",
+        "fs-extra": "^8.1.0",
+        "got": "^11.8.5",
+        "progress": "^2.0.3",
+        "semver": "^6.2.0",
+        "sumchecker": "^3.0.1"
+      },
+      "engines": {
+        "node": ">=12"
+      },
+      "optionalDependencies": {
+        "global-agent": "^3.0.0"
+      }
+    },
+    "node_modules/@sindresorhus/is": {
+      "version": "4.6.0",
+      "resolved": "https://registry.npmjs.org/@sindresorhus/is/-/is-4.6.0.tgz",
+      "integrity": "sha512-t09vSN3MdfsyCHoFcTRCH/iUtG7OJ0CsjzB8cjAmKc/va/kIgeDI/TxsigdncE/4be734m0cvIYwNaV4i2XqAw==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">=10"
+      },
+      "funding": {
+        "url": "https://github.com/sindresorhus/is?sponsor=1"
+      }
+    },
+    "node_modules/@szmarczak/http-timer": {
+      "version": "4.0.6",
+      "resolved": "https://registry.npmjs.org/@szmarczak/http-timer/-/http-timer-4.0.6.tgz",
+      "integrity": "sha512-4BAffykYOgO+5nzBWYwE3W90sBgLJoUPRWWcL8wlyiM8IB8ipJz3UMJ9KXQd1RKQXpKp8Tutn80HZtWsu2u76w==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "defer-to-connect": "^2.0.0"
+      },
+      "engines": {
+        "node": ">=10"
+      }
+    },
+    "node_modules/@types/cacheable-request": {
+      "version": "6.0.3",
+      "resolved": "https://registry.npmjs.org/@types/cacheable-request/-/cacheable-request-6.0.3.tgz",
+      "integrity": "sha512-IQ3EbTzGxIigb1I3qPZc1rWJnH0BmSKv5QYTalEwweFvyBDLSAe24zP0le/hyi7ecGfZVlIVAg4BZqb8WBwKqw==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "@types/http-cache-semantics": "*",
+        "@types/keyv": "^3.1.4",
+        "@types/node": "*",
+        "@types/responselike": "^1.0.0"
+      }
+    },
+    "node_modules/@types/http-cache-semantics": {
+      "version": "4.2.0",
+      "resolved": "https://registry.npmjs.org/@types/http-cache-semantics/-/http-cache-semantics-4.2.0.tgz",
+      "integrity": "sha512-L3LgimLHXtGkWikKnsPg0/VFx9OGZaC+eN1u4r+OB1XRqH3meBIAVC2zr1WdMH+RHmnRkqliQAOHNJ/E0j/e0Q==",
+      "dev": true,
+      "license": "MIT"
+    },
+    "node_modules/@types/keyv": {
+      "version": "3.1.4",
+      "resolved": "https://registry.npmjs.org/@types/keyv/-/keyv-3.1.4.tgz",
+      "integrity": "sha512-BQ5aZNSCpj7D6K2ksrRCTmKRLEpnPvWDiLPfoGyhZ++8YtiK9d/3DBKPJgry359X/P1PfruyYwvnvwFjuEiEIg==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "@types/node": "*"
+      }
+    },
+    "node_modules/@types/node": {
+      "version": "24.10.13",
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-24.10.13.tgz",
+      "integrity": "sha512-oH72nZRfDv9lADUBSo104Aq7gPHpQZc4BTx38r9xf9pg5LfP6EzSyH2n7qFmmxRQXh7YlUXODcYsg6PuTDSxGg==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "undici-types": "~7.16.0"
+      }
+    },
+    "node_modules/@types/responselike": {
+      "version": "1.0.3",
+      "resolved": "https://registry.npmjs.org/@types/responselike/-/responselike-1.0.3.tgz",
+      "integrity": "sha512-H/+L+UkTV33uf49PH5pCAUBVPNj2nDBXTN+qS1dOwyyg24l3CcicicCA7ca+HMvJBZcFgl5r8e+RR6elsb4Lyw==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "@types/node": "*"
+      }
+    },
+    "node_modules/@types/yauzl": {
+      "version": "2.10.3",
+      "resolved": "https://registry.npmjs.org/@types/yauzl/-/yauzl-2.10.3.tgz",
+      "integrity": "sha512-oJoftv0LSuaDZE3Le4DbKX+KS9G36NzOeSap90UIK0yMA/NhKJhqlSGtNDORNRaIbQfzjXDrQa0ytJ6mNRGz/Q==",
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "dependencies": {
+        "@types/node": "*"
+      }
+    },
+    "node_modules/aws-ssl-profiles": {
+      "version": "1.1.2",
+      "resolved": "https://registry.npmjs.org/aws-ssl-profiles/-/aws-ssl-profiles-1.1.2.tgz",
+      "integrity": "sha512-NZKeq9AfyQvEeNlN0zSYAaWrmBffJh3IELMZfRpJVWgrpEbtEpnjvzqBPf+mxoI287JohRDoa+/nsfqqiZmF6g==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 6.0.0"
+      }
+    },
+    "node_modules/base64-js": {
+      "version": "1.5.1",
+      "resolved": "https://registry.npmjs.org/base64-js/-/base64-js-1.5.1.tgz",
+      "integrity": "sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==",
+      "funding": [
+        {
+          "type": "github",
+          "url": "https://github.com/sponsors/feross"
+        },
+        {
+          "type": "patreon",
+          "url": "https://www.patreon.com/feross"
+        },
+        {
+          "type": "consulting",
+          "url": "https://feross.org/support"
+        }
+      ],
+      "license": "MIT"
+    },
+    "node_modules/better-sqlite3": {
+      "version": "12.6.2",
+      "resolved": "https://registry.npmjs.org/better-sqlite3/-/better-sqlite3-12.6.2.tgz",
+      "integrity": "sha512-8VYKM3MjCa9WcaSAI3hzwhmyHVlH8tiGFwf0RlTsZPWJ1I5MkzjiudCo4KC4DxOaL/53A5B1sI/IbldNFDbsKA==",
+      "hasInstallScript": true,
+      "license": "MIT",
+      "dependencies": {
+        "bindings": "^1.5.0",
+        "prebuild-install": "^7.1.1"
+      },
+      "engines": {
+        "node": "20.x || 22.x || 23.x || 24.x || 25.x"
+      }
+    },
+    "node_modules/bindings": {
+      "version": "1.5.0",
+      "resolved": "https://registry.npmjs.org/bindings/-/bindings-1.5.0.tgz",
+      "integrity": "sha512-p2q/t/mhvuOj/UeLlV6566GD/guowlr0hHxClI0W9m7MWYkL1F0hLo+0Aexs9HSPCtR1SXQ0TD3MMKrXZajbiQ==",
+      "license": "MIT",
+      "dependencies": {
+        "file-uri-to-path": "1.0.0"
+      }
+    },
+    "node_modules/bl": {
+      "version": "4.1.0",
+      "resolved": "https://registry.npmjs.org/bl/-/bl-4.1.0.tgz",
+      "integrity": "sha512-1W07cM9gS6DcLperZfFSj+bWLtaPGSOHWhPiGzXmvVJbRLdG82sH/Kn8EtW1VqWVA54AKf2h5k5BbnIbwF3h6w==",
+      "license": "MIT",
+      "dependencies": {
+        "buffer": "^5.5.0",
+        "inherits": "^2.0.4",
+        "readable-stream": "^3.4.0"
+      }
+    },
+    "node_modules/boolean": {
+      "version": "3.2.0",
+      "resolved": "https://registry.npmjs.org/boolean/-/boolean-3.2.0.tgz",
+      "integrity": "sha512-d0II/GO9uf9lfUHH2BQsjxzRJZBdsjgsBiW4BvhWk/3qoKwQFjIDVN19PfX8F2D/r9PCMTtLWjYVCFrpeYUzsw==",
+      "deprecated": "Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.",
+      "dev": true,
+      "license": "MIT",
+      "optional": true
+    },
+    "node_modules/buffer": {
+      "version": "5.7.1",
+      "resolved": "https://registry.npmjs.org/buffer/-/buffer-5.7.1.tgz",
+      "integrity": "sha512-EHcyIPBQ4BSGlvjB16k5KgAJ27CIsHY/2JBmCRReo48y9rQ3MaUzWX3KVlBa4U7MyX02HdVj0K7C3WaB3ju7FQ==",
+      "funding": [
+        {
+          "type": "github",
+          "url": "https://github.com/sponsors/feross"
+        },
+        {
+          "type": "patreon",
+          "url": "https://www.patreon.com/feross"
+        },
+        {
+          "type": "consulting",
+          "url": "https://feross.org/support"
+        }
+      ],
+      "license": "MIT",
+      "dependencies": {
+        "base64-js": "^1.3.1",
+        "ieee754": "^1.1.13"
+      }
+    },
+    "node_modules/buffer-crc32": {
+      "version": "0.2.13",
+      "resolved": "https://registry.npmjs.org/buffer-crc32/-/buffer-crc32-0.2.13.tgz",
+      "integrity": "sha512-VO9Ht/+p3SN7SKWqcrgEzjGbRSJYTx+Q1pTQC0wrWqHx0vpJraQ6GtHx8tvcg1rlK1byhU5gccxgOgj7B0TDkQ==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": "*"
+      }
+    },
+    "node_modules/cacheable-lookup": {
+      "version": "5.0.4",
+      "resolved": "https://registry.npmjs.org/cacheable-lookup/-/cacheable-lookup-5.0.4.tgz",
+      "integrity": "sha512-2/kNscPhpcxrOigMZzbiWF7dz8ilhb/nIHU3EyZiXWXpeq/au8qJ8VhdftMkty3n7Gj6HIGalQG8oiBNB3AJgA==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">=10.6.0"
+      }
+    },
+    "node_modules/cacheable-request": {
+      "version": "7.0.4",
+      "resolved": "https://registry.npmjs.org/cacheable-request/-/cacheable-request-7.0.4.tgz",
+      "integrity": "sha512-v+p6ongsrp0yTGbJXjgxPow2+DL93DASP4kXCDKb8/bwRtt9OEF3whggkkDkGNzgcWy2XaF4a8nZglC7uElscg==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "clone-response": "^1.0.2",
+        "get-stream": "^5.1.0",
+        "http-cache-semantics": "^4.0.0",
+        "keyv": "^4.0.0",
+        "lowercase-keys": "^2.0.0",
+        "normalize-url": "^6.0.1",
+        "responselike": "^2.0.0"
+      },
+      "engines": {
+        "node": ">=8"
+      }
+    },
+    "node_modules/chownr": {
+      "version": "1.1.4",
+      "resolved": "https://registry.npmjs.org/chownr/-/chownr-1.1.4.tgz",
+      "integrity": "sha512-jJ0bqzaylmJtVnNgzTeSOs8DPavpbYgEr/b0YL8/2GO3xJEhInFmhKMUnEJQjZumK7KXGFhUy89PrsJWlakBVg==",
+      "license": "ISC"
+    },
+    "node_modules/clone-response": {
+      "version": "1.0.3",
+      "resolved": "https://registry.npmjs.org/clone-response/-/clone-response-1.0.3.tgz",
+      "integrity": "sha512-ROoL94jJH2dUVML2Y/5PEDNaSHgeOdSDicUyS7izcF63G6sTc/FTjLub4b8Il9S8S0beOfYt0TaA5qvFK+w0wA==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "mimic-response": "^1.0.0"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/sindresorhus"
+      }
+    },
+    "node_modules/debug": {
+      "version": "4.4.3",
+      "resolved": "https://registry.npmjs.org/debug/-/debug-4.4.3.tgz",
+      "integrity": "sha512-RGwwWnwQvkVfavKVt22FGLw+xYSdzARwm0ru6DhTVA3umU5hZc28V3kO4stgYryrTlLpuvgI9GiijltAjNbcqA==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "ms": "^2.1.3"
+      },
+      "engines": {
+        "node": ">=6.0"
+      },
+      "peerDependenciesMeta": {
+        "supports-color": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/decompress-response": {
+      "version": "6.0.0",
+      "resolved": "https://registry.npmjs.org/decompress-response/-/decompress-response-6.0.0.tgz",
+      "integrity": "sha512-aW35yZM6Bb/4oJlZncMH2LCoZtJXTRxES17vE3hoRiowU2kWHaJKFkSBDnDR+cm9J+9QhXmREyIfv0pji9ejCQ==",
+      "license": "MIT",
+      "dependencies": {
+        "mimic-response": "^3.1.0"
+      },
+      "engines": {
+        "node": ">=10"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/sindresorhus"
+      }
+    },
+    "node_modules/decompress-response/node_modules/mimic-response": {
+      "version": "3.1.0",
+      "resolved": "https://registry.npmjs.org/mimic-response/-/mimic-response-3.1.0.tgz",
+      "integrity": "sha512-z0yWI+4FDrrweS8Zmt4Ej5HdJmky15+L2e6Wgn3+iK5fWzb6T3fhNFq2+MeTRb064c6Wr4N/wv0DzQTjNzHNGQ==",
+      "license": "MIT",
+      "engines": {
+        "node": ">=10"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/sindresorhus"
+      }
+    },
+    "node_modules/deep-extend": {
+      "version": "0.6.0",
+      "resolved": "https://registry.npmjs.org/deep-extend/-/deep-extend-0.6.0.tgz",
+      "integrity": "sha512-LOHxIOaPYdHlJRtCQfDIVZtfw/ufM8+rVj649RIHzcm/vGwQRXFt6OPqIFWsm2XEMrNIEtWR64sY1LEKD2vAOA==",
+      "license": "MIT",
+      "engines": {
+        "node": ">=4.0.0"
+      }
+    },
+    "node_modules/defer-to-connect": {
+      "version": "2.0.1",
+      "resolved": "https://registry.npmjs.org/defer-to-connect/-/defer-to-connect-2.0.1.tgz",
+      "integrity": "sha512-4tvttepXG1VaYGrRibk5EwJd1t4udunSOVMdLSAL6mId1ix438oPwPZMALY41FCijukO1L0twNcGsdzS7dHgDg==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">=10"
+      }
+    },
+    "node_modules/define-data-property": {
+      "version": "1.1.4",
+      "resolved": "https://registry.npmjs.org/define-data-property/-/define-data-property-1.1.4.tgz",
+      "integrity": "sha512-rBMvIzlpA8v6E+SJZoo++HAYqsLrkg7MSfIinMPFhmkorw7X+dOXVJQs+QT69zGkzMyfDnIMN2Wid1+NbL3T+A==",
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "dependencies": {
+        "es-define-property": "^1.0.0",
+        "es-errors": "^1.3.0",
+        "gopd": "^1.0.1"
+      },
+      "engines": {
+        "node": ">= 0.4"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/ljharb"
+      }
+    },
+    "node_modules/define-properties": {
+      "version": "1.2.1",
+      "resolved": "https://registry.npmjs.org/define-properties/-/define-properties-1.2.1.tgz",
+      "integrity": "sha512-8QmQKqEASLd5nx0U1B1okLElbUuuttJ/AnYmRXbbbGDWh6uS208EjD4Xqq/I9wK7u0v6O08XhTWnt5XtEbR6Dg==",
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "dependencies": {
+        "define-data-property": "^1.0.1",
+        "has-property-descriptors": "^1.0.0",
+        "object-keys": "^1.1.1"
+      },
+      "engines": {
+        "node": ">= 0.4"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/ljharb"
+      }
+    },
+    "node_modules/denque": {
+      "version": "2.1.0",
+      "resolved": "https://registry.npmjs.org/denque/-/denque-2.1.0.tgz",
+      "integrity": "sha512-HVQE3AAb/pxF8fQAoiqpvg9i3evqug3hoiwakOyZAwJm+6vZehbkYXZ0l4JxS+I3QxM97v5aaRNhj8v5oBhekw==",
+      "license": "Apache-2.0",
+      "engines": {
+        "node": ">=0.10"
+      }
+    },
+    "node_modules/detect-libc": {
+      "version": "2.1.2",
+      "resolved": "https://registry.npmjs.org/detect-libc/-/detect-libc-2.1.2.tgz",
+      "integrity": "sha512-Btj2BOOO83o3WyH59e8MgXsxEQVcarkUOpEYrubB0urwnN10yQ364rsiByU11nZlqWYZm05i/of7io4mzihBtQ==",
+      "license": "Apache-2.0",
+      "engines": {
+        "node": ">=8"
+      }
+    },
+    "node_modules/detect-node": {
+      "version": "2.1.0",
+      "resolved": "https://registry.npmjs.org/detect-node/-/detect-node-2.1.0.tgz",
+      "integrity": "sha512-T0NIuQpnTvFDATNuHN5roPwSBG83rFsuO+MXXH9/3N1eFbn4wcPjttvjMLEPWJ0RGUYgQE7cGgS3tNxbqCGM7g==",
+      "dev": true,
+      "license": "MIT",
+      "optional": true
+    },
+    "node_modules/electron": {
+      "version": "40.4.1",
+      "resolved": "https://registry.npmjs.org/electron/-/electron-40.4.1.tgz",
+      "integrity": "sha512-N1ZXybQZL8kYemO8vAeh9nrk4mSvqlAO8xs0QCHkXIvRnuB/7VGwEehjvQbsU5/f4bmTKpG+2GQERe/zmKpudQ==",
+      "dev": true,
+      "hasInstallScript": true,
+      "license": "MIT",
+      "dependencies": {
+        "@electron/get": "^2.0.0",
+        "@types/node": "^24.9.0",
+        "extract-zip": "^2.0.1"
+      },
+      "bin": {
+        "electron": "cli.js"
+      },
+      "engines": {
+        "node": ">= 12.20.55"
+      }
+    },
+    "node_modules/end-of-stream": {
+      "version": "1.4.5",
+      "resolved": "https://registry.npmjs.org/end-of-stream/-/end-of-stream-1.4.5.tgz",
+      "integrity": "sha512-ooEGc6HP26xXq/N+GCGOT0JKCLDGrq2bQUZrQ7gyrJiZANJ/8YDTxTpQBXGMn+WbIQXNVpyWymm7KYVICQnyOg==",
+      "license": "MIT",
+      "dependencies": {
+        "once": "^1.4.0"
+      }
+    },
+    "node_modules/env-paths": {
+      "version": "2.2.1",
+      "resolved": "https://registry.npmjs.org/env-paths/-/env-paths-2.2.1.tgz",
+      "integrity": "sha512-+h1lkLKhZMTYjog1VEpJNG7NZJWcuc2DDk/qsqSTRRCOXiLjeQ1d1/udrUGhqMxUgAlwKNZ0cf2uqan5GLuS2A==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">=6"
+      }
+    },
+    "node_modules/es-define-property": {
+      "version": "1.0.1",
+      "resolved": "https://registry.npmjs.org/es-define-property/-/es-define-property-1.0.1.tgz",
+      "integrity": "sha512-e3nRfgfUZ4rNGL232gUgX06QNyyez04KdjFrF+LTRoOXmrOgFKDg4BCdsjW8EnT69eqdYGmRpJwiPVYNrCaW3g==",
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "engines": {
+        "node": ">= 0.4"
+      }
+    },
+    "node_modules/es-errors": {
+      "version": "1.3.0",
+      "resolved": "https://registry.npmjs.org/es-errors/-/es-errors-1.3.0.tgz",
+      "integrity": "sha512-Zf5H2Kxt2xjTvbJvP2ZWLEICxA6j+hAmMzIlypy4xcBg1vKVnx89Wy0GbS+kf5cwCVFFzdCFh2XSCFNULS6csw==",
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "engines": {
+        "node": ">= 0.4"
+      }
+    },
+    "node_modules/es6-error": {
+      "version": "4.1.1",
+      "resolved": "https://registry.npmjs.org/es6-error/-/es6-error-4.1.1.tgz",
+      "integrity": "sha512-Um/+FxMr9CISWh0bi5Zv0iOD+4cFh5qLeks1qhAopKVAJw3drgKbKySikp7wGhDL0HPeaja0P5ULZrxLkniUVg==",
+      "dev": true,
+      "license": "MIT",
+      "optional": true
+    },
+    "node_modules/escape-string-regexp": {
+      "version": "4.0.0",
+      "resolved": "https://registry.npmjs.org/escape-string-regexp/-/escape-string-regexp-4.0.0.tgz",
+      "integrity": "sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==",
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "engines": {
+        "node": ">=10"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/sindresorhus"
+      }
+    },
+    "node_modules/expand-template": {
+      "version": "2.0.3",
+      "resolved": "https://registry.npmjs.org/expand-template/-/expand-template-2.0.3.tgz",
+      "integrity": "sha512-XYfuKMvj4O35f/pOXLObndIRvyQ+/+6AhODh+OKWj9S9498pHHn/IMszH+gt0fBCRWMNfk1ZSp5x3AifmnI2vg==",
+      "license": "(MIT OR WTFPL)",
+      "engines": {
+        "node": ">=6"
+      }
+    },
+    "node_modules/extract-zip": {
+      "version": "2.0.1",
+      "resolved": "https://registry.npmjs.org/extract-zip/-/extract-zip-2.0.1.tgz",
+      "integrity": "sha512-GDhU9ntwuKyGXdZBUgTIe+vXnWj0fppUEtMDL0+idd5Sta8TGpHssn/eusA9mrPr9qNDym6SxAYZjNvCn/9RBg==",
+      "dev": true,
+      "license": "BSD-2-Clause",
+      "dependencies": {
+        "debug": "^4.1.1",
+        "get-stream": "^5.1.0",
+        "yauzl": "^2.10.0"
+      },
+      "bin": {
+        "extract-zip": "cli.js"
+      },
+      "engines": {
+        "node": ">= 10.17.0"
+      },
+      "optionalDependencies": {
+        "@types/yauzl": "^2.9.1"
+      }
+    },
+    "node_modules/fd-slicer": {
+      "version": "1.1.0",
+      "resolved": "https://registry.npmjs.org/fd-slicer/-/fd-slicer-1.1.0.tgz",
+      "integrity": "sha512-cE1qsB/VwyQozZ+q1dGxR8LBYNZeofhEdUNGSMbQD3Gw2lAzX9Zb3uIU6Ebc/Fmyjo9AWWfnn0AUCHqtevs/8g==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "pend": "~1.2.0"
+      }
+    },
+    "node_modules/file-uri-to-path": {
+      "version": "1.0.0",
+      "resolved": "https://registry.npmjs.org/file-uri-to-path/-/file-uri-to-path-1.0.0.tgz",
+      "integrity": "sha512-0Zt+s3L7Vf1biwWZ29aARiVYLx7iMGnEUl9x33fbB/j3jR81u/O2LbqK+Bm1CDSNDKVtJ/YjwY7TUd5SkeLQLw==",
+      "license": "MIT"
+    },
+    "node_modules/fs-constants": {
+      "version": "1.0.0",
+      "resolved": "https://registry.npmjs.org/fs-constants/-/fs-constants-1.0.0.tgz",
+      "integrity": "sha512-y6OAwoSIf7FyjMIv94u+b5rdheZEjzR63GTyZJm5qh4Bi+2YgwLCcI/fPFZkL5PSixOt6ZNKm+w+Hfp/Bciwow==",
+      "license": "MIT"
+    },
+    "node_modules/fs-extra": {
+      "version": "8.1.0",
+      "resolved": "https://registry.npmjs.org/fs-extra/-/fs-extra-8.1.0.tgz",
+      "integrity": "sha512-yhlQgA6mnOJUKOsRUFsgJdQCvkKhcz8tlZG5HBQfReYZy46OwLcY+Zia0mtdHsOo9y/hP+CxMN0TU9QxoOtG4g==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "graceful-fs": "^4.2.0",
+        "jsonfile": "^4.0.0",
+        "universalify": "^0.1.0"
+      },
+      "engines": {
+        "node": ">=6 <7 || >=8"
+      }
+    },
+    "node_modules/generate-function": {
+      "version": "2.3.1",
+      "resolved": "https://registry.npmjs.org/generate-function/-/generate-function-2.3.1.tgz",
+      "integrity": "sha512-eeB5GfMNeevm/GRYq20ShmsaGcmI81kIX2K9XQx5miC8KdHaC6Jm0qQ8ZNeGOi7wYB8OsdxKs+Y2oVuTFuVwKQ==",
+      "license": "MIT",
+      "dependencies": {
+        "is-property": "^1.0.2"
+      }
+    },
+    "node_modules/get-stream": {
+      "version": "5.2.0",
+      "resolved": "https://registry.npmjs.org/get-stream/-/get-stream-5.2.0.tgz",
+      "integrity": "sha512-nBF+F1rAZVCu/p7rjzgA+Yb4lfYXrpl7a6VmJrU8wF9I1CKvP/QwPNZHnOlwbTkY6dvtFIzFMSyQXbLoTQPRpA==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "pump": "^3.0.0"
+      },
+      "engines": {
+        "node": ">=8"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/sindresorhus"
+      }
+    },
+    "node_modules/github-from-package": {
+      "version": "0.0.0",
+      "resolved": "https://registry.npmjs.org/github-from-package/-/github-from-package-0.0.0.tgz",
+      "integrity": "sha512-SyHy3T1v2NUXn29OsWdxmK6RwHD+vkj3v8en8AOBZ1wBQ/hCAQ5bAQTD02kW4W9tUp/3Qh6J8r9EvntiyCmOOw==",
+      "license": "MIT"
+    },
+    "node_modules/global-agent": {
+      "version": "3.0.0",
+      "resolved": "https://registry.npmjs.org/global-agent/-/global-agent-3.0.0.tgz",
+      "integrity": "sha512-PT6XReJ+D07JvGoxQMkT6qji/jVNfX/h364XHZOWeRzy64sSFr+xJ5OX7LI3b4MPQzdL4H8Y8M0xzPpsVMwA8Q==",
+      "dev": true,
+      "license": "BSD-3-Clause",
+      "optional": true,
+      "dependencies": {
+        "boolean": "^3.0.1",
+        "es6-error": "^4.1.1",
+        "matcher": "^3.0.0",
+        "roarr": "^2.15.3",
+        "semver": "^7.3.2",
+        "serialize-error": "^7.0.1"
+      },
+      "engines": {
+        "node": ">=10.0"
+      }
+    },
+    "node_modules/global-agent/node_modules/semver": {
+      "version": "7.7.4",
+      "resolved": "https://registry.npmjs.org/semver/-/semver-7.7.4.tgz",
+      "integrity": "sha512-vFKC2IEtQnVhpT78h1Yp8wzwrf8CM+MzKMHGJZfBtzhZNycRFnXsHk6E5TxIkkMsgNS7mdX3AGB7x2QM2di4lA==",
+      "dev": true,
+      "license": "ISC",
+      "optional": true,
+      "bin": {
+        "semver": "bin/semver.js"
+      },
+      "engines": {
+        "node": ">=10"
+      }
+    },
+    "node_modules/globalthis": {
+      "version": "1.0.4",
+      "resolved": "https://registry.npmjs.org/globalthis/-/globalthis-1.0.4.tgz",
+      "integrity": "sha512-DpLKbNU4WylpxJykQujfCcwYWiV/Jhm50Goo0wrVILAv5jOr9d+H+UR3PhSCD2rCCEIg0uc+G+muBTwD54JhDQ==",
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "dependencies": {
+        "define-properties": "^1.2.1",
+        "gopd": "^1.0.1"
+      },
+      "engines": {
+        "node": ">= 0.4"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/ljharb"
+      }
+    },
+    "node_modules/gopd": {
+      "version": "1.2.0",
+      "resolved": "https://registry.npmjs.org/gopd/-/gopd-1.2.0.tgz",
+      "integrity": "sha512-ZUKRh6/kUFoAiTAtTYPZJ3hw9wNxx+BIBOijnlG9PnrJsCcSjs1wyyD6vJpaYtgnzDrKYRSqf3OO6Rfa93xsRg==",
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "engines": {
+        "node": ">= 0.4"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/ljharb"
+      }
+    },
+    "node_modules/got": {
+      "version": "11.8.6",
+      "resolved": "https://registry.npmjs.org/got/-/got-11.8.6.tgz",
+      "integrity": "sha512-6tfZ91bOr7bOXnK7PRDCGBLa1H4U080YHNaAQ2KsMGlLEzRbk44nsZF2E1IeRc3vtJHPVbKCYgdFbaGO2ljd8g==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "@sindresorhus/is": "^4.0.0",
+        "@szmarczak/http-timer": "^4.0.5",
+        "@types/cacheable-request": "^6.0.1",
+        "@types/responselike": "^1.0.0",
+        "cacheable-lookup": "^5.0.3",
+        "cacheable-request": "^7.0.2",
+        "decompress-response": "^6.0.0",
+        "http2-wrapper": "^1.0.0-beta.5.2",
+        "lowercase-keys": "^2.0.0",
+        "p-cancelable": "^2.0.0",
+        "responselike": "^2.0.0"
+      },
+      "engines": {
+        "node": ">=10.19.0"
+      },
+      "funding": {
+        "url": "https://github.com/sindresorhus/got?sponsor=1"
+      }
+    },
+    "node_modules/graceful-fs": {
+      "version": "4.2.11",
+      "resolved": "https://registry.npmjs.org/graceful-fs/-/graceful-fs-4.2.11.tgz",
+      "integrity": "sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==",
+      "dev": true,
+      "license": "ISC"
+    },
+    "node_modules/has-property-descriptors": {
+      "version": "1.0.2",
+      "resolved": "https://registry.npmjs.org/has-property-descriptors/-/has-property-descriptors-1.0.2.tgz",
+      "integrity": "sha512-55JNKuIW+vq4Ke1BjOTjM2YctQIvCT7GFzHwmfZPGo5wnrgkid0YQtnAleFSqumZm4az3n2BS+erby5ipJdgrg==",
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "dependencies": {
+        "es-define-property": "^1.0.0"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/ljharb"
+      }
+    },
+    "node_modules/http-cache-semantics": {
+      "version": "4.2.0",
+      "resolved": "https://registry.npmjs.org/http-cache-semantics/-/http-cache-semantics-4.2.0.tgz",
+      "integrity": "sha512-dTxcvPXqPvXBQpq5dUr6mEMJX4oIEFv6bwom3FDwKRDsuIjjJGANqhBuoAn9c1RQJIdAKav33ED65E2ys+87QQ==",
+      "dev": true,
+      "license": "BSD-2-Clause"
+    },
+    "node_modules/http2-wrapper": {
+      "version": "1.0.3",
+      "resolved": "https://registry.npmjs.org/http2-wrapper/-/http2-wrapper-1.0.3.tgz",
+      "integrity": "sha512-V+23sDMr12Wnz7iTcDeJr3O6AIxlnvT/bmaAAAP/Xda35C90p9599p0F1eHR/N1KILWSoWVAiOMFjBBXaXSMxg==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "quick-lru": "^5.1.1",
+        "resolve-alpn": "^1.0.0"
+      },
+      "engines": {
+        "node": ">=10.19.0"
+      }
+    },
+    "node_modules/iconv-lite": {
+      "version": "0.7.2",
+      "resolved": "https://registry.npmjs.org/iconv-lite/-/iconv-lite-0.7.2.tgz",
+      "integrity": "sha512-im9DjEDQ55s9fL4EYzOAv0yMqmMBSZp6G0VvFyTMPKWxiSBHUj9NW/qqLmXUwXrrM7AvqSlTCfvqRb0cM8yYqw==",
+      "license": "MIT",
+      "dependencies": {
+        "safer-buffer": ">= 2.1.2 < 3.0.0"
+      },
+      "engines": {
+        "node": ">=0.10.0"
+      },
+      "funding": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/express"
+      }
+    },
+    "node_modules/ieee754": {
+      "version": "1.2.1",
+      "resolved": "https://registry.npmjs.org/ieee754/-/ieee754-1.2.1.tgz",
+      "integrity": "sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==",
+      "funding": [
+        {
+          "type": "github",
+          "url": "https://github.com/sponsors/feross"
+        },
+        {
+          "type": "patreon",
+          "url": "https://www.patreon.com/feross"
+        },
+        {
+          "type": "consulting",
+          "url": "https://feross.org/support"
+        }
+      ],
+      "license": "BSD-3-Clause"
+    },
+    "node_modules/inherits": {
+      "version": "2.0.4",
+      "resolved": "https://registry.npmjs.org/inherits/-/inherits-2.0.4.tgz",
+      "integrity": "sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==",
+      "license": "ISC"
+    },
+    "node_modules/ini": {
+      "version": "1.3.8",
+      "resolved": "https://registry.npmjs.org/ini/-/ini-1.3.8.tgz",
+      "integrity": "sha512-JV/yugV2uzW5iMRSiZAyDtQd+nxtUnjeLt0acNdw98kKLrvuRVyB80tsREOE7yvGVgalhZ6RNXCmEHkUKBKxew==",
+      "license": "ISC"
+    },
+    "node_modules/is-property": {
+      "version": "1.0.2",
+      "resolved": "https://registry.npmjs.org/is-property/-/is-property-1.0.2.tgz",
+      "integrity": "sha512-Ks/IoX00TtClbGQr4TWXemAnktAQvYB7HzcCxDGqEZU6oCmb2INHuOoKxbtR+HFkmYWBKv/dOZtGRiAjDhj92g==",
+      "license": "MIT"
+    },
+    "node_modules/json-buffer": {
+      "version": "3.0.1",
+      "resolved": "https://registry.npmjs.org/json-buffer/-/json-buffer-3.0.1.tgz",
+      "integrity": "sha512-4bV5BfR2mqfQTJm+V5tPPdf+ZpuhiIvTuAB5g8kcrXOZpTT/QwwVRWBywX1ozr6lEuPdbHxwaJlm9G6mI2sfSQ==",
+      "dev": true,
+      "license": "MIT"
+    },
+    "node_modules/json-stringify-safe": {
+      "version": "5.0.1",
+      "resolved": "https://registry.npmjs.org/json-stringify-safe/-/json-stringify-safe-5.0.1.tgz",
+      "integrity": "sha512-ZClg6AaYvamvYEE82d3Iyd3vSSIjQ+odgjaTzRuO3s7toCdFKczob2i0zCh7JE8kWn17yvAWhUVxvqGwUalsRA==",
+      "dev": true,
+      "license": "ISC",
+      "optional": true
+    },
+    "node_modules/jsonfile": {
+      "version": "4.0.0",
+      "resolved": "https://registry.npmjs.org/jsonfile/-/jsonfile-4.0.0.tgz",
+      "integrity": "sha512-m6F1R3z8jjlf2imQHS2Qez5sjKWQzbuuhuJ/FKYFRZvPE3PuHcSMVZzfsLhGVOkfd20obL5SWEBew5ShlquNxg==",
+      "dev": true,
+      "license": "MIT",
+      "optionalDependencies": {
+        "graceful-fs": "^4.1.6"
+      }
+    },
+    "node_modules/keyv": {
+      "version": "4.5.4",
+      "resolved": "https://registry.npmjs.org/keyv/-/keyv-4.5.4.tgz",
+      "integrity": "sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "json-buffer": "3.0.1"
+      }
+    },
+    "node_modules/long": {
+      "version": "5.3.2",
+      "resolved": "https://registry.npmjs.org/long/-/long-5.3.2.tgz",
+      "integrity": "sha512-mNAgZ1GmyNhD7AuqnTG3/VQ26o760+ZYBPKjPvugO8+nLbYfX6TVpJPseBvopbdY+qpZ/lKUnmEc1LeZYS3QAA==",
+      "license": "Apache-2.0"
+    },
+    "node_modules/lowercase-keys": {
+      "version": "2.0.0",
+      "resolved": "https://registry.npmjs.org/lowercase-keys/-/lowercase-keys-2.0.0.tgz",
+      "integrity": "sha512-tqNXrS78oMOE73NMxK4EMLQsQowWf8jKooH9g7xPavRT706R6bkQJ6DY2Te7QukaZsulxa30wQ7bk0pm4XiHmA==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">=8"
+      }
+    },
+    "node_modules/lru.min": {
+      "version": "1.1.4",
+      "resolved": "https://registry.npmjs.org/lru.min/-/lru.min-1.1.4.tgz",
+      "integrity": "sha512-DqC6n3QQ77zdFpCMASA1a3Jlb64Hv2N2DciFGkO/4L9+q/IpIAuRlKOvCXabtRW6cQf8usbmM6BE/TOPysCdIA==",
+      "license": "MIT",
+      "engines": {
+        "bun": ">=1.0.0",
+        "deno": ">=1.30.0",
+        "node": ">=8.0.0"
+      },
+      "funding": {
+        "type": "github",
+        "url": "https://github.com/sponsors/wellwelwel"
+      }
+    },
+    "node_modules/matcher": {
+      "version": "3.0.0",
+      "resolved": "https://registry.npmjs.org/matcher/-/matcher-3.0.0.tgz",
+      "integrity": "sha512-OkeDaAZ/bQCxeFAozM55PKcKU0yJMPGifLwV4Qgjitu+5MoAfSQN4lsLJeXZ1b8w0x+/Emda6MZgXS1jvsapng==",
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "dependencies": {
+        "escape-string-regexp": "^4.0.0"
+      },
+      "engines": {
+        "node": ">=10"
+      }
+    },
+    "node_modules/mimic-response": {
+      "version": "1.0.1",
+      "resolved": "https://registry.npmjs.org/mimic-response/-/mimic-response-1.0.1.tgz",
+      "integrity": "sha512-j5EctnkH7amfV/q5Hgmoal1g2QHFJRraOtmx0JpIqkxhBhI/lJSl1nMpQ45hVarwNETOoWEimndZ4QK0RHxuxQ==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">=4"
+      }
+    },
+    "node_modules/minimist": {
+      "version": "1.2.8",
+      "resolved": "https://registry.npmjs.org/minimist/-/minimist-1.2.8.tgz",
+      "integrity": "sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==",
+      "license": "MIT",
+      "funding": {
+        "url": "https://github.com/sponsors/ljharb"
+      }
+    },
+    "node_modules/mkdirp-classic": {
+      "version": "0.5.3",
+      "resolved": "https://registry.npmjs.org/mkdirp-classic/-/mkdirp-classic-0.5.3.tgz",
+      "integrity": "sha512-gKLcREMhtuZRwRAfqP3RFW+TK4JqApVBtOIftVgjuABpAtpxhPGaDcfvbhNvD0B8iD1oUr/txX35NjcaY6Ns/A==",
+      "license": "MIT"
+    },
+    "node_modules/ms": {
+      "version": "2.1.3",
+      "resolved": "https://registry.npmjs.org/ms/-/ms-2.1.3.tgz",
+      "integrity": "sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==",
+      "dev": true,
+      "license": "MIT"
+    },
+    "node_modules/mysql2": {
+      "version": "3.17.2",
+      "resolved": "https://registry.npmjs.org/mysql2/-/mysql2-3.17.2.tgz",
+      "integrity": "sha512-/tFCtdqk5V5Aowpnzshryxuxp63ti4I7kcp3yqAKgWmhYXEXs8+F/IbQ6JTMzQPYc+ElnnhmMD2SqUYLtRVcTQ==",
+      "license": "MIT",
+      "dependencies": {
+        "aws-ssl-profiles": "^1.1.2",
+        "denque": "^2.1.0",
+        "generate-function": "^2.3.1",
+        "iconv-lite": "^0.7.2",
+        "long": "^5.3.2",
+        "lru.min": "^1.1.3",
+        "named-placeholders": "^1.1.6",
+        "seq-queue": "^0.0.5",
+        "sql-escaper": "^1.3.3"
+      },
+      "engines": {
+        "node": ">= 8.0"
+      }
+    },
+    "node_modules/named-placeholders": {
+      "version": "1.1.6",
+      "resolved": "https://registry.npmjs.org/named-placeholders/-/named-placeholders-1.1.6.tgz",
+      "integrity": "sha512-Tz09sEL2EEuv5fFowm419c1+a/jSMiBjI9gHxVLrVdbUkkNUUfjsVYs9pVZu5oCon/kmRh9TfLEObFtkVxmY0w==",
+      "license": "MIT",
+      "dependencies": {
+        "lru.min": "^1.1.0"
+      },
+      "engines": {
+        "node": ">=8.0.0"
+      }
+    },
+    "node_modules/napi-build-utils": {
+      "version": "2.0.0",
+      "resolved": "https://registry.npmjs.org/napi-build-utils/-/napi-build-utils-2.0.0.tgz",
+      "integrity": "sha512-GEbrYkbfF7MoNaoh2iGG84Mnf/WZfB0GdGEsM8wz7Expx/LlWf5U8t9nvJKXSp3qr5IsEbK04cBGhol/KwOsWA==",
+      "license": "MIT"
+    },
+    "node_modules/node-abi": {
+      "version": "3.87.0",
+      "resolved": "https://registry.npmjs.org/node-abi/-/node-abi-3.87.0.tgz",
+      "integrity": "sha512-+CGM1L1CgmtheLcBuleyYOn7NWPVu0s0EJH2C4puxgEZb9h8QpR9G2dBfZJOAUhi7VQxuBPMd0hiISWcTyiYyQ==",
+      "license": "MIT",
+      "dependencies": {
+        "semver": "^7.3.5"
+      },
+      "engines": {
+        "node": ">=10"
+      }
+    },
+    "node_modules/node-abi/node_modules/semver": {
+      "version": "7.7.4",
+      "resolved": "https://registry.npmjs.org/semver/-/semver-7.7.4.tgz",
+      "integrity": "sha512-vFKC2IEtQnVhpT78h1Yp8wzwrf8CM+MzKMHGJZfBtzhZNycRFnXsHk6E5TxIkkMsgNS7mdX3AGB7x2QM2di4lA==",
+      "license": "ISC",
+      "bin": {
+        "semver": "bin/semver.js"
+      },
+      "engines": {
+        "node": ">=10"
+      }
+    },
+    "node_modules/normalize-url": {
+      "version": "6.1.0",
+      "resolved": "https://registry.npmjs.org/normalize-url/-/normalize-url-6.1.0.tgz",
+      "integrity": "sha512-DlL+XwOy3NxAQ8xuC0okPgK46iuVNAK01YN7RueYBqqFeGsBjV9XmCAzAdgt+667bCl5kPh9EqKKDwnaPG1I7A==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">=10"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/sindresorhus"
+      }
+    },
+    "node_modules/object-keys": {
+      "version": "1.1.1",
+      "resolved": "https://registry.npmjs.org/object-keys/-/object-keys-1.1.1.tgz",
+      "integrity": "sha512-NuAESUOUMrlIXOfHKzD6bpPu3tYt3xvjNdRIQ+FeT0lNb4K8WR70CaDxhuNguS2XG+GjkyMwOzsN5ZktImfhLA==",
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "engines": {
+        "node": ">= 0.4"
+      }
+    },
+    "node_modules/once": {
+      "version": "1.4.0",
+      "resolved": "https://registry.npmjs.org/once/-/once-1.4.0.tgz",
+      "integrity": "sha512-lNaJgI+2Q5URQBkccEKHTQOPaXdUxnZZElQTZY0MFUAuaEqe1E+Nyvgdz/aIyNi6Z9MzO5dv1H8n58/GELp3+w==",
+      "license": "ISC",
+      "dependencies": {
+        "wrappy": "1"
+      }
+    },
+    "node_modules/p-cancelable": {
+      "version": "2.1.1",
+      "resolved": "https://registry.npmjs.org/p-cancelable/-/p-cancelable-2.1.1.tgz",
+      "integrity": "sha512-BZOr3nRQHOntUjTrH8+Lh54smKHoHyur8We1V8DSMVrl5A2malOOwuJRnKRDjSnkoeBh4at6BwEnb5I7Jl31wg==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">=8"
+      }
+    },
+    "node_modules/pend": {
+      "version": "1.2.0",
+      "resolved": "https://registry.npmjs.org/pend/-/pend-1.2.0.tgz",
+      "integrity": "sha512-F3asv42UuXchdzt+xXqfW1OGlVBe+mxa2mqI0pg5yAHZPvFmY3Y6drSf/GQ1A86WgWEN9Kzh/WrgKa6iGcHXLg==",
+      "dev": true,
+      "license": "MIT"
+    },
+    "node_modules/prebuild-install": {
+      "version": "7.1.3",
+      "resolved": "https://registry.npmjs.org/prebuild-install/-/prebuild-install-7.1.3.tgz",
+      "integrity": "sha512-8Mf2cbV7x1cXPUILADGI3wuhfqWvtiLA1iclTDbFRZkgRQS0NqsPZphna9V+HyTEadheuPmjaJMsbzKQFOzLug==",
+      "license": "MIT",
+      "dependencies": {
+        "detect-libc": "^2.0.0",
+        "expand-template": "^2.0.3",
+        "github-from-package": "0.0.0",
+        "minimist": "^1.2.3",
+        "mkdirp-classic": "^0.5.3",
+        "napi-build-utils": "^2.0.0",
+        "node-abi": "^3.3.0",
+        "pump": "^3.0.0",
+        "rc": "^1.2.7",
+        "simple-get": "^4.0.0",
+        "tar-fs": "^2.0.0",
+        "tunnel-agent": "^0.6.0"
+      },
+      "bin": {
+        "prebuild-install": "bin.js"
+      },
+      "engines": {
+        "node": ">=10"
+      }
+    },
+    "node_modules/progress": {
+      "version": "2.0.3",
+      "resolved": "https://registry.npmjs.org/progress/-/progress-2.0.3.tgz",
+      "integrity": "sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">=0.4.0"
+      }
+    },
+    "node_modules/pump": {
+      "version": "3.0.3",
+      "resolved": "https://registry.npmjs.org/pump/-/pump-3.0.3.tgz",
+      "integrity": "sha512-todwxLMY7/heScKmntwQG8CXVkWUOdYxIvY2s0VWAAMh/nd8SoYiRaKjlr7+iCs984f2P8zvrfWcDDYVb73NfA==",
+      "license": "MIT",
+      "dependencies": {
+        "end-of-stream": "^1.1.0",
+        "once": "^1.3.1"
+      }
+    },
+    "node_modules/quick-lru": {
+      "version": "5.1.1",
+      "resolved": "https://registry.npmjs.org/quick-lru/-/quick-lru-5.1.1.tgz",
+      "integrity": "sha512-WuyALRjWPDGtt/wzJiadO5AXY+8hZ80hVpe6MyivgraREW751X3SbhRvG3eLKOYN+8VEvqLcf3wdnt44Z4S4SA==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">=10"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/sindresorhus"
+      }
+    },
+    "node_modules/rc": {
+      "version": "1.2.8",
+      "resolved": "https://registry.npmjs.org/rc/-/rc-1.2.8.tgz",
+      "integrity": "sha512-y3bGgqKj3QBdxLbLkomlohkvsA8gdAiUQlSBJnBhfn+BPxg4bc62d8TcBW15wavDfgexCgccckhcZvywyQYPOw==",
+      "license": "(BSD-2-Clause OR MIT OR Apache-2.0)",
+      "dependencies": {
+        "deep-extend": "^0.6.0",
+        "ini": "~1.3.0",
+        "minimist": "^1.2.0",
+        "strip-json-comments": "~2.0.1"
+      },
+      "bin": {
+        "rc": "cli.js"
+      }
+    },
+    "node_modules/readable-stream": {
+      "version": "3.6.2",
+      "resolved": "https://registry.npmjs.org/readable-stream/-/readable-stream-3.6.2.tgz",
+      "integrity": "sha512-9u/sniCrY3D5WdsERHzHE4G2YCXqoG5FTHUiCC4SIbr6XcLZBY05ya9EKjYek9O5xOAwjGq+1JdGBAS7Q9ScoA==",
+      "license": "MIT",
+      "dependencies": {
+        "inherits": "^2.0.3",
+        "string_decoder": "^1.1.1",
+        "util-deprecate": "^1.0.1"
+      },
+      "engines": {
+        "node": ">= 6"
+      }
+    },
+    "node_modules/resolve-alpn": {
+      "version": "1.2.1",
+      "resolved": "https://registry.npmjs.org/resolve-alpn/-/resolve-alpn-1.2.1.tgz",
+      "integrity": "sha512-0a1F4l73/ZFZOakJnQ3FvkJ2+gSTQWz/r2KE5OdDY0TxPm5h4GkqkWWfM47T7HsbnOtcJVEF4epCVy6u7Q3K+g==",
+      "dev": true,
+      "license": "MIT"
+    },
+    "node_modules/responselike": {
+      "version": "2.0.1",
+      "resolved": "https://registry.npmjs.org/responselike/-/responselike-2.0.1.tgz",
+      "integrity": "sha512-4gl03wn3hj1HP3yzgdI7d3lCkF95F21Pz4BPGvKHinyQzALR5CapwC8yIi0Rh58DEMQ/SguC03wFj2k0M/mHhw==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "lowercase-keys": "^2.0.0"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/sindresorhus"
+      }
+    },
+    "node_modules/roarr": {
+      "version": "2.15.4",
+      "resolved": "https://registry.npmjs.org/roarr/-/roarr-2.15.4.tgz",
+      "integrity": "sha512-CHhPh+UNHD2GTXNYhPWLnU8ONHdI+5DI+4EYIAOaiD63rHeYlZvyh8P+in5999TTSFgUYuKUAjzRI4mdh/p+2A==",
+      "dev": true,
+      "license": "BSD-3-Clause",
+      "optional": true,
+      "dependencies": {
+        "boolean": "^3.0.1",
+        "detect-node": "^2.0.4",
+        "globalthis": "^1.0.1",
+        "json-stringify-safe": "^5.0.1",
+        "semver-compare": "^1.0.0",
+        "sprintf-js": "^1.1.2"
+      },
+      "engines": {
+        "node": ">=8.0"
+      }
+    },
+    "node_modules/safe-buffer": {
+      "version": "5.2.1",
+      "resolved": "https://registry.npmjs.org/safe-buffer/-/safe-buffer-5.2.1.tgz",
+      "integrity": "sha512-rp3So07KcdmmKbGvgaNxQSJr7bGVSVk5S9Eq1F+ppbRo70+YeaDxkw5Dd8NPN+GD6bjnYm2VuPuCXmpuYvmCXQ==",
+      "funding": [
+        {
+          "type": "github",
+          "url": "https://github.com/sponsors/feross"
+        },
+        {
+          "type": "patreon",
+          "url": "https://www.patreon.com/feross"
+        },
+        {
+          "type": "consulting",
+          "url": "https://feross.org/support"
+        }
+      ],
+      "license": "MIT"
+    },
+    "node_modules/safer-buffer": {
+      "version": "2.1.2",
+      "resolved": "https://registry.npmjs.org/safer-buffer/-/safer-buffer-2.1.2.tgz",
+      "integrity": "sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==",
+      "license": "MIT"
+    },
+    "node_modules/semver": {
+      "version": "6.3.1",
+      "resolved": "https://registry.npmjs.org/semver/-/semver-6.3.1.tgz",
+      "integrity": "sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA==",
+      "dev": true,
+      "license": "ISC",
+      "bin": {
+        "semver": "bin/semver.js"
+      }
+    },
+    "node_modules/semver-compare": {
+      "version": "1.0.0",
+      "resolved": "https://registry.npmjs.org/semver-compare/-/semver-compare-1.0.0.tgz",
+      "integrity": "sha512-YM3/ITh2MJ5MtzaM429anh+x2jiLVjqILF4m4oyQB18W7Ggea7BfqdH/wGMK7dDiMghv/6WG7znWMwUDzJiXow==",
+      "dev": true,
+      "license": "MIT",
+      "optional": true
+    },
+    "node_modules/seq-queue": {
+      "version": "0.0.5",
+      "resolved": "https://registry.npmjs.org/seq-queue/-/seq-queue-0.0.5.tgz",
+      "integrity": "sha512-hr3Wtp/GZIc/6DAGPDcV4/9WoZhjrkXsi5B/07QgX8tsdc6ilr7BFM6PM6rbdAX1kFSDYeZGLipIZZKyQP0O5Q=="
+    },
+    "node_modules/serialize-error": {
+      "version": "7.0.1",
+      "resolved": "https://registry.npmjs.org/serialize-error/-/serialize-error-7.0.1.tgz",
+      "integrity": "sha512-8I8TjW5KMOKsZQTvoxjuSIa7foAwPWGOts+6o7sgjz41/qMD9VQHEDxi6PBvK2l0MXUmqZyNpUK+T2tQaaElvw==",
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "dependencies": {
+        "type-fest": "^0.13.1"
+      },
+      "engines": {
+        "node": ">=10"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/sindresorhus"
+      }
+    },
+    "node_modules/simple-concat": {
+      "version": "1.0.1",
+      "resolved": "https://registry.npmjs.org/simple-concat/-/simple-concat-1.0.1.tgz",
+      "integrity": "sha512-cSFtAPtRhljv69IK0hTVZQ+OfE9nePi/rtJmw5UjHeVyVroEqJXP1sFztKUy1qU+xvz3u/sfYJLa947b7nAN2Q==",
+      "funding": [
+        {
+          "type": "github",
+          "url": "https://github.com/sponsors/feross"
+        },
+        {
+          "type": "patreon",
+          "url": "https://www.patreon.com/feross"
+        },
+        {
+          "type": "consulting",
+          "url": "https://feross.org/support"
+        }
+      ],
+      "license": "MIT"
+    },
+    "node_modules/simple-get": {
+      "version": "4.0.1",
+      "resolved": "https://registry.npmjs.org/simple-get/-/simple-get-4.0.1.tgz",
+      "integrity": "sha512-brv7p5WgH0jmQJr1ZDDfKDOSeWWg+OVypG99A/5vYGPqJ6pxiaHLy8nxtFjBA7oMa01ebA9gfh1uMCFqOuXxvA==",
+      "funding": [
+        {
+          "type": "github",
+          "url": "https://github.com/sponsors/feross"
+        },
+        {
+          "type": "patreon",
+          "url": "https://www.patreon.com/feross"
+        },
+        {
+          "type": "consulting",
+          "url": "https://feross.org/support"
+        }
+      ],
+      "license": "MIT",
+      "dependencies": {
+        "decompress-response": "^6.0.0",
+        "once": "^1.3.1",
+        "simple-concat": "^1.0.0"
+      }
+    },
+    "node_modules/sprintf-js": {
+      "version": "1.1.3",
+      "resolved": "https://registry.npmjs.org/sprintf-js/-/sprintf-js-1.1.3.tgz",
+      "integrity": "sha512-Oo+0REFV59/rz3gfJNKQiBlwfHaSESl1pcGyABQsnnIfWOFt6JNj5gCog2U6MLZ//IGYD+nA8nI+mTShREReaA==",
+      "dev": true,
+      "license": "BSD-3-Clause",
+      "optional": true
+    },
+    "node_modules/sql-escaper": {
+      "version": "1.3.3",
+      "resolved": "https://registry.npmjs.org/sql-escaper/-/sql-escaper-1.3.3.tgz",
+      "integrity": "sha512-BsTCV265VpTp8tm1wyIm1xqQCS+Q9NHx2Sr+WcnUrgLrQ6yiDIvHYJV5gHxsj1lMBy2zm5twLaZao8Jd+S8JJw==",
+      "license": "MIT",
+      "engines": {
+        "bun": ">=1.0.0",
+        "deno": ">=2.0.0",
+        "node": ">=12.0.0"
+      },
+      "funding": {
+        "type": "github",
+        "url": "https://github.com/mysqljs/sql-escaper?sponsor=1"
+      }
+    },
+    "node_modules/string_decoder": {
+      "version": "1.3.0",
+      "resolved": "https://registry.npmjs.org/string_decoder/-/string_decoder-1.3.0.tgz",
+      "integrity": "sha512-hkRX8U1WjJFd8LsDJ2yQ/wWWxaopEsABU1XfkM8A+j0+85JAGppt16cr1Whg6KIbb4okU6Mql6BOj+uup/wKeA==",
+      "license": "MIT",
+      "dependencies": {
+        "safe-buffer": "~5.2.0"
+      }
+    },
+    "node_modules/strip-json-comments": {
+      "version": "2.0.1",
+      "resolved": "https://registry.npmjs.org/strip-json-comments/-/strip-json-comments-2.0.1.tgz",
+      "integrity": "sha512-4gB8na07fecVVkOI6Rs4e7T6NOTki5EmL7TUduTs6bu3EdnSycntVJ4re8kgZA+wx9IueI2Y11bfbgwtzuE0KQ==",
+      "license": "MIT",
+      "engines": {
+        "node": ">=0.10.0"
+      }
+    },
+    "node_modules/sumchecker": {
+      "version": "3.0.1",
+      "resolved": "https://registry.npmjs.org/sumchecker/-/sumchecker-3.0.1.tgz",
+      "integrity": "sha512-MvjXzkz/BOfyVDkG0oFOtBxHX2u3gKbMHIF/dXblZsgD3BWOFLmHovIpZY7BykJdAjcqRCBi1WYBNdEC9yI7vg==",
+      "dev": true,
+      "license": "Apache-2.0",
+      "dependencies": {
+        "debug": "^4.1.0"
+      },
+      "engines": {
+        "node": ">= 8.0"
+      }
+    },
+    "node_modules/tar-fs": {
+      "version": "2.1.4",
+      "resolved": "https://registry.npmjs.org/tar-fs/-/tar-fs-2.1.4.tgz",
+      "integrity": "sha512-mDAjwmZdh7LTT6pNleZ05Yt65HC3E+NiQzl672vQG38jIrehtJk/J3mNwIg+vShQPcLF/LV7CMnDW6vjj6sfYQ==",
+      "license": "MIT",
+      "dependencies": {
+        "chownr": "^1.1.1",
+        "mkdirp-classic": "^0.5.2",
+        "pump": "^3.0.0",
+        "tar-stream": "^2.1.4"
+      }
+    },
+    "node_modules/tar-stream": {
+      "version": "2.2.0",
+      "resolved": "https://registry.npmjs.org/tar-stream/-/tar-stream-2.2.0.tgz",
+      "integrity": "sha512-ujeqbceABgwMZxEJnk2HDY2DlnUZ+9oEcb1KzTVfYHio0UE6dG71n60d8D2I4qNvleWrrXpmjpt7vZeF1LnMZQ==",
+      "license": "MIT",
+      "dependencies": {
+        "bl": "^4.0.3",
+        "end-of-stream": "^1.4.1",
+        "fs-constants": "^1.0.0",
+        "inherits": "^2.0.3",
+        "readable-stream": "^3.1.1"
+      },
+      "engines": {
+        "node": ">=6"
+      }
+    },
+    "node_modules/tunnel-agent": {
+      "version": "0.6.0",
+      "resolved": "https://registry.npmjs.org/tunnel-agent/-/tunnel-agent-0.6.0.tgz",
+      "integrity": "sha512-McnNiV1l8RYeY8tBgEpuodCC1mLUdbSN+CYBL7kJsJNInOP8UjDDEwdk6Mw60vdLLrr5NHKZhMAOSrR2NZuQ+w==",
+      "license": "Apache-2.0",
+      "dependencies": {
+        "safe-buffer": "^5.0.1"
+      },
+      "engines": {
+        "node": "*"
+      }
+    },
+    "node_modules/type-fest": {
+      "version": "0.13.1",
+      "resolved": "https://registry.npmjs.org/type-fest/-/type-fest-0.13.1.tgz",
+      "integrity": "sha512-34R7HTnG0XIJcBSn5XhDd7nNFPRcXYRZrBB2O2jdKqYODldSzBAqzsWoZYYvduky73toYS/ESqxPvkDf/F0XMg==",
+      "dev": true,
+      "license": "(MIT OR CC0-1.0)",
+      "optional": true,
+      "engines": {
+        "node": ">=10"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/sindresorhus"
+      }
+    },
+    "node_modules/undici-types": {
+      "version": "7.16.0",
+      "resolved": "https://registry.npmjs.org/undici-types/-/undici-types-7.16.0.tgz",
+      "integrity": "sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw==",
+      "dev": true,
+      "license": "MIT"
+    },
+    "node_modules/universalify": {
+      "version": "0.1.2",
+      "resolved": "https://registry.npmjs.org/universalify/-/universalify-0.1.2.tgz",
+      "integrity": "sha512-rBJeI5CXAlmy1pV+617WB9J63U6XcazHHF2f2dbJix4XzpUF0RS3Zbj0FGIOCAva5P/d/GBOYaACQ1w+0azUkg==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">= 4.0.0"
+      }
+    },
+    "node_modules/util-deprecate": {
+      "version": "1.0.2",
+      "resolved": "https://registry.npmjs.org/util-deprecate/-/util-deprecate-1.0.2.tgz",
+      "integrity": "sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==",
+      "license": "MIT"
+    },
+    "node_modules/wrappy": {
+      "version": "1.0.2",
+      "resolved": "https://registry.npmjs.org/wrappy/-/wrappy-1.0.2.tgz",
+      "integrity": "sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==",
+      "license": "ISC"
+    },
+    "node_modules/yauzl": {
+      "version": "2.10.0",
+      "resolved": "https://registry.npmjs.org/yauzl/-/yauzl-2.10.0.tgz",
+      "integrity": "sha512-p4a9I6X6nu6IhoGmBqAcbJy1mlC4j27vEPZX9F4L4/vZT3Lyq1VkFHw/V/PUcB9Buo+DG3iHkT0x3Qya58zc3g==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "buffer-crc32": "~0.2.3",
+        "fd-slicer": "~1.1.0"
+      }
+    }
+  }
+}
+
+
+===== C:\DEV\my project\package.json =====
+{
+  "name": "my-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "electron": "^40.4.1"
+  },
+  "dependencies": {
+    "better-sqlite3": "^12.6.2",
+    "mysql2": "^3.17.2"
+  }
+}
+
+
+===== C:\DEV\my project\preload.js =====
+const { contextBridge, ipcRenderer } = require('electron');
+
+contextBridge.exposeInMainWorld('api', {
+    setStartup: (value) => ipcRenderer.send('set-startup', value),
+    getStartup: () => ipcRenderer.invoke('get-startup')
+});
+
+
+===== C:\DEV\my project\renderer.js =====
+
+const startupToggle = document.getElementById("openAtStartupToggle");
+
+window.UI = {
+    startupToggle: startupToggle,
+    onStartupChange: function(callback) {
+        if (startupToggle) {
+            startupToggle.addEventListener("change", () => {
+                callback(startupToggle.checked);
+            });
+        }
+    }
+};
+
+window.api.getStartup().then(value => { 
+    if (window.UI.startupToggle) {
+        window.UI.startupToggle.checked = value;
+    }
+});
+
+window.UI.onStartupChange((isChecked) => {
+    window.api.setStartup(isChecked);
+});
+
+
+===== C:\DEV\my project\assets\main.js =====
+import {loadSittings} from "./js/ui/sittings.js";
+import { getFromLocalStorage ,saveToLocalStorage} from "./js/utils/storage.js";
+import {handlesUserUI} from "./js/ui/userUi.js";
+import { showModal,closeAllModals } from "./js/ui/modals.js";
+import {getNotesForUser} from "./js/api/notes.js";
+import {triggerAddNoteModal} from "./js/ui/notesUI.js";
+import { applyTheme } from "./js/ui/theme.js";
+const searchBar = document.querySelector('header .search-bar');
+
+const sittingsBtn = document.querySelector('header .settings-menu');
+const sittingsDropdown = document.querySelector('header .settings-dropdown');
+const darkModeToggle = document.querySelector('header .settings-dropdown #dark-mode .toggle input');
+const userDiv = document.querySelector('header .user');
+const signUpUsernameInput = document.getElementById("signUp-username");
+const signUpPasswordInput = document.getElementById("signUp-password");
+const signUpImageinput = document.getElementById("signUp-profile-picture");
+const signUpCard = document.getElementById("signUp-card");
+const fileText = document.getElementById('file-name-display');
+const loginUsernameInput = document.getElementById("login-username");
+const loginPasswordInput = document.getElementById("login-password");
+const submitLoginBtn = document.getElementById("submit-login");
+const adddNoteBtn = document.getElementById("addNoteBtn");
+const addnoteCard = document.querySelector(".add-note-card");
+let messageclosebtns = document.getElementsByClassName("close-message");
+let loggedInUser = getFromLocalStorage("loggedInUser");
+let userNotifications = [];
+let sittings = {
+    darkMode: false,
+};
+
+overlay.addEventListener("click", () => {
+    closeAllModals();
+});
+
+sittingsBtn.addEventListener("click", (e) => {
+    showModal(sittingsDropdown)
+
+
+})
+
+sittingsDropdown.addEventListener("click", (e) => {
+    e.stopPropagation() })
+
+
+
+
+signUpImageinput.addEventListener('change', function() {
+    if (this.files && this.files.length > 0) {
+        fileText.textContent = this.files[0].name;
+        fileText.style.opacity = "1";
+    } else {
+        fileText.textContent = 'No file chosen';
+        fileText.style.opacity = "0.6";
+    }
+});
+
+// handlesUserUI(loggedInUser);
+
+
+
+
+
+
+
+console.log(getFromLocalStorage('loggedInUser') 
+);
+darkModeToggle.addEventListener('change', () => {
+    sittings.darkMode = darkModeToggle.checked;
+    applyTheme(sittings.darkMode);
+    saveToLocalStorage('sittings', sittings);
+});
+
+loadSittings();
+
+
+
+triggerAddNoteModal();
+
+
+===== C:\DEV\my project\assets\css\style2.css =====
+/* ==========================================================================
+   Design System & Tokens
+   ========================================================================== */
+:root {
+    --primary-color: #ffffff;
+    --secondary-color: #f8fafc; /* Crisp slate-tinted background */
+    --third-color: #e2e8f0;     /* Soft slate border/neutral color */
+    --accent-color: #4f46e5;    /* Modern Indigo accent */
+    --accent-hover: #4338ca;
+    
+    --primary-font: 'Inter', 'Segoe UI', 'Arial', sans-serif;
+    --secondary-font: 'JetBrains Mono', 'Fira Code', 'monospace', sans-serif;
+    --font-color: #0f172a;      /* Deep obsidian slate for high contrast readability */
+    --font-muted: #64748b;     /* Neutral slate for hints/dates */
+    
+    --warning-color: #fef2f2;
+    --warning-text-color: #ef4444;
+    
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+    --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    
+    --radius-sm: 6px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    
+    --transition-smooth: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ==========================================================================
+   Global & Base Resets
+   ========================================================================== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    color: var(--font-color);
+    font-family: var(--primary-font);
+    background-color: var(--primary-color);
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+ul, ol {
+    list-style: none;
+}
+
+/* ==========================================================================
+   Interactive Components (Sliders & Toggles)
+   ========================================================================== */
+.toggle {
+    cursor: pointer;
+    position: relative;
+    width: 46px;
+    height: 24px;
+    display: inline-block;
+}
+
+.toggle input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    inset: 0;
+    background: var(--third-color);
+    border-radius: var(--radius-lg);
+    transition: var(--transition-smooth);
+}
+
+.slider::before {
+    content: "";
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    left: 3px;
+    top: 3px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition-smooth);
+}
+
+.toggle input:checked + .slider {
+    background: #10b981; /* Fresh emerald green */
+}
+
+.toggle input:checked + .slider::before {
+    transform: translateX(22px);
+}
+
+/* Overlay Dynamic Blurring */
+#overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(15, 23, 42, 0.3);
+    backdrop-filter: blur(4px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 90;
+}
+
+#overlay.active {
+    display: flex;
+}
+
+/* ==========================================================================
+   Navigation Header
+   ========================================================================== */
+header {
+    border-bottom: 1px solid var(--third-color);
+    background-color: var(--primary-color);
+}
+
+header .container {
+    padding: 12px 24px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header .container .website-title {
+    flex-basis: 25%;
+}
+
+header .container .website-title h1 {
+    font-size: 20px;
+    text-transform: uppercase;
+    font-family: var(--secondary-font);
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: var(--font-color);
+}
+
+#websiteLogo {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
+/* ==========================================================================
+   Settings Menu & Dropdown (Fixed Typo from original markup)
+   ========================================================================== */
+.settings-menu, .sittings-menu {
+    cursor: pointer;
+    position: relative;
+}
+
+.settings-menu .icon, .sittings-menu .icon {
+    position: relative;
+    width: 22px;
+    height: 16px;
+}
+
+.settings-menu .icon .line, .sittings-menu .icon .line {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--font-color);
+    transition: var(--transition-smooth);
+}
+
+.settings-menu .icon .line:nth-child(1), .sittings-menu .icon .line:nth-child(1) { top: 0; }
+.settings-menu .icon .line:nth-child(2), .sittings-menu .icon .line:nth-child(2) { top: 50%; transform: translateY(-50%); }
+.settings-menu .icon .line:nth-child(3), .sittings-menu .icon .line:nth-child(3) { bottom: 0; }
+
+.settings-menu.active .icon .line:nth-child(1), .sittings-menu.active .icon .line:nth-child(1) { top: 50%; transform: translateY(-50%) rotate(45deg); }
+.settings-menu.active .icon .line:nth-child(2), .sittings-menu.active .icon .line:nth-child(2) { opacity: 0; }
+.settings-menu.active .icon .line:nth-child(3), .sittings-menu.active .icon .line:nth-child(3) { bottom: auto; top: 50%; transform: translateY(-50%) rotate(-45deg); }
+
+.settings-menu .settings-dropdown, .sittings-menu .sittings-dropdown {
+    position: fixed;
+    top: 65px;
+    width: 320px;
+    right: -340px;
+    background-color: var(--primary-color);
+    border: 1px solid var(--third-color);
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    flex-direction: column;
+    padding: 8px;
+    transition: var(--transition-smooth);
+    border-radius: var(--radius-md);
+    z-index: 100;
+}
+
+.settings-menu .settings-dropdown.active , .sittings-menu .sittings-dropdown.active {
+    right: 20px;
+}
+
+.settings-dropdown ul li, .sittings-dropdown ul li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    font-size: 14px;
+    color: var(--font-color);
+    border-radius: var(--radius-sm);
+}
+
+.settings-dropdown ul li:hover, .sittings-dropdown ul li:hover {
+    background-color: var(--secondary-color);
+}
+
+.settings-dropdown ul li#user-signUp-logout, .sittings-dropdown ul li#user-signUp-logout {
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 8px;
+    padding-top: 12px;
+    border-top: 1px solid var(--third-color);
+}
+
+.settings-dropdown ul li#user-signUp-logout button, .sittings-dropdown ul li#user-signUp-logout button {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--third-color);
+    border-radius: var(--radius-sm);
+    background-color: var(--primary-color);
+    color: var(--font-color);
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.settings-dropdown ul li#user-signUp-logout button:hover, .sittings-dropdown ul li#user-signUp-logout button:hover {
+    background-color: var(--secondary-color);
+    border-color: var(--font-muted);
+}
+
+/* ==========================================================================
+   Search Input Bar
+   ========================================================================== */
+.search-bar {
+    display: flex;
+    position: relative;
+    z-index: 10;
+    align-items: center;
+    width: 40%;
+    transition: var(--transition-smooth);
+}
+
+.search-bar.active {
+    position: fixed;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50%;
+    z-index: 1000;
+}
+
+.search-bar .icon {
+    position: absolute;
+    left: 14px;
+    display: flex;
+    align-items: center;
+    pointer-events: none;
+}
+
+.search-bar .icon svg {
+    width: 18px;
+    height: 18px;
+    fill: var(--font-muted);
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 10px 16px 10px 42px;
+    background-color: var(--secondary-color);
+    border: 1px solid var(--third-color);
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    color: var(--font-color);
+    transition: var(--transition-smooth);
+}
+
+.search-bar input::placeholder {
+    color: var(--font-muted);
+}
+
+.search-bar input:focus {
+    outline: none;
+    background-color: var(--primary-color);
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+/* ==========================================================================
+   User Profile Pill
+   ========================================================================== */
+.user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    padding: 6px 12px;
+    border-radius: 30px;
+    transition: var(--transition-smooth);
+}
+
+.user:hover {
+    background-color: var(--secondary-color);
+}
+
+.user img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--third-color);
+}
+
+.user .username {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* ==========================================================================
+   Notes Layout Grid Platform
+   ========================================================================== */
+.notes-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    padding: 32px;
+    height: calc(100vh - 65px);
+    overflow-y: auto;
+    background-color: var(--secondary-color);
+}
+
+/* Grid Separator Section Header */
+.notes-content .grid-separator {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 24px 0 8px 0;
+}
+
+.notes-content .grid-separator span {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--font-muted);
+}
+
+.notes-content .grid-separator hr {
+    flex-grow: 1;
+    border: none;
+    height: 1px;
+    background-color: var(--third-color);
+}
+
+/* ==========================================================================
+   Individual Note Cards
+   ========================================================================== */
+.notes-content .note {
+    background-color: var(--primary-color);
+    padding: 24px;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--third-color);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.notes-content .note:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--third-color);
+}
+
+.notes-content .note h2 {
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--font-color);
+}
+
+.notes-content .note .content {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--font-color);
+    opacity: 0.8;
+    margin-bottom: 16px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    overflow: hidden;
+}
+
+.notes-content .note .categories {
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.notes-content .note .note-cat {
+    background-color: var(--secondary-color);
+    border: 1px solid var(--third-color);
+    color: var(--font-muted);
+    padding: 4px 10px;
+    border-radius: var(--radius-sm);
+    font-size: 11px;
+    font-weight: 600;
+}
+
+/* Card Actions / Buttons Panel */
+.notes-content .note .buttons {
+    display: flex;
+    gap: 8px;
+    margin-top: auto;
+    padding-top: 14px;
+    border-top: 1px solid var(--secondary-color);
+    justify-content: flex-end;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity var(--transition-smooth), transform var(--transition-smooth);
+}
+
+.notes-content .note:hover .buttons {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.notes-content .note button {
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.notes-content .note .edit-btn {
+    background-color: var(--primary-color);
+    border-color: var(--third-color);
+    color: var(--font-color);
+}
+
+.notes-content .note .edit-btn:hover {
+    background-color: var(--secondary-color);
+    border-color: var(--font-muted);
+}
+
+.notes-content .note .delete-btn {
+    background-color: var(--warning-color);
+    color: var(--warning-text-color);
+}
+
+.notes-content .note .delete-btn:hover {
+    background-color: var(--warning-text-color);
+    color: white;
+}
+
+.notes-content .note button:active {
+    transform: scale(0.97);
+}
+
+/* Card Timeline / Footer Metadata */
+.notes-content .note .time-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 12px;
+    font-size: 11px;
+    color: var(--font-muted);
+    font-weight: 500;
+}
+
+/* Modern Webkit Scrollbars styling */
+.notes-content::-webkit-scrollbar { width: 6px; height: 6px; }
+.notes-content::-webkit-scrollbar-track { background: transparent; }
+.notes-content::-webkit-scrollbar-thumb { background-color: var(--third-color); border-radius: 10px; }
+.notes-content::-webkit-scrollbar-thumb:hover { background-color: var(--font-muted); }
+
+/* ==========================================================================
+   Modals & Cards Layouts (Unified Structural System)
+   ========================================================================== */
+#signUp-card, #login-card, #add-note-card {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -40%) scale(0.95);
+    background-color: var(--primary-color);
+    padding: 32px;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--third-color);
+    box-shadow: var(--shadow-lg);
+    width: 100%;
+    max-width: 400px;
+    box-sizing: border-box;
+    z-index: 100;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--transition-smooth), transform var(--transition-smooth), visibility var(--transition-smooth);
+}
+
+/* Active Class handles opening animation seamlessly */
+#signUp-card.active, #login-card.active, #add-note-card.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+#signUp-card h2, #login-card h2, #add-note-card h2 {
+    margin-bottom: 20px;
+    font-size: 22px;
+    font-weight: 700;
+    text-align: center;
+}
+
+#signUp-card input, #login-card input, #add-note-card input, #add-note-card textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 16px;
+    border: 1px solid var(--third-color);
+    background-color: var(--secondary-color);
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    color: var(--font-color);
+    transition: var(--transition-smooth);
+}
+
+#signUp-card input:focus, #login-card input:focus, #add-note-card input:focus, #add-note-card textarea:focus {
+    outline: none;
+    background-color: var(--primary-color);
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+#signUp-card button, #login-card button, #add-note-card button {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--accent-color);
+    border: none;
+    border-radius: var(--radius-sm);
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+#signUp-card button:hover, #login-card button:hover, #add-note-card button:hover {
+    background-color: var(--accent-hover);
+    box-shadow: var(--shadow-md);
+}
+
+/* File Upload System Custom Design */
+.file-upload-wrapper {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 16px;
+    border: 1px solid var(--third-color);
+    background-color: var(--secondary-color);
+    border-radius: var(--radius-sm);
+}
+
+#signUp-card input[type="file"] { display: none !important; }
+
+.file-upload-btn {
+    background-color: var(--primary-color);
+    border: 1px solid var(--third-color);
+    color: var(--font-color);
+    padding: 6px 12px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.file-upload-btn:hover {
+    background-color: var(--secondary-color);
+    border-color: var(--font-muted);
+}
+
+#file-name-display {
+    color: var(--font-muted);
+    font-size: 13px;
+    margin-left: 12px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+/* ==========================================================================
+   Add / Edit Note Modal Custom Specific Details
+   ========================================================================== */
+#add-note-card #isPinned label .tg-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+#add-note-card #isPinned .pin-note-text {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+#add-note-card .tags {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 16px;
+    max-height: 120px;
+    overflow-y: auto;
+}
+
+#add-note-card .tags .tag {
+    padding: 6px 10px;
+    background-color: var(--secondary-color);
+    border: 1px solid var(--third-color);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12px;
+}
+
+#add-note-card .tags .tag .delete-tag-btn {
+    background: none;
+    border: none;
+    color: var(--warning-text-color);
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+/* ==========================================================================
+   Action Floating Action Button (FAB)
+   ========================================================================== */
+.add-note-btn {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    z-index: 80;
+    width: 56px;
+    height: 56px;
+    background-color: var(--accent-color);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-lg);
+    cursor: pointer;
+    transition: transform var(--transition-smooth), background-color var(--transition-smooth);
+}
+
+.add-note-btn:hover {
+    background-color: var(--accent-hover);
+    transform: translateY(-4px) scale(1.05);
+}
+
+.add-note-btn:active {
+    transform: translateY(0) scale(0.95);
+}
+
+.add-note-btn .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    right: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+    transform: translateY(-50%);
+}
+
+.add-note-btn .icon svg {
+    width: 24px;
+
+    height: 24px;
+    fill: white;
+}
+
+.add-note-btn .hover-text {
+    position: absolute;
+    bottom: 68px;
+    right: 0;
+    background-color: var(--font-color);
+    color: white;
+    padding: 6px 12px;
+    border-radius: var(--radius-sm);
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--transition-smooth), visibility var(--transition-smooth);
+}
+
+.add-note-btn:hover .hover-text {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* ==========================================================================
+   Toast Notifications System Panels
+   ========================================================================== */
+
+.notification-container {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    z-index: 10000;
+    pointer-events: none;
+}
+
+.message-display {
+    position: relative;
+
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+
+    min-width: 320px;
+    max-width: 420px;
+
+    padding: 16px;
+
+    background-color: var(--primary-color);
+    border: 1px solid var(--third-color);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+
+    animation: appearMessage 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+
+    pointer-events: auto;
+}
+
+.message-display .message-content {
+    flex: 1;
+}
+
+.message-display .title {
+    margin-bottom: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--font-color);
+}
+
+.message-display .message-text {
+    font-size: 13px;
+    line-height: 1.4;
+    color: var(--font-muted);
+}
+
+.message-display .close-message {
+    background: none;
+    border: none;
+    color: var(--font-muted);
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.message-display .close-message:hover {
+    color: var(--font-color);
+}
+
+/* Toast States */
+.message-display.success {
+    border-left: 4px solid #10b981;
+}
+
+.message-display.success .title {
+    color: #10b981;
+}
+
+.message-display.warning  .title{
+    color: #f59e0b;
+}
+
+.message-display.warning {
+    border-left: 4px solid #f59e0b;
+}
+
+.message-display.info {
+    border-left: 4px solid var(--accent-color);
+}
+.message-display.info .title {
+    color: var(--accent-color);
+}
+
+.message-display.error {
+    border-left: 4px solid var(--warning-text-color);
+}
+.message-display.error .title {
+    color: var(--warning-text-color);
+}
+/* Empty / Fallback State Styling */
+.no-notes-message {
+    grid-column: 1 / -1;
+    margin-top: 80px;
+    font-size: 16px;
+    text-align: center;
+    color: var(--font-muted);
+    font-style: italic;
+}
+
+/* ==========================================================================
+   Animations System
+   ========================================================================== */
+@keyframes appearMessage {
+    from {
+        opacity: 0;
+        transform: translateY(24px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+        transform: translateY(24px) scale(0.95);
+    }
+}
+
+
+===== C:\DEV\my project\assets\images\df_user.png =====
+‰PNG
+
+   
+IHDR         Ã¦$È   TPLTELiq        333­6ş   tRNS ²w=P©Yh-‰Ò6D»ÙIœÌÂÇ¢–ap&œêWÅ  IDATx^ìÛ[’£:`|Œ¹“ ıïóÔ™—éšªN€ ‘±¾tÀ€¤_
+	qŞØ¬˜µ¨Ç2à?B9ÖBÏEfwpÌI[Lu‰•õTØÆA´˜·….ñc¥.¬‡˜0™M=¬Ÿ²¨cîÑx¢¡}8 ‰-fîñıl „y%ğbµj€&‹¿dT¾‰ù¢Ç/U_Á¬@"„…k±¼HJÙz¸3’4I83	ÓÎÅwŸ<aàLjŒ„–p0–w•ÎÃaØ¢!Œbj•5²É+çà/Wå¹÷´Y1‰2835~fè”Élâ¼UÓ€Ÿ>Ä\»º°
+|È?Ô4ân
+>À¤À]‚Î$Jf:à.¢}X†;Ô'&ö¹mkÜ!ƒíX‹[…î±Àé–Gp«ÙÁ,¸ÍXHÚ´Èa-&GÜ¢şN,ïU[ŒÖ`€Ì¾HÎ¸Aù€wØ×Oø¾åYãzÂ·¿m€Œ¦½öğí/* ¦j?ì
+™Å•Ú
+Hòóş· 3¸N›aùŒ«?1YŞ&dõ®Qş-aX5à
+½…HØW¨üÁ&\a® "nÆ&` 
+ß-DÇœ¯`Ï­úéw†HY>â;ÁŞü|$«# ¶Z~ûÿBW‰DÛÒã†„Œß¨!5EbsÅÁO>¤w9¾VVŒ9ÍîXq1ø‡Ç×Št?|
+?şØ&½ëÜÁİåøÒœúª”‹
+IÉÆ®ÄJÏÛÿë]š+î/…àhm5(RkşÄÉq5¾§4	
+$I&4
+¶şTND†Dšÿ¾‚„¹>…Ï@–tÆGìÁ¹Ô?Şô»ì¿
+DN®8ŞLß6 T«öà˜¼i! Ö~ıÙpÇ7eyÄ±æv _ JÕ¦õ7V…{Mäq[ü2¢“mÿ1ÌÜç›9ïªşX}“¼\ì\xbêÍÀ¸{¬Áä
+âÁğ[õï±¥Œüò¹³^b<^¢nÿŸ°Ë"ä”ÿöø7(}¬%Ì›°>Î2Zõùg:Æ9š9®ûgE|'À¹ùÃll›cÖ¬9ôï¿vğHåÑû¿vüN‰æş8Çƒ&’ş¯ƒ±)Š O±YA7˜ŸØş³–ül½:u‰)âí•;yüÃ´Óáoõª<ÂùU*3tw„Æ+jT&©î	ŠkRkÖĞÌÙç«&)Z²ë¾ÿÌĞk¶å•õ?³Ô·êÚşŸeÄF‚4^I<$•U+ ÏÛ¢Ã?¿tWØÆy¡aş'•øBĞJi3™fPE–ÿ»§Æ•´u‘ídD DMˆªILŞ\DûÏw³ˆö
+	düÀ` ¹ˆcÿÛOø±®Šc[\} á[şÇŞf©
+ÃP8 H*:(Î›îŸoEQàæx¿ŸÎ™3Œ¤Mr“¦É„ÁGn¹q`ÀÕLô”haÍ¶+Ğ T'cj¢[µİûzışM`¿İ¾}şCHzğËÜÃV6zO w]ZŒÛ<Üü]¤­ÑÑá%Ğó¿š´8
+tw@±Eş±G–Éí) w»°¾ÕáÈ#+Q!WâêòíwDkWäZÜ# ±O+ÒEÜM¯^W®¿!úÃµûvÕœ÷ş‡6­N{ÛØšíhA‘6`«İ×*Utn°aÀØÔì‰i3P³Ÿ~%Ğ9ÿz"è€†vp€˜Oµ)ĞM‡5Ì¬äûOi‡YèVÈ³N(ïŸp]|uFÌ(& "f.¸¸‰5|ÿ8+¡Yxƒ˜2HÂ Ç”ÂğFÏ@¸Â;{©!Àê¿_ª
+‡eºdĞ& jÈn¨Ãr£ áë¿_X^Ì5D	(&0 å F,€œĞ'0:È X¨ğ1ÁqGÜëE6€–Àb\¼ÄZëQ †ô/ŞS‚dØÍ‹ ì¥tr²Vl*Ä‹j,ˆqàÙø$Ğùü/3Ûœ½4òcz{lÕ Ä"P—Àº`i™µ@½+$hÀ7€##À|i7¢ ˜ÿÎ?À>‰`¶Ø|j€Ô­6€;»@æ)SÁÀ
+€[€Ápağ
+plàÀ-@]qiıj lhz®Øægp„^Á« ;ŸÏÉ	p¨Ô­àÂ2à«\ ·€›ö,Hé)dX+Uü½ï%¡”2>âpKn(· ’ÀÃà3à]Í/ßy ªò£°Ê’Ó ”œdsş•jÏã@èô|…8
+/$W4ˆÔÎŸšÎM¨9¼Râöar!GB'g@‘şPGîñÆ¡âó‡¸hêÏ~-“À·ù…üÒ>;
+äôJò‘3?)$† P~Sî„&9 
+ 	 ‡B“1”&¹ã( ÜŞ/êõŸ†€lÎ…W¼Yıûò‘ãkÁÊÛıÇ¦È 
+Şm,†0 ß|¬
+Ó#
+À¬Š~~¯ä<_ÏË„DÂ{¥}P3ş—f lóJÌPV.É!µ@0¾ÓªPèÔ6ä:ŞÈ˜ÂŸ"9d/î|@£Øš¯4~^÷d ›ëÓ<$¬:S»wç$y¤o> ±ch I@¸¿êFD˜`ß>x  Ø¢ pymko!= 
+@Ïáµ¥İcş4 =¯Œ2Ïh °yÀKuÃ³è¡`–ÓÃ+2 (¡„Ã+b ±”M¸	§ùÕ}T¶5s>ò
+*ç3¼Öøx+ËÁ£àç»Uà@F6„(™¿Şl™V ¶„¡6Ì&
+•haS(Í\’ßÚ{ ¶…#û€v&Î>	ê@ZN3AÀŒGÃÁà(Zx8ŠİsUc›¯”´<Q,&cr@hk}1#êáˆh-åéd¨JÀ`hJ?]`‚‹Áj5‡ßqŸƒ"õÌw|
+èOÏQ±zÆ'y*üÓsX´ğØÏGü§ç¸xû€øxœ èá…¢À‹u%ˆWÆT‚Ç5‹g~‚=€õé€+@Èkã ¢À<: ¤dhI=œ!"ĞhyÔVšë€¼<’şAEx4oÆ< HörÕ!3Lè”Ôº>ò“‘GB–©;±_Ù%'ÄÉú !TPéy,XÇtchpóü! Û¤\ÑfI ,mÓ€zòÓV4°9¸XêÉµŞeócpá`êC‡!.-7 ÓË#Ğ³Àn ¦MAÓ*àPºZ?qR‚†€u=0d}"Ğj †]aabSılºJ¾zğË)õägØ0Q°©'Î°ŸÌ616ˆßœß‰ŞÅ.+ ÃĞ¬ ÚMfèüò0€¥}„Ï‰W…~Š©Ğ	øÿæì„@NŒ9z4€(G›p¶^Ä¹Õ6&ı@ìÄC·“3
+!>(²¦°Òb¾!Ã€³ˆKßYJkàÊX®Å	—ìÁï^ÿ)¨ è‹—LYâ†5@õÕc¶ñgBªC§"“U+ñCd =x’›2œ¥DÏpÕVƒy^4Š'Î™~Õg'[]qæI`ÕŠéÅ·A‹¹şUNÓ½ÈïßÔ Ä‘ùßØ ¡«Ğ @(¨ÿ®m ¬ÕB ¢úîú/
+@bŸV¤¡ 1~wÿ
+@nÿ+ ³BP¡HÃó_‹ #ÿìİÑv¤  Ğ¨# ¨ã Z§ùÿÿÜ×mƒbw:g!ä>öôÄÀCÚ$  ™ñmÖ$ Ò·—uÿ‹ U'pÿW.İ@º!„+•ßKÍóû¥-a2ÔÀDC¶„­$ ØĞÅ¼iiä¼0#½Ç—ù™È¶ğŠÔ9x1¾`Üz0D‘óÂì˜ÿÉb€ƒ_)r8ô	í
+hÓÀQMn6´äs‡©Î(¼h30Õ’á®I«›³©VO8UOÀ™ğk²(lÀßd¬¯–¿"ÁÊ[3IùhZÈ˜ ‡ÁRbLĞÂ/íğ%B'3 !w¿NH ˆÏÀh»ØgÁ·è¸ôÉ˜7<%2{4Ê’ö [Â~í¦œR ¨ëı­R güe—¥Xt!@ øÇ
+!e ®˜:˜ï)²I¤RPÁSTˆBöÙàNá˜3~e2¦†Ï–  ‡Ï‰C¾Ã+Kâ‰_­¹¡–„?èºŒÏ 1œÊÌ%œ{DÜˆÓ¾/–Ğ
+ú0 R!dHØÃ'od¯(Cb9¼	`gœŠØJ_ê®0É;(#ñy~æOŒğ'õ¾şµ@áN~åšs âëü'û°¸şÈ‘û	QaO`ä^
+ËéĞ¶„$ ´©­WÕ2;$Ü¼TÊÛÚè¡fâ“üÄ7	htm·ñ?äÆÍ>o
+ßí`pOc•Ã—ÍªİÈ\|_I§(cÃÓ¯øËÿ 'ñf™h;âV³JâI€Œ=Uµä&>¾øeğÀİı9yà7Ñ5ÂÉàG)ÓA&î4`‘è
+ÿ3¯!ñ‡Ìí|P×Î˜„¥îr{+
+ûxŒ(HÙä1)CV×Ãá¥ÿIÖmÃù)Ÿ@]™%&HÒà1Y~È¤l  3¸3¶`âZH¿4»»ä× 3cü
+à®Õ
+zHIã1RÒ\›¦†”‹zÆ¬,7H‡½øÓÆd×€ö{ç¶(DÑFAĞ 1Öÿÿç<Ì#Ã vW†½_³¢.ërêÒòì‚=q{ŸX"åÌóclÿJÃèF^Ü™¯Ñ4™|0EµFG˜
+cö­|8Yõ1`¼5X*?¬Y™(^_!q	4I+p	Z¹xò‹¸¯ÓÌ„zßÇ62‚\Ü
+v\É“»“T `Å>à(¿“._˜\Ášj_K¶‚^ b™Ã¸yªñP-şšP¦_) —_Oï+ÈÒèûä°ÄCJx‘…«àÏaàC6Â1˜!‹|Û§me3dn	U½<>7÷Ãb„Eèïı‰ªwzæ bö²AA={+#÷×agæoıW©¾¼b£´Æ·„‰¼×Ù¡ıh±·5 ÃácşqšÎ<34U­h$0¼û^½Y&Øtv_îùmßqW´Qp¶’V"r4ç} Ä¼X´ß¿ŞkÌ¯ø{ôÏªádà¥!ŸT/0/ıô:n©(W)@Û a	{İf¶½Œ€J7Ànbõyíâœ5
+À¢´Óè
+@¤©÷ş@®f êš‡O9lÀ)EšŒğ9l€ÓÙ•*zU.ê	~§›e„ÁùÃ^Í Ä›€«AşMú"K™êAªÖ¯ÿ 5ÉL÷.uÍB@Ò•›©¼Ô‰Ã¬ğ.eÒö%/·¤?³GÊ+ão-™Š„³ ]ZÕfİíßlI<‡Z§ê)ÅÆ‡¯‰[MúDIÊYU¢D;OS´6	 (W|ïV¾ÖñOFG&º¢D' §†öªQY8ÙT€¡_°üT™ß©l:€!:<ètÜ4@Pø¢µÖ÷ıD¬*T‚0`§¶‹lëk AHoMóÒba@»4V‹³âÍ`XÇ•ª3Ç2Æ¨Î*GŸÉgF Şu GåaşÇz®~b{D©¾r@Æ5Â>şxTôÀÖ¦	êwõÁF¥Ëß ş‹®MVúU6 ,?šÆàö‘Úæ
+ ¸/õ´§ €Œ¹ÚD€°_–juf·:Mº€`XÖmÑØ]èìİB“ğ„r Â’Šµ¤ºM á5”"“9 x¼ŞnÙ52&71 ğ²£=è^E<ÆÍ °Rü¹À)ë­x­M ¼¨µ?ƒ*¥Œ)| Q@as÷Àü”÷AºWj-EPgB¨R×  aà6¨0/ñš‹€L	<§6Œ¹\ôZÜÍœ›İ“ÙvSleLŒ˜™auÈ/Óö
+J»F .š-€ÿqo•’	öâ  ÌwûT6 4†Tâ¢ ÌK=6³ ŠM´›òœü¢L^¹¬é':—rÑ5ğ63Aèº½ÀP„ì¿é{ xUàn ®ùÜ‚Où@X&ÆÀlæX.›LÄNœ2¸rWàœ)Ä(‚;ƒ¸mXµ8u0…9P öÁsşB@«\	Î-ã<ìŞŒ(yp‡y@Îßé	€cX!q…óç	àüñœ?O ñO ç€şC] ı—Ú õÆ¨ÿÒ#Dÿ}‚ôÿÑ+Lÿ/óôÿ33Äü¢ óHB¤ÿl`ÿÉ áÿúCAØ…è§úçÍ³/P	pÿ¨?şœÅš?üiÅŠşÄ²?„aÌ¿?™l¢®'úS}É,p{7ücA87ü%èšğÛù–Ià6À¾“İ>lƒ“xBã¯?Í¨Fµ÷§Bˆôë_‚,ØÂà [ÈÉıüi¿­‚ø¬?åá®²Q®ë~Pµ²AÚæO»v’ã0Da¸ÀLpÀÓuÿ{ö®¥H½H`Şw…SR=”ÿ"W&*TaG®Èh©bXŒ­ôpµOşÀÕ\íùÁz¾(oé f¾ è]Ğ¾ÓÑG`ª}îÏÚ/?‚‹'zúèÚÿ½ J(ÚüÈ‘‹ã%mºåŞĞÆ .„Q´°‚³',í¬áŒ™êƒ]8K‹¢ƒ@wóœ¯;:8Ã™0NN|²$;:„[:-¾î)ĞHÁ¹Å;E>Dœ,å	Z;%ŞQšlK¹%ï3ol¾?•šU›È_‹ææ*´Áéeğü!?,Ú…–®Ú^­RO‹Rù1
+Â<´\USSö_1)GQ8(    IEND®B`‚
+
+
+===== C:\DEV\my project\assets\images\logo.png =====
+‰PNG
+
+   
+IHDR  ô  ô   ËÖßŠ   IDATxì	¼¥GY§ïMwö¥÷î,N'H@–@DD£:
+(8ğFDÁd_DÑ@2²*Œ€Šâ6Î(
+£(# *KHX²§÷NÒ{§’N:=ÿ§¸_çôí{Ïş{–§÷íú¾úªŞzë©å­ªïÜsO˜òŸ$ 	H@#O@‡>òMh$ 	H@SSõ:t	K@€$0:ô`¶	H@@½FÙ¡×KFí€$ " C¡ÆÒT	H@À|tèó‘1^€$0Btè#ÔXš*	H@˜€}>2õÆ«]€$ĞW:ô¾âT™$ 	H`aèĞ†{½¥ª]€&€}âšÜ
+K@À8Ğ¡c«Ö['µK@ÀĞ¡a£h’$ 	H S:ôN‰™¾^j—€$ ®èĞ»Âf&	H@ÀpĞ¡W{hM½Ô.	H`l	èĞÇ¶i­˜$ 	Lú$µ¶u­—€Ú% 	, úÂ·h	H@@¿èĞûER=¨—€Ú% 	4% CoŠÇ‡€$ Ñ  CvÒJ	ÔK@íÀÈĞ¡|Z	H@ÀÔ”İ^ 	ÔM@ıÀ èĞ Ù"$ 	H@uĞ¡×MXı@½Ô.	:ô‚Áÿ$ 	H@£M@‡>Úí§õ@½Ô.‘! C™¦ÒP	H@Àütèó³ñ‰$ z	¨]}$ Cï#LUI@€Š€}¡È[®$ z	¨}ÂèĞ'¬Á­®$ 	Œ'úx¶«µ’€$P/µúĞ5‰I@€:' Cïœ™9$ 	H ^jï‚€½hf‘€$ 	ú°µˆöH@@½ÆT»}LÖjI@ÀdĞ¡OV{[[	H@¨—À‚i×¡/z–€$ 	ô€½,Õ$	H@¨—@í:ô&p|$	H@:ôQi)í”€$ 	4!Ğ‡ŞD»$ 	H@ú@0[ˆ$ 	H ^CïĞë­¾Ú% 	H@ãA@‡>íh-$ 	H`Â	L¸CŸğÖ·ú€$06tècÓ”VD€&™€½ÆÖWµ$ 	H`Ptèƒ"m9€$ 	èĞk„[¯jµK@€  C€…W€$ ‘% CÙ¦«×pµK@ÀhĞ¡V{i­$ 	H`N:ô9±Y/µK@@¿	èĞûMT}€$   C_ èY/µK@˜D:ôIluë,	H@cG@‡>vMj…ê% v	H@ÃI@‡>œí¢U€$ èĞ;Âeb	ÔK@í€º% Cï–œù$ 	H@CD@‡>D¡)¨—€Ú% q& CçÖµn€$01tèÓÔVTõP»$°°tèËßÒ% 	H@}! CïF•H@õP»$ĞŠ€½!ŸK@€F€€}I% z	¨]ã@@‡>­h$ 	H`â	èĞ'¾@¨—€Ú%0:ôÁp¶	H@@­tèµâU¹$ z	¨]zEÂP€$0Âtè#Üxš.	H ^j%:ôQj-m•€$ 	ÌC@‡>£% 	H ^jï/zyªM€$° tè‚İB% 	H ^“§]‡>ymn% 	H`	èĞÇ°Q­’$ 	ÔK`µëĞ‡±U´I€$Ğ!z‡ÀL.	H@¨—@wÚuèİq3—$ 	H`¨èĞ‡ª94F€$ĞvzwÚÍ%	H@À@èĞ‚ÙB$ 	H@õ‡^oÕ.	H@{:ô±ob+(	H@“@`ú$´£u”€$ 	' CŸğ`õ% 	H`<èĞ{mGóK@€†€€}A$ 	H@½Ğ¡÷J°Şüj—€$ 	´E@‡Ş&I@€†›€}¸Û§^ëÔ.	H@cC@‡>6MiE$ 	H`’	èĞ'¹õë­»Ú% 	H`€tè„mQ€$ ºèĞë"«Şz	¨]€! C?‡7€$ Ñ$ CÍvÓêz	¨]ÀÈĞ¡\“i°$ 	Hàx:ôã™#z	¨]@
+tè5@U¥$ 	H`Ğtèƒ&ny¨—€Ú% 	% CŸĞ†·Ú€$0^tèãÕÖFõP»$0´tèCÛ4&	H@hŸ€½}V¦”€ê% v	H :ôà™U€$0,tèÃÒÚ!	ÔK@ís:ô1o`«'	H@“A@‡>íl-% z	¨]N@‡¾àM €$ Ş	èĞ{g¨	H@õP»Ú  Co’I$ 	H@ÃN@‡>ì-¤}€ê% ö1! C“†´€$0Ùtè“İşÖ^@½Ô>0:ô¡¶ 	H@@}tèõ±U³$ 	ÔK@í
+tè
+0¼”€$ 	Œ*ú¨¶œvK@@½FL»}ÄLs% 	H@sĞ¡ÏEÅ8	H@@½ú®]‡Şw¤*”€$ 	€}ğÌ-Q€$ĞwÇ8ô¾kW¡$ 	H@! Cf‘€$ 	ÔK`€½ŞŠ¨]€$0Étè“ÜúÖ]€Æ†ÀØ8ô±i+"	H@è‚€½hf‘€$ 	z[-b"	H@ÀpĞ¡wûh$ 	H -:ô¶0Õ›Hí€$ ^	èĞ{%h~	H@ÀĞ¡A#Ôk‚Ú% 	H`èĞ'¡•­£$ 	Œ=úØ7q½T»$ 	úp´ƒVH@€z" Cï	Ÿ™ë% v	H@h—€½]R¦“€$ 	1ú7¦ÕK@í€Æ‰€}œZÓºH@ÀÄĞ¡OlÓ[ñz	¨]À`	èĞËÛÒ$ 	H@µĞ¡×‚U¥¨—€Ú% 	Ì& CŸMÄ{	H@ÀĞ¡`£i²ê% v	H`	èĞG±Õ´Y€$0‹€}o% z	¨]¨‡€½®j•€$ 	”€} ¸-L¨—€Ú%0¹tè“ÛöÖ\€Æˆ€}ŒÓªH@õP»†™€}˜[GÛ$ 	H@mĞ¡·	Êd€ê% v	ôF@‡Ş?sK@€†‚€}(šA#$ 	ÔK@íãO@‡>şml
+% 	H`èĞ' ‘­¢$ z	¨}èĞ‡¡´A€$Ğ#z Í.	H@õP{{tèíq2•$ 	H`¨	èĞ‡ºy4N€ê%0>ÚuèãÓ–ÖD€&˜€}‚ßªK@@½©]‡>HÚ–%	H@¨‰€½&°ª•€$ 	ÔKàXí:ôcyx'	H@I:ô‘l6–€$ 	K ßıXíŞI@€$0:ô`¶	H@@½FË¡×ËBí€$ ‘% CÙ¦Óp	H@Àtè°ğJ€$0²tè#Ût.	H@x€€ıõ^©]€$P#zpU-	H@ú H×[Ú% 	H`Â	èĞ'¼X}	H@:ôñhÇzk¡v	H@z:ô¡o"
+”€$ 	´& CoÍÈõP»$ 	ô€½U!	H@Xh:ô…nË¯—€Ú% 	Lz
+
+}ñÅŸ|É%—œ¹~ıú¥guÖò3Ï<s’¢–E†úçòË/?1vŸ}á…®!D.¸à‚sæ’óÏ?ÿ\ä¼óÎ[Ëó¡®XûÆM§Î§œ}öÙ«V®\yf²ÅY²dÉ²Õ«W¯¡^³eÍš5«×¬é^fëëôşÜsÏ]Ù(éO+*É¸)ÏÖ¬Y³:iNK{´ó³hÕªUg¯Y³fueKò®¬®»	×¬éÏ†
+
+[BlBÚ©À¥Y´nİºeW\qÅâ!³Ksf‹ÉjV}ûîL:ÿ’¿7rëêÕ«oŞ½{÷W÷ìÙsõ=÷ÜóÕL¤×äù×V¬Xq]õu§vÚ›m`»åÅ¾‹ïºë®›bïöÓO?}Ûgœ±uF6'Üœ¸M±ã©§ŠÜœës}}-7$Ü”EÀ•í–µPé2¡gñ¸ØúÌ,BŞÅ×EşíÁ~ğÆ,Âv]zé¥w¥.û–-[¶-mÉı‰Ûç›“îK]tÑÇ’÷
+qú?sÁ<}U—vËÍ¢ë±sÓòåË7§nY¾|ùÖÈöÔqaâ¶¶-yÿ8‰ôÍ–m‰o%%ÏÒ¥K·eœlEÒ—¶¤ÿmIC6ŸsÎ9sKä¦“N:éë±ã;šÕg¶úZê¶1åS×bCÊØ{®K™¹æÙ–”YÉæ\ošO’ã\B9³dSî+Ù¼xñâÍ)kSl‡ú¿–¶xP³:,Ô³ŒÿóÓ¯öAzĞò‡|"ãáªôı‘;2öwÜvÛmwäz{ø~9i>™ñğ¡Ìy/JÿzØBÙl¹ÇĞ¡Ë£Ó»ez$“LmÆûÒ5™Ve@Ÿ¸µqçe":7“Ìšˆ'Ÿ|òª„—æù;-hé3ù\¶hÑ¢óO8á„éÈ"$÷‹¿8!Á‰ùwÒŒœ’IêÔÈé¹?%rb<~vvR'Ù=>“ÕëñˆGücÚkgÚê³iÚîWâ¼Ÿùö´Í©ËŠÔã”ÔãäÈ‰©óIyvJdy/ç§
+•öü©È¯DÏï¥­?—ÉyW&¶H»¾î‚.x\l[ªŸÔå{R·3S·“rMİs¹¸´m.h»fBz„¼s	ÏfK3}Õ³Æ<Eol„ÿ©	‘ÓÒ.§GÎ@N9å”µ	¿­ÜôÙ'ï%ô¡¿*«
+‰Cx~r¸TRõgútÛ’r°³Q•œœç”Ã=×Œ%éGCÓG²@ıwé»W>ìa»6¶ŞqñÁ,¦~öşé|   IDATûïÿ¡ØùÈÄFÔûatNÚà²ÈF™1peæº«2¾¶Û·}Û‡ãàŸÉ˜kÖF>«€½;¶’Éå3Ùé=!ò]™Ü§2‘ÉÄJîÏˆX<===§05===•1•<SwŞyç) ïÌ@X65„ÿ¦§§‹½ÓÓÓÅº#GL!ÜLOO—gU]Ãééi’ÜÏÃ q®Îdõœ8°ûûTÚåõ÷İwß÷fÕuÊtşİ{ï½S™´¦hŸJf×'É¦’§iá€4Ö/“İÉ™ ¯HøúL€ŸÎÄ¸-»œ·d×Ôñ4ê˜÷ºOR¯TqQéŸÔ	µ„‰/íÉõBK£-\Ï–,:¦"‹2JG£sII:Ò­o³ºÍ.§®{lH#”ş–ë#sÙ>È¸ìªŸ’öçÓg?yÑİwß}IÂ“N>|x*ãeêĞ¡CÇôŠMU83RŸE™ïÎIøÓ9QùĞ¾}ûnÉ"÷eç{n»¯HYõ±.ë„±®]=•ûoéì2 ¾;y=N:y*Çëe dâ/œAA\&ú©o~ó›Sq,Å1Ä‘O¥óoˆwÕc^÷ZSŒÏòSœx®	S·cîyŞ—’º?ñ®ïyqªÿ’‰ıóaüâLB«"'¦nSq¼S(u`2¢mh§J¨K%Ô
+IÊ×s	yI€®<gW¿&å¼*“Ç’ÿ´víÚgäyS'”çµş¤î‹"¥ŒÙõ‹Í…ÇB…ØS•]œõÏÒP‡´eÓ>–tI6]êTåK\¹Ÿ+$MBuĞ_•ûíq¸ÿù²Ë.ûJN–ş8}ö±áy"}8§V…Îº²7¶–E/÷³¥ªéYôFÉ§<È8;/»÷·§ŒM™'%cAÇ^èÔÿ_ÓÁQñ£WÂCúĞïÍG¯¥³³Ó£sã èÜ\ÓÁ3«”9+^âqü„8yjôÔ,Åõ°HöÑõ@¨G£Ì¶•gÄFl²Ê{íŸÎ®àºì2ŞŸz|GNIâÓOœÊÄÂªLVL6qòe×A»ĞvØ^Iì/ÏC&ªf’²ŠnÚ<µ²hƒ[äÄL˜O;$;¡/e×ş”ªœA‡©¯PJİ(;÷\s¹à‚-Fpß(³Ÿå¾e#Ò•v!l&¤„`CúÜ1â%éƒ+7lØğ×kÖ¬ùpìxÄşıûObNÊué³99,›î3ìÎÓ9å˜ËVÆÎ|\3fà•|+s"ö†Œ/Æ©?j®üÆõ—€½CqwÒqqÎLæ\3! †°ñNNGpäÜWi2˜NŒøõ•+W>˜¼Ã&ØÙ(óÙ×˜&×-'ÛùôtŸ÷vÿ>üšœ||8N|“ºbK91Á‰ÓN°¯Ú†g¤!íì8â…¼LX³}HÚ°8®I‹>ôÒŞ3âtÒ\–]ûŸæ5Àg²cl£şA^cã Ëë¦,ll”ª­ÚÕgR&ùh‹vóu›ršI¥—:q]…\JâÌ sĞ5é‡?&Óq´SYøÎuÆMyE‘4eL?f~ÃÉ7Öm.{éçÑËB¥lp¢¿œF2^ÒåC®/Sÿ\œú™K‡qı# Cïe:g¯‡¦âØ§˜°R!€NtÅ¡$q™ğ™äyNq¤a‡˜N~ntpô¾ˆø…–ØÅdˆSr_l¯ì&l%%ã şËäpZŞ‘¿'Ò_§
+†­´	Üã<§à›ø²;'»ÙÓÄ#¤!~>syF[Î%”‡d§S&Ã´c™ ™ÄĞKHŸ¨ÊËı¢”ÿİÙ!ıãêÕ«_Ÿ2ú+@0@¨SÊ.?Õ=q}—™Ï^ôªC+\·’ô‡ÒgIGûTyçI×‹Ì§·Š¯SÆLÜÑñE\İ’EäëÓ×#gS6ĞŸ™°-ÏÊ+Aú,ı•çUŸ>óÌ3Kâ*?a%¤É;ó2ÒÇË‘;º³a)ïâéÿé÷8ûSrÜÿ®K.¹äüĞ\E¯ÿ¡½C¦™$î¡ãÒQÉZ…¬h:>£4tl÷¬f«{Ò1˜²³|Bäåè‰]üÌiJê^Vâ„Ô™•p “U&©ï[¾|ù5™(^9g£Ë‚MLNÜsMXOH›ñŒëYö—[ê‡†t4
+ú*Ék“âÈi[v*´=iÑMBœÂD÷Ío~“‰íu9Uøç¼&x$ú!Ô§êU]k8›Iegâ[ö1¸WRå›/Œ¾~hëfB¹ğ®$÷-íïÉ †Ìé_oÍîûW2çœLÿ«l€MúaqÂ$MesBÿ¤/[¶¬8r>÷ÃóF!muÏõwÜÁ;ó²y;ô3ÆxN>·B<º3w>-÷®tö—€½Cé¬G˜´™¨ÉÊ !¤3ç—ÅéqO:„HáxèÔÜ“ŸA–ğ¤8§Weà=†ø…lcb;a3[Hƒº±˜!l–§Ï²+ÿùLŸ·‹(»‘oâØ	ş\óŒ4´¶VåWİÓÜc?“ù¨qB^ôWåÍäTv7äE(gÄsZ@zòG>ô¢Ÿû8ÿoÏIÂ§Ï?ÿü'MÛ`å7J/eR¤•Ò4“ùòWy`ˆÍ°M=JûNMMÍ—­ÄWy	KD‹ÿH‡TÉ(“{Ú©Š›/$-BúÙBâCêÂ}İ’EïËãD_–òË;ı2é—pÄæª~„IWNIÇ˜ÀN®É3Ÿ4¤E!B<úÈ‡®Œ×âğ™ÿhÇØõô,6†ş;+°ÔD‡Şa‹¥³öõx<ú¦–.]Êï?¿#ïWOíĞœ¾&Ï ìz÷@=bL×ù“·åOœùoÅ^™ÅÏ‰3åµÌÃƒÌ•L6LFì4¢·ìL˜„˜øØÑ2’–x}qÆÅ™Ï¥·¸°&Ù’èùÃõë×¿„›º$;­iêB=©/Â°U™Ô™8dvüì{X5t4YÙa–w±©GùuªÙeôrmUù×Äµ£—tÈ\iicz«0éj#Ñ?µaÃ†gæ(üMiïç*êV	º…ú5ŞÏuÍB2v”Ó3ÒWº²‰yQÆó«çÊc\÷tè²K§<±Ã,M“3Y±3Î1×£ï¼óNŞ­6M?¡OxÈCògq@/É*1Î—‰É¢W8l&ÜìÊ{wô²ëÈkò[
+\óœ	9m?E<¶ëµ|ôE×iéoÉüÛ{­Ë|ùóZb:e”Ç¼¥.Üã Kd“ÿ°i’¤é#CÍ$õ/ŸˆnÒF<OÛ³Óëë/Ñ[Õ¯
+ù–Ï­î›U4Íı•®™®~<ËÎ÷{¢ç½é³'Á=×}ù™Ëvœs+åU#mæ·©ÆEs¸üz³W´Òáóö	èĞÛgUR¦cóS®ûñ>
+§V®\É·0=gÕªU?Ò½]êøÖLÖeædë5T÷3gşqBÿ§‹ÃÍ®¶|—İòq©gEdÒ(cVt¹e’á9ªÊ9ãÀy¸wïŞ£»
+î)Ç²{÷îrìKÙ8õ"”‰ª“~qİºuµ|-0õd2M9œûSà¼\z©Ïì¼i·Â±ÛöÀ1Ñîğ¾:tÆ6"\Ã‹°!íli‘ošşÖ"M×ÓÆïÌîüTúuXu­§Êˆ¤ºï4Ìb²¼cüĞ–ÕB˜£ìÒù6Ê·vªÓôóĞ¡ÏÏfÎ'ôå‹A<g‚#éävN9r_–•õÛâ°Vw¨¦ŸÉ»0ûÅ¤±2Ù¹şn&©§ç¨ıè;>œÜ˜àÓvrv,
+gÁ¤Ãƒ“&İ+út²èâùYgU¤Ç­yŞ‹PÊLY‹£÷ey÷ùÚ^ôÍ•ç8p€nùµ"êD=çJßI¶÷"ğo&´	ö„O9nO_à¶o’ñV8}—k„B›	ifKcú9ôOç¤iv–¾ÜŸwŞy?Ÿ~ù(ÊD!Ìû!³Û¸]ÕBŒ¾GÄ6ød+ŸˆÏâã1éóÏmWŸéšĞ¡7çsÜÓtì¾2£s3ğ˜\qÙ©?(œã×®ëqFhÄùçŸÏ×©ş,Œ¨;&&&ˆ8@¢›
+y‘ÆDiÃrKÈn‰I†E‘8~
+‡rp&Çì8^ä!d¢"yzê‚Nt¥Ì“—.]ú«©w_¿p(¬vFwù42!êIºµ¦v7“VúÑÑLh—ÊÎŒCi›ı­tvóœ6 ,„k„ëv„´ó	cæè™I³8õíûØÎf`ùŠ+ŞPõ'Ê
+¯nP“'¶–Ï•Taõp¦.Õí¼!v0N	é'\³KgÜa+ã(q¯Ï¼wæ¼J|Ğ6¾:§¶Ká„éÈG#¼×ª0ĞqTtrœzVØüAŸÈàü™^u2ÿ‹¾¹Ç©ıXœÛ«3àËû_ôÃŠI*mPy—Şªä«Òkâ˜\pÖf·z$÷÷$ş›»víº+Í®”»%ír{Ò¼ıöÛfWuwËıLÎ´‘}Í$:›=.ßÒ•2ÊÎÆ¾“cÓ•Ùµ<ºiÆÆÎWíÜ¹ó…±ÿ•ég¯Œƒe%¯L½_™S†£¶¯˜-áğŠJ½<r‘äÙòÒÄIy/m&±å¥óIò½læÙKâÈ_’vxfêñ±fUï£ã³YºêÌ‘ê>ùÙ±§é¦]Ò/¸o*3y¦9|øğÑ×äç]áÏ)ÓÁğìÛ8©ìNü¯qš+víÚUúı4ı¸zÜ°ØL}¥•âô“)Æiì+|`À‚2N¼üºg6/ÄŸ“ã÷¶ÒåóÖtè­ÍN‘ñßÑœ1;ÿ1÷•“Z¶lYˆ€8²Ós$5ğo‘ËÄÃ íºrLlÇT®Ë›8³W­ZõáLåë)ãxÊ{8X!”ç2Å¤Ğni´¢ƒôÑkôUqà¿™¸ge¢y|äì[n¹åô¯}ík«¾şõ¯¯‹¬¹îºëÎŒC<7ğ»’ï™±å¿ÇÉ|)“ÔLÒÉÛò{çK„]L¼´;“0:³¨;3òÑõë×//_'ñ©Ãö-[¶¼ë«_ıê¿á†ŠÜtÓM%¬î	¯¿şú·Ï–k¯½öí•4<ûÍ\¹ñÆkyGâŠÜ|óÍïh&7n|ÇÆy$ù~‹g›7o~'gşÇ©÷‘Hß~h›JÒÿq¸÷¦o=5òä´õ>©™¤Ï<	iL“¶|ÇıÄ,J=?šşò£éC?š…ÎSÓŞ›úV(¢Ÿd,<;6ğYœò3uÉÓ®~'×WÓ7ß•ñö¬„ÿ>ò‰ûw‘gd¼5ú?›¾zwî›şàÈ³@-¯yèßH”ß	‡©,Ô¦˜ûÂè?6UäÃ¶èĞÛÂtl¢tèòşõØØîî20¦2y—OX£7;AV¬Ä›AúÛÑÚ×OÕG_ÓŸÜâø°¥iÂ†‡ôå®“<%Ã<ÿeøh&Ã%	ËN‡I€IıUYdåáy/r9"$qÔ'.IĞuo&k3Ù¾*F¿N   IDATÉ¥qtŠyœÓ‡sı…8¡%á¬ÿòì<ûräâÜ^gxy&¥K£ëÑumÊ*»¹„¥|ÊÌn©ØÁ5ê*[ªkBÒóœ>P…Ô•z%äÏ€¾›tJ}hÚ†hƒ°?”öıËÈßdAññ,tşº™|ãßøkd®4éWGº6mÚô7HVŸÈ"¥¥#Ääé+§SúzúN™CªüÔ«’*®
+É“¼¥¯&ßıwÿ7úŠ«¯¾úá_ùÊW^xÕUW}(á'"ÿzõÕWÿı5×\ó‡Yğ¾:‹İÇ§ï?2càƒé¿åË¶(½èŒ2pO<óZÒ»RNyF:â£‡O¿?,ÇîCù5ØÔaTD‡ŞaK¥v½ƒ«¨L e0UÏ¸ç‡õ„ìT_Æı°
+«l,c?l¼ğÂ_”c¸Ç2É ·•N&*˜Á+; ²;!qØÄ„Á|ã={§üĞL¾oÛ±cGO»¤mÛ¶mÍDıö8û‡döôØq3v¤”aâËäEˆ]UÈ3l$¬âyV	¶G×SÏ;ï¼'ò\Æw_Oê¶<cåéq¬ÕN·|ØŒ]1ı²«>V…ÄUB?ËØàÃ’>wşb¬?gı™êy³0‹•ë3“Œ?1°¹€ñ†3çs'Œ‡fùyF'}ìXœ×ŒöŒ°eD‡>­H§N‡.–0É#Æ8ô“óné5yç´`Ğ£Õä¿æâDYesÒĞ$iËGq^kS×729e§P¾²U&&X‘'p*“[ÉOå¨óP&›wîÙ³çÑÛ¶mû“<ìûdIíOstÿˆØ|e&Í»™È(Ÿ	.å•ŸÄ—ÿhoÂÆ8î«x®ÉŸúœ˜W/¿¹víÚıÂ!ì™I›Ğ?pê#QeÛÓÏ—Eğ¿j™şR>ü˜¨cìO½¹ç†ş–¼¼Ë¾'×?—…wß©äÄáÿ?’øÁ„eÜf¼µ¥†±K_gÌÜÿı»·EmşD:ôùÙäIRÙÁ5V
+>ÅA-=çœsŞúiê¸NyLf©fEÄùL±é(ó¬ÄY¼ğ;©g1É°8ˆƒœ•âø[&ÊÍë‰R~•gÔWÅÑÿ@&œ—ÄáŞ‘ûÚ~n»í¶;³[qÊûÁr5<˜Ür}ô§±]™ÄêaØ—KÒ ÜP·pxp&»×q¯´&õaX'ÏQÅ¹'?r4n˜/ÒÏ~rRú]ù"$ÆBkqª³êuÌI`õŒİyÒ¿3;ó?ì¥cŸß¿ÿë¢·|5vúm±§•ÎäáõbùPhæº‡g8«UŸÏO@‡>?›9Ÿdîëê= 4"rdb)ñ¬töG%|3Ï‡Mâl¦Ø¥g0–£¾níË¢åòL,?)ŸO@/:[éK{ğn¼¼»Î‰FY…ºùÛìX¾{óæÍm¶*§İç9†üLx<6'ÇÂ„|´'Rµ)qó	iè„¤aa²fÍšÿrÁœÃ½Òš@Å®uÊRĞ>ÜÍäíëGo]’Eã#ãÔ‹ódì0nª²fêRİ
+©+ÏäßçûÆ£{¸È	Ø;î¾ûîÑO¿ÍuKm9fŸÂ©ÏØ=1siËLİ%˜ˆ\:ônf8‚)„kfõ=úsÏ=÷ÜÚÿGÊëh2ÃVvèH>­šü]ıä¨ıW21-æİ,˜œ˜Z)#mò•E@i9şÏ®ã“™¨şÃöíÛïj•¿çÙ­pìşäLTŸÂ>ÚN×R•O×³Ó—º,Éó—r­ÔG ŒYDÌîYÄ^Â©ãû‹,„ı‰t××¤¥o&ßïçd©o§W±åc,¨Yh#”ÕLR~ù«oØš||éÎÅÍÒû¬9zs>µ?­!ÒX`uÏû±ÒSòìíÙ­-ä·ÈÅ„c°‘‰áÀyw´¨4]tÑEß]Â“qà¬ê™˜p2À«$ó†¤¡|œ:¶dñówÙÿÄÖ­[¿9o¦<À©grãWş‘ÉŠúTÅV×„ØLˆp]I•–ºå’Iïy+W®t—^©/)‡1sqæ†² ¥¥Ï1âËÅÿ‘6}ëŞÈÇçxÜuTÆï?E'#úlK=Y¬–Ï½0~3–å~yËLÃ˜`HlÒ¡/pC0ãÀ®1§\—NÎ§P§r,½!Ÿ_eãÑĞ“C»ŸjËèÔïSçEìÎ©/0¾£Ï•¾1.Z9fO~Ò>‹§,ÔÎ¼Ñ.®YTäÔà‰Ù…üŒ¨[%<çšá9!q•pÏk×®]SKó/L~8¥V#åĞãùºhú~9vgìĞ—èCŒ‰Š÷•TqIwoæ/T÷ısb°16Ş2gµÒIÿÎ‰¯ùÍéôñ¾|÷B«rÇõ¹½Ã–MGÍ¸˜.+Ğv²âp’§¤g€e•caòr=[ˆOÅIqÍótò£ï‰³Kû‰½?‡g5HÇ“u¢~Ô“ëNm:ï¼óVä¸ı©™˜J©/õ<ºÂ'İ„èç9!R]gQpGvç?Ç‡Óˆaq§ş¼LrwW»§\—-ÁŒ:QrM=+Û¹'-Ï‰ÏdùÓyVş–@Bæ @¿™#ºe¬iƒpîx´T^c‚Ô÷´Ø\v¹ôvåU](–gô„k„k¥ÿíç$‰ë~É-·Ür]^5ıyÖĞg} rÇŒLˆÜ9ÌØ¸ƒtûöíÛğàÁ[r}u¿l#=mWE‡Ş6ªîòék&
+N+“rùõ÷­´2 s„<Åî•´´‹O:é¤7­]»öAÜº„ÇÊs*|ê“{‚£Â}%DVé¸2™e2xkvÄ×7l²mÛ¶¯ÄÎ7¥İ¦x}‚}´)5®[	ù¨súÌÚ,æÜ*½Ï{&02N=sËÑ_i¤ íÖ>cª–ïÅÏ8üqìK®½öÚ¥7ÜpÃ’ÈY3rfBäŒ™k‘niò]´eË–ÿİ®ı¦;€ıx&}É
+´|íaÊË»-îW­ZÅï~iUXİ¿[š•kÙÁf Oåx{uïKŞ®ŞY'ßĞü„Ëó¨‚aÔ™°îIÃ=i®L;wîüb&‚ßà~Xåºë®{Sv._Ü½{wYœá¤ó¾±¥¹Ô5ŒÊ;Ò,îøĞàÏ¶Ì4Ù	z#ãÌiæŒ;#\¡¿ å¦á¿Æ¸ê:ùV6$ñrtåĞÇ Ş«';«r|ŒSâšİa»;4&~kÉ“I½,V¬Xñ„W¿v`i¯ &Óõë×_gui&–£Ú¯‰¬&®+©ÒÆIòGU~!Ïî‹óÏá¾(‹³C9n,ïsİÒŞììK‚9Íà=éË–-[R"ıoâ	dÌùuÅ˜<¯.	‰Ï|tº}é,#£C¯¹	ÙY#yÇËáİøLÌ8æLğ-Kgà‘>¯ìÒ2Ëû×8ºEÙå½zÍš5üÑ„–z†1A)?”“†©cêS>g0ÛNâgÇqOFÇ'sT÷/Ä
+»äèıŸ³˜û‡Ø\ş°LŞ3¶4™E€Êù'ï™Y$òå5-óš k-L».¥?÷µRS!ÆLcÚÌ%'/]ºô‡ã¼mCèĞGèlëÙaeÆ‘—]zvÙÈ¤şYÔìäÇİ³ÀñÇñMåh¹|GF\ã™™èß—÷ª§—q"ò>ù‡gO2s™
++â	IpüU¨ğlT$Îù}iË#|º—EZ+»igúõå¤&ù¦ÓŸ~¤U>ŸwM`”œ9‹à­Ö”¾ÄÊüsBúã3:Íoúá% C¯¹m2hÊÎšzvW¼OßŸõÊênU«â3ù—}1±ŸsÎ9àò.½ÌìàyK+=Ãö|åÊ•g¦W4ÚUñ ^÷•p_¥%.Îœcë›7nÜøWUü(„9Mø‹8èë÷îİ[x­l¦y½B]K?€CúÆ²UÖ¾>gÑ˜ş÷„.¸àûÎ>ûì+.½ôÒ+~ï…^ø„ù\7JyF¾ä|_
+RY!şñeúD¹ÉŒ
+$—-H—¾'®[·ÎZ¶¤5	&Î¡ºY4,ŸnÎîŠ¯I=òo|ã†Â_“f‡ÙÔ¤ØrTŸI¼|µ*»´8ğò¹8†âRÆsFmP._¾ü²Tü”pHpìOc\êvìÃ™;¸$İïå¶%Ã¤ªŸœĞ|ßZ ıZÆ.ÒeW>•şRœzò­ôo9Üu×]ÎBôÿ,Y²äS«W¯ş‡¼ú‡8ôÌ	Ñ§#„BÜQYµjÕ§S¶ªë=™ÆeQü¥Šc©îÃŒ•ÆÛrMÚô©EiË÷œwŞyşéÒBe´ÿÓ¡wÑ~„v³qd£evæe—•‰¼0¿ùæ›ßçü·èb°!œE-ypàÜTq<Ï¤Xvû„åwÙÉ›É÷±§&İ;2Á®"O·‚.ÊA/Ò®œ+’	¿İ,°xt8…ÅìLUÙØ‚^X`[^W”…÷‰?'ó‘ÙyGá>í÷á,òîI›µ4™pË¢.pÈ‚îäÔÿò–™û˜ v,ÊIÁY9Y*¯}R‡¢›"ÕÏ	¹@”Ÿòª‰„ië¡|-D=èO±¶Œ­Œ±‘:rß·oß¿æäï›iŸ²¸ç$0u('yÄÁ¡~„ÂsÆTúÓy™—ş>NıqÏ½=sN¨£Wa±øx;Hte‡Ã.ûè„Çı¼8¥Û€™ ù¦¤ò7Òe–£õã5“‰²LöguÖE¹~×±Oë¿ÃÙ`+Î<ïãÖ­UÉ±õòÔ¿U²â`ˆóÃ™1ùÎ|˜ìúíÛ·oi©`ìÜ¹óÖ8’ëÚ1I—º‡-·²7¾óúÑíäïWšœ”¶Ín›>\œGìèDıPîzsºP‰i2ŞÔœ¸gÏ™;Ê×·ÒG˜Khú
+c…ëfB:$ùÖ†Å?æ•Êc_Û,Ï†—ÀHuŞáÅ8¿eª”2	æ¨u*»œ21’cÓ¦M;2˜^˜]Ï}™0Ëï›“&“J™0ÉKºfÂŠœU6“~œê“óN¬®o‘›ÓÊO¹Åñ¶co¥$ÈåØ]İÏâÌqä<gÂ"<³úqı–¼^É%—üxäÙzĞƒ”£íóú]ú² ùçLÄ\6Ú•SÒ—#÷Ô›_]ãèıQM3öùáşıû§é—YŒ”E'mtPÌÑ~ßAÚ“2ŞÒËî<c‘…÷™qhÏÏi×Ï$|Öúõë‘Ÿ]¿~ı1Ç÷ì6ä9IsT.¼ğÂçÎ’çmØ°áy‰C›´ÏM{ÎùçŸÿì”ıS_|ñÉí HŸø£´ÍaÆ!ãƒz0f×2;yX˜1¦ÒÇNJøò„×Æ®¿ˆ
+/M½¿÷ÜsÏ½$¯Y2µ¬9½¥B,(zçø;š˜pH9Z/“ ƒ'-Í#™   IDATƒï˜ü7ŞxãŸdRù=œU•ÉšÉ$>Û´¹îŒbÒgQpÊÒ¥K#Ä%SúWÕÉçÓn±©ï:ò´JÒÁ1u+¿ƒO]Sçn•·“ç™À~"Nü_S‡ërBò¿â¬>Ó‡ÿ³lÙ²qòŸÓêD_iÿ™z´JGıS×’Œ¶Må$'‹‹Jä€şËk£Ò¿¦Â¦ìh±=6tRúPîĞ©S5îÒæå´+Îü½q`¿ùŸ9ùB>˜ğY²dÉÚßMš£†¿=òşÄ½?qïOºßI_ûåË—ÿnúùrş¡Œ‘W´xÛ¶m™t;Òw§’§Ôz1ß$¾éã—Ml%}-6œüOIø›	ÿ.v}måÊ•[bãÎŒ‘+×Eş67gò“¹>¿dö¿' C¯¹	˜ôpFLÌLÆ)î¸‰-i^’]úõÄy<UŞeğ”°D4ù/®LğÕD+³:²,Ôş“Á>•I9®l·°ìBÎË$V~ÿ¼U&gF9°Ìõ¡Hß~÷<;ñ¤Œ?ÏÄö˜LŠ'±€`2¤¬Ä-ÎåqáüñL^okeo»Ïóısi³–è£ß¤¾ôŸ´-»sŞc¯IYiã”sB˜L§ærªœÅöâ8JÄı—ö:fÁÜÊ´ô£Â“
+¬ÓÊI'O<k•¿ÓçU[Va¸´+qô9©Ÿ‹i÷›ÜîÍk¨·Ò>é¿å¤/ı«ô™vì#Oe¾Áœ<<`;ÇEiï3&œzfÂg'ÿÃ™k^“Ç?Í7?êQº1‹Ş7fğmí”išzœPZµV,ƒ…A[=«Bş H&çe–¿ßM>Ù\=o¢“É ùË€dPçˆì	9¶{u³|Ç?ë.†•}œ]Ù¹µ«!“Äù™0Ûê{ÔÉ$‚+»ÃÌ*ûóºâÚvËk–nİºuo=ÏÆYR\—×UÊf¢gRËóWd·ŞÖ®©Ê?_¸uëÖÒŞ»ç{^ÅS66q-ØÉ.,ıèäì / ~P‚-YÜD«ìj³üã²mæ«5õH»–±WÆ*qYpÓº5"Îî=Õ=!:aÈxç¾i×’>ı…FÛ‹“íÛ·ÿvæ˜k©Kœ{+Ô½Í„rèW¥\Ú—ôl(ˆã»¢»0âF„ØJ|œûâ,¶7dqÿËYô~%;÷Ïä¨şù9£÷ˆ€”¶&ÕÚ3vE1¨èüZqÃısUrË–-ÿo×®]¿ÅàbÒFæJ7;½L
+LòÄÙMíİ»—ï{ÿå¨Ú¿EGK½ØÕ0ÛÆÙ÷I{vâXù'hş^|"¾¼ã„%uMıv%WÏ"“Ïw­Zµêe°‹>~¥°8+êƒ0a"\3ÉÇ†7$ßCHß«¤ÜÛ[é }éL´„ÓÆáÎéÔ‡—ø³–åµmBÚ¦•ı
+Ï{n¯]}»„+;RÂ•0l§öìÙS>€È}/ÂØGæÒGÚ7ı ôoÒÍ’¶zôIÿxmØ‡pêcåõ]â›ş°`L‘(}› ıÛ¸©ì¬îã°qêåd#å²›ÿî,Ş›¸ë2Vú™l›dÑ¡wŞú²2PqUÇO‡ŸwbÛ¹sç¯frùƒ¨ÓL´æâÈÇ„”AzjÑ~'ÇÛGÿS;ú:MCÙLîÔ1Gpófo|<§e"&Ocü\×á5µtéÒòn†ÉËD…CŸ+yGqáô¾ğ^„c¢œØTv!”W”Á“4Ù…ğ‡UNÉÄ%q½JÊhY&xl`÷ÈD
+Ú[3ŸÑ«
+íæOùÓ)¯ôglÀ&lk7ÿ°¦K”EíK?†-qÙm–…d]vÃ©Ê£úB<’¸æšœúüEêğÛÌÿå4+:šşĞ–´#åe<”:Ã‚LÄ!Ul­Áˆ|ŒaÒ8tpO|æ~îwsªõ¥œ>4J½tèòeÀÑq;ÉF§óÏäs‡>£ïş™?7ç~òTB^HâËûKîy†>ÂêÁ„mÄ‘>àaŒm‹\Ò–c7ô!è™±kŞ€r˜<°…?oÂ†)çòµ£?iËÄ„şJEê¸§ºî6Ìk‰GÍğ)ú©Cô–]uG°øL’¥®±#ñß›	êÜÙÃÑÕÒ¡£>åGŠ}Ø…Yˆ°c®u±FÙ32M™3×åİll/Üª¸Q©c«rVğfGß««^´#G¤q<`6$¾#‡­yõŠ8ô¤¯ ƒ8tSGBî©×<Çâ¸®â(?eĞEæ¸pÍsBò’—2ª´U<q99|Täosÿ*Ò*õĞ¡wÈ69}µãqÖXÊ¼;tå}úW3 _—q˜A‚“d7ÆÀÈÎ°ìT„ åWáÈÓL2xŸç5T_í˜º•wkÔ£™í<crõO¾âps¿—gHçWÙ]=ófL#—gğ‡;!öf§Ê¯6[¾½$èá¿èk¹0©ìh,†8$q…cÂQøiÚïG¡uÚ˜¾pTıLÛ‡z4²ı‹#é£OËòo8_teáZNïX°Ğç‘Ìsj$=°‡t\÷"ècìäøıÔåË—ÿÆºuëş2¯¹v²Ô‹í£˜W‡>øVk9±mŞ¼ù<xğ“(;ÄÒò
+çÎ ÁÑå=UKësì~zä·W¯^Í§¢[¦D‚Øb»å0	‘q¢åH0“QË¿0Ef}kàÚ,Mì,“j&GvÃåt„8Ş3I¶û	äy‹ˆ®&Éß6ÇyhÿAO«Øö‹™Ü”8Q¤"Ğx]ÅµfSÀg3~(½üj$ıœy#}¾,ˆ™;2†ÊIK¥¯*+}ªôyâ«8®{ÊÅ†ÈôYgõcgŸ}ö_f“1”ßØK=‡!¯½ÃVH‡ïzbc€Ğ¹Û)òÀ?g~[•>;ÊâĞ¹Ç±åh¾üNv+]Ü”».»Ìßn•–ç©AİòÍv`uO©Î}&ìy2ˆ;²khi<² *'#$&q±i?÷½HÚ¥ëz`CòßİKùäåÈ½ë~?SN¯ùgÔŒoö<¦réc-ÿÇdh¸Ù¸qã¾]»vıH6úc‰0óJéÏ%å"å&ÿ‘&'‘å5On{úIÙå)™9Yüş+VüEàOéI¹™# C?I=Õ€É`ikîÙ³gë–-[^œAwƒ‚]b®Ë cµÍÀ`€´²6š#b>Ìõ”/¼°Õ'N™t+›[•Ñéó0¸«]İÔ5éËD}™”Âcy§eÎNŸwĞ×EfGwÏâ);>ˆ7•EVùÿ´Ã½YPµõÕ­Ç)lˆH½V4Üvt	¿ä/¿æØQÆîÓ/îr›k^´ãì‡i×•gÍ>oSÒ4ûoïŞ½ûãØrûöí/É®ü ãİ?üJ\™K*ÇM<ºR&A‘*®Üôğ_Ê.6E7óQœ9§?”ûw÷ Ö¬sĞ¡Ï¥YT:áÀ&¶8õ?Ş±cÇäx·ìÎãHÊ±/N-…AÑÌÔòŒË Îà\Ûß’÷W—MşKÚ&O›>jk±;ØY&h¼rº,`p®0HØÓ¡¡7Şxãß§Mr;¯p*tå’:<Ãşºk~uŞLm>€USSm&N2ìHptr‡¶O:È×ƒLÇÖõûìÙ¬UÛVo>tØz€Tš„»wï¾rß¾}ß“ùä“9†/_f„ş\—¾DÖª|â™/‰ïU¯Œ™ûî»¯Œ!èŒiô/]ºô?¯]»ö½–aşèĞ`ÑÑU5 :ÉD'î$=ióÎéstv
+GÎ ÄÉàäYq“¦™†…ä¸xÅš5kø¹y'çnêÕ¬ü¹…Ã‰ok÷A½“¶ìĞ™˜lv½³E×ŒÜwğàÁ_Š-3·sğ¦Lş‘lØïù¥¹SwÖ-Oæ³{"=û·cqFé/H;ÉçKÓkşùô||úA©!Â
+íömkŒ¾•lÛ¶íª­[·şpúü“sÚ÷ù”s?Î6ıùèÆ qÅéR6ÒJg;ÏqäH^ù•ä)»”‘¹ˆÓ®—,YòÎ8öõå¡ÿõL@‡Ş3Âzd'É_SzAVµ÷â”!:q-Ï¤ÀÀ)ƒˆœß§>ç·ÈedÒM9ÛbGÙ)$lúƒC%É€zçØ¤õlë¦M›>İ=	æşañT=_&§drü«*®Çpu»ù™l«´Ø¹7÷-ÿÚ\Òôü“:³Cw®è™äü
+Û—Ti_vÏ}sèèDÒçÿæ¦›nz\vëßŸÂ{2—lOûRV™#Hƒ-•pß‹0fĞÅ8f.:ıôÓË"'å+j3Ÿ­X¾|ù¯õR†y à }€E[Wéœü´•¶JÄàL¦2`èÔU|»aá§rÌû±œyvª-UPN‰pˆY¿&G]™gÄe—r°›ûf’Y¾˜ƒßQ}mÆ-qÎG°«™n¡{°k&†Ô{ÙÅ_Ü—¿‚›Ÿ–_ŒMqRd™Ü(‹8”›­ù§Âñå%QÿeQµ:õ?§•&[Ú;å»±-ñwåİè@zÊÌâiqúÄ¢H.[=Çópì.ãºúÛ¶}¥;u.¼«ûºBÊ®t§/¾3í‹M÷UÏúf·şé,LÿË
+7Ü°.ïÚŸvë­·~4sÌÍ¸‹ş†]0H?;j60xÖ2ö£Ä2VIK~ÒqMªçègNZâ“şiëÖ­ó;àÕ£èĞ{8¨ì›7oş¥ø/Ä©”"ãÔÊ{õrÓä?ƒ’$S¹–äş½qêÇ|1	é’şƒ´¹N²æ?Jt&ƒòA›æ©¿õ4“Éä9ˆ-ßŠiş?““ödğSÎÉ9:|\ó\í=ıú×¿~kôwô½5l÷Ïè/€ãšúåùî„¿šò„“ö47O]ßÆ‹›§š*¿.—v/`¢}’§8šØ³µUŞ~=OùqÆG"³5Ç=}‹cœ}‹ßÙŞŸìÎôéû÷ïß™İä®ÙÙ“°Hïiİ¹®dW®gç#/Râó|gŞoß¾sçÎÛ²[¾5²#uÛ;6çúËyşw |8e~ìöÛoÿOqîÒÖÈ\ó´ŒÑ7Æ¶ßÏ˜øTêŠ-7äz_˜¢ÂÛ²(Jºò·ˆg^Ê¹ôÑôq’4•Œ-òİ¯išĞ‡mĞ¡·…i(Î`zn&ò;™Ø3ğÊ$ßÊ2ƒ¯JÏ*ùĞ¡CSç{îe‰?æ[äV¬X1Çv$ƒ«ìºI×Jåôfo[;tt¦7¶#LüÔ]Kù]Ú¼“ëÛ÷ÔÇIß“cH^C¬ËÉÁ32™¾9üû2‘ıúwÜñÔÔñ‚Lvoˆó?Ô½\•y„   IDATí¤9í´ÓOZ¥¥Î´YÚŠ‰¯L”±‡l7óß $eçÈ}j,:}¾8¡U«Váœöf¬œÓÕ7ß|óêœ­ƒ[5#+"+Éó
+²2×•¬Êõì|äEJ|¯Î.yM„òÎ¹í¶ÛÎ¬ƒ½ NòÑ±éïÑ¾elÙ²å¦,f>–ò_»~:ãâbç£o¹å–_wİuË2?<&6¾:¯½¾N÷gOÁ-ã¤l0¸Ïb½üqæ‘Fİs]“…@İŸ’“Ã?ì:W“§Cï°µ3	·í´:Tİ2yØWâ8-6”´´ÌYÇRÎ1ÑåOÆi=ûüóÏÿ1î‘80~gôşè/;vêÄ7/ƒ’0¼YÒc%ífÓ1ñ³o°…EIÒgN=¨S8<~vÚ^ïãØ\{íµ˜Éúµ×\sÍ2™ıJ&³?»úê«ïìU÷ìü©Ïãa6;~ö=uÇ©§¾ìËo9d¢§-¯š¶®û´Á‚8óºêÓ¨—ş„CÁ±ÇIÑÇlÜ¸‘ßÂhLæõìä¯Îbç­Yì\„g¤/ŞÄxä7@è«ôSæX¶3&c“¨3–.]zt.š)Î C:ô-tò8œ·gòù{LvN-ÍaÀˆA–|årLbHVÄñé§¿+ï£ËÊ›t÷3Á¡»6Ç”f%‡²Ú”/RF«´ØÄBçG]²ƒ:ë¬³Ø¥?<ïİ–µÊ?ŒÏóşüôL~£.­ìË„Yv;°¢Í¸O£q‚20‡²qèH+süyúoGnx²CÏXÀ™Ãšz:/¶Ñ’ÙÍÿQø=&ıOÒGÊo¢2fÉÎ<BØL’¿<f®I¾Ÿ*7ş×5;n×è.c&­ŸË$´;ÒÒœ8»r.7ƒf*°ìöfÑÚèy/ŠâdØgLŞ_&7VÛÄ7t2(Ñ=mO¦±çªäkùI÷Ã$[ìIrìœc?ú©Ù9>½™mÃú,œŸ‘İÈé´E+ójç]>Ì‚‰…Ms‡Âû_[åí÷óğ.GşıÖ»0ú¾U*cƒzqdÌ‚)}Œ>Œ|+ÿ7%Ó¬½yßşsLÿÜŒWgÎÎ½iæ<$ü—,YÂ—7=>¯»şöÄ¨›øúv	nŒS{i&Ÿ–Ÿ‚óg ‡È	Œ8¥­Ç±<åÒK/}~vÛÓq÷1ÈÀÒCs™Š#ç¨¾ùÚ‘e)ƒ~O«´LØL:'8µä+uŠÏ'~Ô$ÜEÜZÙN›¥}J;¥½‹C
+sŞsìCq™pÙµ¶2u$ŸÓ¿R?|Ëß	H%Æ¶®©[m?qìÏÜ¹sçg«0%diU`5¦™§2¶OJx«<>ŸŸ€}~6s>É$<>è#™ØÿxN#"ÙuÄQ³£-NÉ+;ãrôÎÀc e×G?x[VÉß–ëÅÑ[vÂ¶Us^†GÑ‹œÔœ‰æ‰Ìâáó<:½•°À¨Ûrı»ÿÀÑÄ#p±aÃ†ïÏ‚ªüŠ“V&gÑRc™èÊg!pîi·¿i•¯ÿÏÇóSî´Ax–E)Ìrß—ñ®I“ôÍ_È¸,_GSæ™V’‡¯¥.§†Ë–-[”ô:ô@èö‡‰¼Û¼'Ó	 ÒIVicÃ3h6±&mîË¤ÏäÏ€"G»hÑ¢câDØBzBÒ&îÌÜ¿<÷§>zË" Í$ Ğ*úcGGG•±ó“”Eù)»ì>)‹8BâĞÏsî‰§>\ŸÅÇI	ŸÃı¨HêğüÔku
+ë–fg‚,&Ò"ÙÅğÛ-B-wœàpicl krİ¤Îí$ë9MúqÑÑIyU]Ò—Ê«¢Àÿ:&pË-·\¥?aÊüQqm¦ˆq@gã‘ş	™CÖ,½Ïš8¡ùcŸÎ&Aßõ
+¾“Ifv¹sİçè}ßŞ½{_qOàË®šÂà Œ­se;&A× +®îZÉĞÇ›àOäİå¡AgÎdLùgOĞR²Û}rvéeÇÛ2ñ'X¿~ı¥©ß“0ƒãÈ´—M%€©L’Å™’pß¾};n¿ıöAü~2Å#ıî¿Ç(›¥cöğ–š÷æã„/§}Ïä)ĞŞ·e:ôÚ§İ	JZ$¶¯FŞ[ım&øw¯^½º|Jvpå8GÀu;ÕÃ>„ Â5ÒNŞ^ÒÜvÛm·Ÿzê©ŸŠS/‹2qrÎ=«õ–êÃôŒ0½2	»^h%ï@~bë{RßÓNe1SêÜª`Úä¡=³øùëäéûW‚F§?è™@ªŸÍx<Ä˜¦Ï¶«±OÚô÷‘üÍlÑ¡wÙ
+Ul7{§éÛÕKº+V¼&Îñ*ºr]GÀófR
+:ìkòTÏ¸®KvïŞı¡ì²Ëñ>»òª­ãØ[•Kú•+W^±víÚ_h•v!Ÿ_zé¥/Ê®åŠŠ)uk§}`’	’§L”YÈzTö/¤
+–]/^´ß|óÍû³ğ<À‚<Î¹#UÌ?É°$âO—tè‚ËäÚÑ»š é¬H‡Åµ•œo0‹|^œÄ1_€Â.°ØˆTi¹Fªû:ÃíÛ·ÿIévà¸xïF¹\gR(Ÿ<nUvêÍ;üòšá
+qêj•~!_|ñÅrlşF[”ÏDÇB„ºrßJXğpŒ™ö½&§1Ÿm•¾ßÏÓoÜwßTGı¾ß6¨ot¤_ìÁÚSzÈ;ñYuèv8t~W»£\™KútôÖñß–-[¾°gÏ7ÄÁfuœÉ¿|«X«²mâ©ò4^Wq-Ân&ıÃqv¿³ÃÑ¡Ÿrqb8xî›	iÙéqÆK¾ç¡}èIÍÒ/À³Å)óıË–-;‹6¡/dSN$Rï<jşÃIKŞ›—ÏGäó÷š§ö©œÀ	Ë«3ÍóÃùíc,çéº$ Cï\úá™WAÛÍ|å×èèíæé4İ­·Şú–ìÊ?)ÇîX-Uà`æKÔìÙ|yº‰Ï+wíÚuWŞ¿•I€İ(,ï‹ÛRG}ÙÑ/]ºô²¨ùÃ+®¸'ÚVŞš-¾ä’Kş4§ß_µ;ı Úç}zËâÃ¦8ÿ8ó›wîÜùş–jH…V7µÙ–ôCÇluÜıg1ê¨t¿t®Zµêé/§2–;™?èçØp¡Òz‡ÜÒáÊ÷<'l+'š´H’ïÉ„^ëÄvàÀŸ‹CÜ…3ÇÑµeä'Ú¶mÛÖ8ğÄnŞOå]sùÉÊ	¶2İ<iÃwê‚.øÉk¯½ö£É³ĞN}qÚùÇ6'ØGˆmeáB<×Í$ıe*'|Òı$]ßş8Ltù#¾ÈX|JªÓ|'s^'>ıı¶NòÌN;é÷:ô{@:êŸÇişFKß’İà[sú–Èoìİ»÷ÍÈîİ»ßÔ(;vìxsŞ{¾5»«·eúÎtØ/wXdGÉS,áq÷qôÎ !D	G¾8;Ú¬¤‰î›PV·ÊbïÛrÄ~0çU^pİJ’zQ'Ê©+V<õ¢‹.ú£…:~¿üòËOÜ°aÃŸe—òl‚?Î›úpÍ„ğçšû*
+mC}xFô¯›ÓŞÕŠE]ÏÓoY„"YpMçdjQÂrÛ²Hê@"êG8l‚}Øóa³mÔìY»víòl$ËÃ¶û«´l>È“±|c;ùL37úÜ\æİ¾}ûÿÜ¼yó/İxã¯Ùºuë«sıšÈ/åök‘mÛ¶ır£Ä‘¿6Gá¯¼*şÕ¹ÿø¼Êûô e}(?e’Â!äºLÀyÏ\¾•‰w¸q6å;ÂûTdÏjÂuKúÿ`‚åH:Ÿòëw(&/‚Íäğ“™$>µråÊË;ÑÑkÚsÎ9çò”ûÙìR~,aKuÔ“EHìÂîj‚#>“[YÜÄÑógnïm©Ì€sœP\g¼LG	’ÀŸNd¾yk¢ç±@JŸ-'K­òÃïĞÈÎ_»åó?7´Ê³pÏ‡¿dúğ·QWæôà…qä72°â\ŠLNÊ¬Ù–Cò_&‚7Ä®›2)”#iy7¦áÔ™(Rïï>ûì³?›÷zo^¿~}­ŸEÿƒüà7çuÁgRşcpĞÔ£•ı8qlÅyãÌÚ%ïÌ§f]ÿâ‚¼;o°½½íxC†9.û¡cµ½EÁ;ÉòÇŠh‡8uçÄ.¦ÿÿ×sÏ=÷9ô{æœŒ¶6á]>ïCŸ?räÈ½ÿ£C]Twh³Øy‡¶iz3,awV¾/Îªùƒ…“İGqæÜ³[ï­„şçÎ‰Ç7cï+òJã‰¡“R2!”… u%õLxrŞ«¿&Ï¾tşùçÿxîûşsá…şXÊº&“Ùkæ€á”rºº´,+XÙ™“0sœ=Í¯áñÚ`ê¶Ûn;˜Ó”óL©‡@Ú¬8”ÓN;­|nƒ6¨§¤ñÔ'~ZN¥Ş¿|ùò_£/³i€!%œz«Z3VY¸³¨Jş¯åõÎöVyÆõy?ê¥CïÅ!ÕÁñ~sßË ©œN2§úËRCgy^[ü¯Ø÷QlÆÖN¬&ò"äƒ-ÇÖË–-{H1œ÷|WgúÅ8÷syŞ­Ä‰¯É{òå=ı×²ÿ³Lh³ÃCâ„‹“È	AKõ8&3ì¥¾„L†èÈäø[qê×´TR‚#aÛë»×üµÔöô‘ô¹rD÷´éB ²–ºö¨ôÄäç§$˜šºøâ‹O^½zõÒï¯É	Øóà˜>2uÖYg•?´BXÍ9%Ã<ÿ‘'›²M;üí<ÉŒn“€½MP£šlóæÍ¯Ìñû—«ÆÎ7»Õò«P\c½²CAœÙ78QhÇ>êƒ6“B™¸FâlËD×„'gòyøyç÷Î8Ò›sLøù8æ_c~zv~Ä#q:yfK §%İ#³xZvûoÌdö¹LD³@¸2å>téÒ¥‹sRmÉWlÇAsßLp$Ø{Êéù¢wj÷îİÿ÷Ö[oıÕfy}Ö;úíÅBŒöJÿ83Îé_²ğû—´÷Ò7¾xÑE}9m~ÒxÍı%—\ò•¹:!rÍLÈõÕy
+sõÃşğ«“tW¥ï}1z7ônùà4ĞÿÃå;ô =/õøÕuëÖıïğÚ™×YïÉô"ú/Ù™gQæ–Ä—Ïí´²’tô÷Œ§C÷Ğ*½Ï›˜ß¡7ÏçÓÑ!phïŞ½/È*ø.\eÙ=Æ•#Æa¬FİîˆÏÈ
+ÿ˜o¾›ËÖLÇEWIŞÉ—ú² ÁyRïLØÅ¹g×şØ¼§~mœéd§ñ¯y¾'»³»3!ïºì²Ë6%¼-NşÎ8ì½a÷…¤ù£\ÿr&¯ÇepJìCO9")&¦è(
+Bş×Dì   IDATÄqÆÍŠÀ™D_9Eàzn¿ıö±óÜ‰Ì¹»†ñØ×µœ† ,øP’-> wYÚù;Ö¬Ysyƒv½,GòD¯¹c{ÄŒ<<!ò°™ë‡§mıO>Ò=råÊ•N¿9™²FEb/í§Ó§ß³dÉ’ÿ–qğä,<Ï¤ıS¿²¥.Œµ<‡ßTæ›ßL#á3•1ÿé,b¿Ñ,­ÏZĞ¡·f4ò)²òı×˜72p2ËÊ™g2¬•Û´iÓ—c÷ÏÇ¾¦ˆ„İAÒ”:V‡Xââ°Ëë&œe&¥ò•²ÔŸ4ìÏ„µ(ºNÊõÉ™¨Wäèu]&s¾ñê´LZ™£OZœçåËÈËä?t èO©ä-x%J9•=ó…ØÃÄHzÂ}ûöİ•Ç³²;ß9_ŸsQ°Ğu¡
+éğ§]Óş¥ßs§Mz‘,Ë‚’¾ƒÊJ8”,æk‹Ø~$c`ÑÙgŸ]ÆRÛe!KúÔ¥ğ¢^Œµôİ’&éKHšf’1ÆÉŸnÿoÍÒù¬=åĞÛ³ÎT}#Õï›ó>ö˜¨˜´XA3èfÀ EˆÇQ.”lÛ¶í#±ó5,D2©” ¶1ñ"8Q&âxØÜxO^Ò’gÔ?;2ÉG>ÒpÍ3®Ş£Ÿ8ò!Ä“¾Ê£,òR<qĞ8âHÏsâxNyÑKÈsâ™ gôß“£ûŸ‰3ÿ4º‡Kî+'Ô§»¨ÒI^ÒÂ–üíÚI›¾²‘ü´
+ñ´
+ñÍ„¼Í„¾†-´5z¢ÿşÜ”Cì=Â)F®Ë‡8S£<õ)}ƒ8W÷p©®©;#ÄÑç[äÉ"àƒy58ğ¿Q€}ã&:ôqkÑ&õÉày~vû"e÷˜û£©pÜ"\3ğRn¹å–·e7üzœ"lÉP¹Ù
+W¶V!Ï¹fB&ä~!†ìB°‡kla×Æ„†ã§NHÎ¢ëùqæJš!“é©)?'Öm›Ğî
+–£õ‡n¶oßÎ)N½c,hÈÄ"	ÎÜƒc_±b;s^5íØ»wïkI£ôNà„ŞU¡Mš“ÀÎ;oÈ‘î«ò°üZXÂòS9¾*,‘ùI(Á‚ÿlİºõ×âĞß’İz9ÆËûÍ²;`r¨Œ›m+÷Hõ|¡Bld×‚OÊî&»ğ)'¹ç:á¡¼7ÿ…8ó-”­ÊMßÀî¤¶Ø1J³Há8JvÇVz‚ÎX¬âÀ³`-}‡{{¯å3'Ùõ¿>ãzWçšÍ1ú\TÆ8.Çî¿§şgT‘AF˜I¦™fâ&jè„oæ‹m?ÃîÍŠş¨½¹Ÿó‡º°+˜óá #9EˆÃ.ŸüåCØÅÎ<“X±"6îßµk×OÅ¡¿¯DçÓ‹{ß Ê‘uµ“¬;í^IÚP,úU-˜"ë£ï§¾åD
+G^9wN©âÔ?š×jïíX©æ% CŸÍ¼Fş6ËÊx©&™8–£N2“GC'7ÜpÃ{³yr"»q”¼k4»ó¬ì¸FŸ/Ä5ö0©a+»q#\3¡er»%§&ß—EÖÿ^ÛÚ/sUĞâÈTa[å¾•-#vå¸~ÅfæŠF;Úiú:¯öxí”ş^>LÇ‡GsbõW7nüÏú¼î€½w†#§!»Ã]qê/Ê =ŒÃ©*ûê²„íØ’ğÿÊ¤ÿÀmÿ¯vìØñ‰,F¾3ïõ>£¤ìfAR	qÃ"ØÈâ–7òº ößŸ]ùÿŠsÿÎ8ôZÿXO?8¬\ydzÑ"¾[¦óæ¥mflè<óLÆqhÿ)ÎqëÔUûQgêš9§,ï½÷^œúße¬şdâ»>ÊO^æ  CŸÊ‚F
+¨ğì
+ÿ2G^ïcÕŒ0ğªøÆë*nXÂ¼S¿1rEv¼¯ˆÃ¼“ öâ<2Q”O°s=öò®|ÿşıåİ?6f!µ+ı¹[¶lù‰´ÁíÃ`ã€lèÊ!È¶CûGîOŸ5§ŞuÛ1qâ¼nâ:‹ØOdüø×¿şõC>a…èĞ'¬ÁgU÷•™`¾Á.=á¬GÃ»iÓ¦·Ç9>öî»ïşx&É{X˜P—FYèZğ¡8væ9z<”×˜EÈåqæÿs¡íê¤üğœ5¡w¶±šY\ÍÒÑ‰£–±Õ £æÌ+ø]ÙÍb›_#¿+òªôıŸÓµ»*¥†ı% Cï/Ïa×vŒ}¬ìŸ—È{˜tYIçº¼Kç,™È¹m*äCH›<]
+ú¦´x¸yóæ¯İtÓMOŒ£üÁ8ÏOåİÜ½|ªœİ GZ~=5|8§ÏäÊ5“
+ñs	uš-UºÆxtqOY„èGĞÏ,4î‹üuXWŞ>#áæJÏ¨„©Û‘éÃ‹P¯´qùrÂ©©ÖÆ¤…Å êK{§Ş$XøŸ°+¼ô	úËÂ[Õ¹±ı~ÚûiOêCGã­º&ä¾zN˜±ù•,¼ŸøÛH¯ÔG@‡^Û‘ĞóÙ¼Ï}»H,ƒ‘A[MÄ\7p%q¦­gøš¨dåÿO7ŞxãdâxÒ={>–ğ õ‰3-¿"–	i*Kùı{®ó¼ü
+Ù|uc"š-¤Å|ÂJ¨;åTİÄEÿşÄÿ~Êÿşë¯¿şIaüEò¢¤>8ó2¡ã øLÀŞ½»ËÂ¯U}èWaÁ¯(
+d±—Eİ‘´Ešç[Åå¢¼»/le«çóé­âÓş¥Ï±Ğ€CøMÃ¤•Ş!{~$ïÀïO?(uan Ÿ2FÂ»|é6s~_~«ãÎ;ïÜ’9á—Óÿ“yfè?+‚ı£.:ôQoÁ>Øûí·¿>ïs?Ç e"bà"\7/ƒš´‡^0‡^aˆcÿdvíOË{º
+»wï~I&¢/g’9ÄdŠ#ÊõTè‹3gñ’	¶¼sŸ/¬ê^=ç¾*‹:Sw&hG/ß›ÿo9õxa&°õ™È~ú–[nù§*ı(‡Ó'p˜şƒ‚%ß“jU'x³£‹£Hß˜±©8ÚŠvi&¤éEšéæu§Ÿ1NøÍÊJŸl…mØ³::[ú{úyùzc>¹Nİèÿ´3ÏSG¾Qî+YT?;ì‹"oJeîø3 :ô@…"2Éü\ê&“w+ÛIÏ &Od “v+›xÊí;vìxg¹Â%©ßÏf‡ş‘Ôq[ì¼›É6»‡9woä¯„ú!Õ}ò–İtäîLdÛónœ¯¨}Vv,§¼ïÈ¢â]‰ÛWåõpçÎGÂ®üFÄ½÷ŞÃ§”K•WÂfÿÁ	·ûš¥ë×³´G9â¦}SæœíÛƒêEuÍw>W˜fQ4ô«¾Ò3ºa¼ ,æhÓ,ÒÊ)Mœ÷İqî×d}åÖ­[$Nü²Œ>'26ƒ‘(F‡>ÍT¿‘”_ËÎ’o+Ûç·7×û2ÑíÏ¤˜	÷%ÜÛ({söšãd~
+îÖ, şO–v­:Nvc&˜ßËù™™lÖÆÙ>8§?˜:òWè~3õıËÈ§S¯/F®Ü¹#²3rS]•ğ3YüU®¯ŒüBN ~8Ú¥×]wİyy‡ÿÌ”ñ¡„åwû»6tx3ŞwäÈÉ×ßzëmÿ/&ŞS÷;² Ù&fä™°ñş¤;V»“ö’·öŸ8ô¯§}ş)}rOÌ®\ïGö$~÷B|·r\Yq€{Ã%]nß¾\ï»ùæ›oM™ìxkgÑÇ¦ÃõPæƒM©Ãç³Pş«„J¥~ã¶Ûn{j®Ïÿâ¿øˆŒg\}¢åªªC:ôsòÆßÏ`=?syŠ—ÅY-Í„,™	—%\Ş(q”+³*_µiÓ¦s2¾uøä8|Käï¶mÛö¾Ôóå‘§D®H½¾=rIóÙ‘³"«#'îQ	¿'‹''İ‹S×w§ŞŸÌõ¦Q¨ol¼çàÁ[wß~ûïMŸ8ı†n8óúëo<ë†nZ.Kf^Õ5!÷IsÃ™áµ2¯AøÊá>˜Ò\E˜ûÓ‡¿?í³"í»*mD_KVäÙÊôõÙ²"qmKt §’ãÊÉ"ryô1nŠd¹6ıºæµº§‡³àåµ×^»>mı¸Œ'§<+ãş—ÂúÏrïW·I“éĞ‡¤!4c	X|+Có:¥•¡>ï;Ú~ÔNúaêĞG¡•´Q€$Ğ‚€½ K T!	H v:ôÚ[€$ 	H ~:ôú[‚ê% v	H@! C$ 	H@£N@‡>ê-¨ı¨—€Ú% ! C‘†ÒL	H@@3:ôft|&	ÔK@í@ßèĞû†RE€$ …# C_8ö–,	ÔK@í˜(:ô‰jn++	H@ãJ@‡>®-k½$ z	¨]CF@‡>d
+¢9€$ nèĞ»¡f	H@õP»:& Cï™$ 	H@ÃG@‡>|m¢E€ê% ö±$ CËfµR€$0itè“ÖâÖW@½Ô¾@tèŞb% 	H@ı$ Cï'MuI@@½Ô>/ú¼h| 	H@:ôÑi+-•€$ z	Œ´vúH7ŸÆK@€¾E@‡ş-ş/	H@¨—@ÍÚuè5V½$ 	H`tèƒ l€$ z	LéĞk¬z	H@À èĞAÙ2$ 	H@5¨Õ¡×l»ê% 	H@˜! CŸa 	H@e#ìĞG»¶K@€úK@‡Ş_j“€$ 	,ú<Ø–€$ 	Œú(µ–¶J@€æ! CŸL½Ñj—€$ 	ô—€½¿<Õ&	H@X:ôÁ^o¡j—€$ É# CŸ¼6·Æ€$0†tècØ¨õVIí€$0ŒtèÃØ*Ú$	H@è€½C`&¯—€Ú% 	H ;:ôî¸™K€$0TtèCÕS/µK@_:ôñm[k&	H@D@‡>AmUë% v	H@I@‡¾ô-[€$Ğ':ô>Tê% v	H@Í	èĞ›óñ©$ 	H`$èĞG¢™4RõP»$0útè£ß†Ö@€$0¥C·H@5P½$0:ôAP¶	H@@Ítè5V½$P/µK@ß" Cÿÿ—€$ 	Œ4úH7ŸÆK@õP»F‡€}tÚJK% 	H@óĞ¡Ï‹Æ€ê% v	ô“€½Ÿ4Õ%	H@X :ôo±€ê% öI# CŸ´·¾€$0–tècÙ¬VJ‹6N¬  
+IDAT@½Ô>|tèÃ×&Z$	H@è˜€½cdf€$ z	¨½:ôn¨™G€$0dtèCÖ š#	H@õWí:ôqmYë%	H@E@‡>QÍme% 	H ^§]‡¾pì-Y€$Ğ7:ô¾¡T‘$ 	H ^Í´ëĞ›Ññ™$ 	H`DèĞG¤¡4S€$ĞŒ@ï½™vŸI@€$0:ô`¶	H@@½†İ¡×[{µK@€Æ„€}LÒjH@Àd˜l‡>Ùmoí% 	H`ŒèĞÇ¨1­Š$ 	L.z}m¯f	H@ÀÀèĞ†Ú‚$ 	H@õĞ¡×Ç¶^Íj—€$ 	4Ğ¡7ÀğR€$0ªtè£ÚrõÚ­v	H@1:ôk0Í•€$ 	ÌE@‡>ãê% v	H@è;zß‘ªP€$0x:ôÁ3·Äz	¨]ÀDĞ¡Od³[i	H@7:ôqkQëS/µK@R:ô!mÍ’€$ 	tB@‡Ş	-ÓJ ^j—€$Ğ5z×èÌ(	H@:ôái-‘@½Ô.	Œ5úX7¯•“€$ I! CŸ”–¶¨—€Ú% & C_à°x	H@@?èĞûAQ@½Ô.	´$ Co‰È€$ á' Cş6ÒB	H ^j—ÀXĞ¡E3Z		H@˜t:ôIïÖ_¨—€Ú%0 :ô¶	H@@tèuÒU·$ z	¨]G	èĞ¢ğB€$0ºtè£ÛvZ.	H ^j):ô‘j.•€$ 	ÌM@‡>7c% 	H ^jï3zŸªN€$°tèAİ2% 	H ^¨]‡>n•% 	H`üèĞÇ¯M­‘$ 	ÔK`(µëĞ‡²Y4J€$Ğzg¼L-	H@¨—@—Úuè]‚3›$ 	H`˜èĞ‡©5´E€$Ğ%6z—ÚÍ&	H@À@èĞ‚ÙB$ 	H@õ
+‡^oÕ.	H@:ôñock(	H@@`ú´¢U”€$ ‰' CŸø.  	H@:ô[Ñì€$ a  C†VĞ	H@@tè=¬7»Ú% 	H@íĞ¡·ÇÉT€$ ¡& Cêæ©×8µK@ÀøĞ¡O[Z	H@˜`:ô	nüz«®v	H@$ú i[–$ 	H &:ôšÀª¶^j—€$ c	èĞåá$ 	H`$	èĞG²Ù4º^j—€$0ztè£×fZ,	H@8€ı8$FH ^j—€$PzTÕ)	H@0ú€[œê% v	H`R	èĞ'µå­·$ 	ŒúX5§•‘@½Ô.	/úğ¶–I@€Ú& Co•	% z	¨]è…€½zæ•€$ 		ú4„fH@õP»Æ€}Ü[ØúI@ÀDĞ¡OD3[I	H ^j—ÀÂĞ¡/|h$ 	H g:ôª@@½Ô.vèĞÛ¡d	H@ÀĞ¡yi$ z	¨}\èĞÇ¥%­‡$ 	L4úD7¿•—€$P/µ€}p¬-I€$PzmhU,	H@õP{#z#
+¯% 	H@#J@‡>¢
+§Ù€$P/QÓ®CµÓ^	H@Àtès@1J€$P/şk×¡÷Ÿ©% 	H@' C8r”€$ 	ôŸ@£Cï¿v5J@€$0:ô`¶	H@@½çĞë­‡Ú% 	H@M@‡>ÑÍoå% 	H`\Œ‹C—ö°€$ ®èĞ»Âf&	H@ÀpĞ¡·Ó¦‘€$ 	9ú7æI@€Ú! Co‡R½iÔ.	H@è™€½g„*€$ 	,<úÂ·A½¨]€&‚€}"šÙJJ@À¸Ğ¡{×[?µK@ÀĞ¡ICh†$ 	H :ô^è™·^j—€$ ¶	èĞÛFeB	H@ÀğĞ¡oÛhY½Ô.	H`¬èĞÇª9­Œ$ 	L*ú¤¶¼õ®—€Ú% 	˜€}ÀÀ-N€$PzTÕ)z	¨]ÀqtèÇ!1B€$0ztè£×fZ,z	¨]I:ô‘l6–€$ 	K@‡~,ï$ z	¨]¨‰€½&°ª•€$ 	’€}´-K¨—€Ú%0ÁtèÜøV]€Æ‡€}|ÚÒšH@õP»†š€}¨›Gã$ 	H@íĞ¡·ÇÉT€ê% v	ôH@‡Ş#@³K@€†€}ZA$ 	ÔK@í@@‡>l% 	H`ü	èĞÇ¿­¡$ z	¨}(èĞ‡¢4B€$ĞzoüÌ-	H@õP{›tèm‚2™$ 	H`˜	èĞ‡¹u´M€ê%0FÚuècÔ˜VE€&—€}rÛŞšK@@½ª]‡>PÜ&	H@¨‡€½®j•€$ 	ÔK`–vú, ŞJ@€F‘€}[M›% 	H@³ôÙ¡ÏÒî­$ 	H@! Cf‘€$ 	ÔK`¤z½(Ô.	H@]:ôÑm;-—€$ 	% C?ŠÂ	H@ÀèĞ¡nÛi¹$ 	Hà(úQõ^¨]€$P'ztÕ-	H@ú€@×[ŒÚ% 	H`Ò	èĞ'½X	H@:ô±hÆz+¡v	H@~:ôáo#-”€$ 	´$ Co‰ÈõP»$ 	ôƒ€½Õ!	H@X`:ôn ‹¯—€Ú% 	L
+ú¤´´õ”€$ ±& CëæµrõP»$ á! C¶Ğ	H@@×tè]£3£ê% v	H@øÿ   ÿÿcÇ    IDAT bËZ¹H^“±    IEND®B`‚
+
+
+===== C:\DEV\my project\assets\js\api\auth.js =====
+import { apiUrl } from './config.js';
+import { showNotification } from '../ui/notification.js';
+import { handlesUserUI } from '../ui/userUi.js';
+import { saveToLocalStorage } from '../utils/storage.js';
+import { closeAllModals } from '../ui/modals.js';
+
+export async function login(username, password) {
+    let loggedInUser = null;
+    try {
+        const response = await fetch(`${apiUrl}login`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username, password })
+        });
+
+        const result = await response.json();
+
+        if (result && result.success) {
+            loggedInUser = {
+                username: result.userInfo.username,
+                image: result.userInfo.image,
+                token: result.token,
+                userId: result.userInfo.id
+            };
+            saveToLocalStorage('loggedInUser', loggedInUser);
+            saveToLocalStorage('userToken', result.token);
+
+            handlesUserUI(loggedInUser);
+            showNotification("success", "Login successful");
+        } else {
+            showNotification("error", "Invalid credentials");
+        }
+    } catch (error) {
+        console.error("Error during login:", error);
+        showNotification("error", error.error || "An error occurred during login");
+    }
+    closeAllModals();
+}
+
+export async function register(formDataPayload) {
+    try {
+        const response = await fetch(`${apiUrl}register`, {
+            method: 'POST',
+            body: formDataPayload 
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            return data; 
+        } else {
+            console.error('Server registration error payload:', data);
+            return data;
+        }
+    } catch (error) {
+        return error;
+    }
+}
+
+
+===== C:\DEV\my project\assets\js\api\config.js =====
+export const apiUrl = 'http://localhost:5000/';
+
+
+===== C:\DEV\my project\assets\js\api\errorHandlers.js =====
+import { showNotification } from "../ui/notification.js";
+import { logout } from "../auth/logout.js";
+
+export function handleApiError(error) {
+    console.log('API Error:', error);
+    if (error.code === "TOKEN EXPIRED") {
+        console.warn("sssss")
+        showNotification("error", "Your session has expired. Please log in again.");
+        logout();
+    } else if (error.code === "INVALID TOKEN") {
+        showNotification("error", "Invalid session. Please log in again.");
+        logout();
+    } else {
+        showNotification("error", error.error || "An unexpected error occurred");
+    }
+}
+
+
+===== C:\DEV\my project\assets\js\api\notes.js =====
+import { createNotes } from "../ui/notesUi.js";
+import { showNotification } from "../ui/notification.js";
+import { apiUrl } from "./config.js";
+import { handleApiError } from "./errorHandlers.js";
+
+// load all notes
+export async function getNotesForUser(token) { 
+    try {
+        const response = await fetch(`${apiUrl}notes/all`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw errorData;
+        }
+        const notes = await response.json();
+        console.log('Fetched notes:', notes);
+        createNotes(notes);
+
+    } catch (error) {
+        handleApiError(error);
+    }
+}
+
+// add note
+export async function sendNoteToBackend(note, token) {
+    await fetch(`${apiUrl}notes`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(note)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Note saved successfully:', data);
+        showNotification("success", "Note saved successfully");
+    })
+    .catch(error => {
+        handleApiError(error);
+    });
+}
+
+// delete note
+export function deleteNote(noteId, token) {
+    fetch(`${apiUrl}delete/note/${noteId}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+    })
+    .then(response => {
+        if (!response.ok) {
+            console.error(`Failed to delete note with id ${noteId}. Status: ${response.status}`);
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.success) {
+            showNotification("success", "Note deleted successfully");
+            console.log(`Note with id ${noteId} deleted successfully.`, data);
+            getNotesForUser(token);
+        } else {
+            showNotification("error", data.error || "Failed to delete note");
+        }
+    })
+    .catch(error => {
+        console.error('Error deleting note:', error);
+        showNotification("error", error.message || "An error occurred while deleting the note");
+    });
+}
+
+
+===== C:\DEV\my project\assets\js\auth\login.js =====
+import { login } from "../api/auth.js"
+import { showNotification } from "../ui/notification.js";
+import { showModal,closeModal } from "../ui/modals.js";
+import { handlesUserUI } from "../ui/userUi.js";
+
+export function loginUser() {
+    const loginCard = document.getElementById("login-card");
+    const submitLoginBtn = document.getElementById("submit-login");
+    const loginUsernameInput = document.getElementById("login-username");
+    const loginPasswordInput = document.getElementById("login-password");
+    
+    showModal(loginCard);
+    submitLoginBtn.addEventListener("click", async () => {
+        let username = loginUsernameInput.value.trim();
+        let password = loginPasswordInput.value.trim();
+        if (username === "" || password === "") {
+            showNotification("error", "All fields are required");
+            return;
+        } else {
+            await login(username, password);
+        }
+        closeModal(loginCard);
+        loginUsernameInput.value = "";
+        loginPasswordInput.value = "";
+    });
+}
+
+
+===== C:\DEV\my project\assets\js\auth\logout.js =====
+import {saveToLocalStorage} from "../utils/storage.js";
+import {showNotification} from "../ui/notification.js";
+import {handlesUserUI} from "../ui/userUi.js";
+export function logout() {
+    localStorage.removeItem('user');
+    localStorage.removeItem('userToken');
+    saveToLocalStorage("loggedInUser", null);
+    handlesUserUI();
+    showNotification("success", "Logged out successfully");
+}
+
+
+===== C:\DEV\my project\assets\js\auth\signup.js =====
+import { register } from "../api/auth.js";
+import { showNotification } from "../ui/notification.js";
+import { handlesUserUI } from "../ui/userUi.js";
+import { showModal, closeModal } from "../ui/modals.js";
+import { saveToLocalStorage } from "../utils/storage.js";
+export function signUp() {
+    const signUpUsernameInput = document.getElementById("signUp-username");
+    const signUpPasswordInput = document.getElementById("signUp-password");
+    const signUpImageinput = document.getElementById("signUp-profile-picture");
+    const signUpCard = document.getElementById("signUp-card");
+    const submitsignUpBtn = document.getElementById("submit-signUp");
+    let loggedInUser = null;
+    console.log("Sign Up function called");
+    console.log("Sign Up Card:", signUpCard);
+    showModal(signUpCard);
+    submitsignUpBtn.addEventListener("click", async () => {
+        let password = signUpPasswordInput.value.trim();
+        let username = signUpUsernameInput.value.trim();
+        let image = signUpImageinput.files[0];
+        
+        if (username === "" || password === "" || !image) {
+            console.log("Missing fields:", { username, password, image });
+            showNotification("error", "All fields are required");
+            return;
+        } else {
+            let formData = new FormData();
+            formData.append('username', username);
+            formData.append('password', password);
+            formData.append('image', image);
+
+            const result = await register(formData);
+            
+            if (result && result.success) {
+                loggedInUser = {
+                    username: result.userInfo.username,
+                    image: result.userInfo.image,
+                    token: result.token,
+                    userId: result.userInfo.id
+                };
+                
+                console.log("Logged In Successfully:", loggedInUser);
+                saveToLocalStorage("loggedInUser", loggedInUser);
+                saveToLocalStorage("userToken", loggedInUser.token);
+                handlesUserUI();
+                showNotification("success", "Sign up successful");
+                signUpCard.classList.remove("active");
+                overlay.classList.remove("active");
+            } else {
+                showNotification("error", result ? result.message || "Sign up failed" : "An error occurred during sign up");
+            }
+        }
+        closeModal(signUpCard);
+        signUpUsernameInput.value = "";
+        signUpPasswordInput.value = "";
+        signUpImageinput.value = "";
+    });
+}
+
+
+
+
+
+===== C:\DEV\my project\assets\js\ui\modals.js =====
+// --- FILE: C:\DEV\my project\assets\js\ui\modals.js ---
+const overlay = document.querySelector('#overlay');
+
+/**
+ * Closes all open popups/modals except the optional exception modal
+ */
+export function closeAllModals(exceptionModal = null) {
+    // Dynamically grab anything that could act as an active popup container
+    const activePopups = document.querySelectorAll('.modal.active, .settings-dropdown.active, .search-bar.active');
+    
+    activePopups.forEach(popup => {
+        if (popup !== exceptionModal) {
+            popup.classList.remove('active');
+        }
+    });
+    
+    if (!exceptionModal && overlay) {
+        overlay.classList.remove('active');
+    }
+}
+
+
+export function showModal(modal) {
+    if (!modal) return;
+    console.log("Showing modal:", modal);
+    closeAllModals(modal);
+    
+    
+    if (overlay) overlay.classList.add("active");
+    modal.classList.add("active");
+}
+
+export function closeModal(modal) {
+    if (modal) modal.classList.remove("active");
+    if (overlay) overlay.classList.remove("active");
+}
+
+
+===== C:\DEV\my project\assets\js\ui\notesUI.js =====
+import { closeModal, showModal } from "./modals.js";
+import { sendNoteToBackend, getNotesForUser } from "../api/notes.js";
+import {timeAgo} from "../utils/time.js";
+import { deleteNote } from "../api/notes.js";
+import { getFromLocalStorage } from "../utils/storage.js";
+import { showNotification } from "./notification.js";
+const addNoteBtn = document.getElementById("addNoteBtn");
+export function createNotes(notes) {
+    const notesContainer = document.querySelector(".notes-content");
+    notesContainer.innerHTML = ""; 
+    let isPinnedNotes = notes.filter(note => note.isPinned);
+    
+    if (isPinnedNotes.length > 0) {
+        const divider = document.createElement("div");
+        divider.classList.add("grid-separator");
+        divider.innerHTML = `<span>Pinned</span><hr>`;
+        notesContainer.appendChild(divider);
+               
+        isPinnedNotes.forEach(note => {
+            const noteElement = document.createElement("div");
+            noteElement.id = `${note.id}`;
+            noteElement.classList.add("note");
+            noteElement.innerHTML = `
+            <h2>${note.title}</h2>
+            <p class="content">${note.content}</p>
+            <ul class="categories">
+                ${note.tags.map(tag => `<li class="note-cat">${tag}</li>`).join('')}
+            </ul>
+            <div class="buttons">
+                <button class="edit-btn">Edit</button>
+                <button class="delete-btn">Delete</button>
+            </div>
+            <div class="time-line">
+                <p class="created">Created: ${timeAgo(note.createdAt)}</p>
+                <span class="updated">Updated: ${timeAgo(note.updatedAt)}</span>
+            </div>`;
+            notesContainer.appendChild(noteElement);
+        });
+    }
+    
+    if (isPinnedNotes.length > 0 && notes.length - isPinnedNotes.length > 0) {
+        const divider = document.createElement("div");
+        divider.classList.add("grid-separator");
+        divider.innerHTML = `<span>Others</span><hr>`;
+        notesContainer.appendChild(divider);
+    }
+    
+    notes.forEach(note => {
+        const noteElement = document.createElement("div");
+        noteElement.id = `${note.id}`;
+        if (!note.isPinned) {
+            noteElement.classList.add("note");
+            noteElement.innerHTML = `
+            <h2>${note.title}</h2>
+            <p class="content">${note.content}</p>
+            <ul class="categories">
+                ${note.tags.map(tag => `<li class="note-cat">${tag}</li>`).join('')}
+            </ul>
+            <div class="buttons">
+                <button class="edit-btn">Edit</button>
+                <button class="delete-btn">Delete</button>
+            </div>
+            <div class="time-line">
+                <p class="created">Created: ${timeAgo(note.createdAt)}</p>
+                <span class="updated">Updated: ${timeAgo(note.updatedAt)}</span>
+            </div>`;
+            notesContainer.appendChild(noteElement);
+            
+
+        }
+
+});  
+        let loggedInUser = getFromLocalStorage("loggedInUser")
+        let deleteBtns = document.querySelectorAll(`.notes-content .delete-btn`);
+            deleteBtns.forEach(btn => {
+                btn.addEventListener("click", () => {
+                    const noteId = btn.parentElement.parentElement.id;
+                    console.log( noteId);
+                    deleteNote(noteId, loggedInUser.token);
+                })});
+}
+
+export function triggerAddNoteModal() {
+    addNoteBtn.addEventListener("click", () => {
+        let tags = [];
+        closeModal(document.querySelector(".modal.active"));
+        const addnoteCard = document.getElementById("add-note-card");
+        showModal(addnoteCard);
+        const submitNoteBtn = document.getElementById("save-note-btn");
+        const noteTitleInput = document.getElementById("note-title");
+        const noteContentInput = document.getElementById("note-content");
+        const noteTagsInput = document.querySelector("#add-note-card .add-tag input");
+        const notePinnedInput = document.getElementById("pinNote");
+        const tagsSubmitbtn = document.getElementById("add-tag-btn");
+        const tagsContainer = document.querySelector("#add-note-card .tags");
+
+        noteTitleInput.value = "";
+        noteContentInput.value = "";
+        notePinnedInput.checked = false;
+        noteTagsInput.value = "";
+        tagsContainer.innerHTML = "";
+
+        tagsSubmitbtn.onclick = () => {
+            const newTags = noteTagsInput.value
+                .split(",")
+                .map(tag => tag.trim())
+                .filter(Boolean);
+
+            newTags.forEach(tag => {
+                if (tags.includes(tag)) return;
+
+                tags.push(tag);
+
+                const tagElement = document.createElement("div");
+                tagElement.classList.add("tag");
+
+                const tagText = document.createElement("span");
+                tagText.textContent = tag;
+
+                const delBtn = document.createElement("button");
+                delBtn.textContent = "x";
+                delBtn.classList.add("delete-tag-btn");
+
+                delBtn.onclick = () => {
+                    tags = tags.filter(t => t !== tag);
+                    tagElement.remove();
+                };
+
+                tagElement.appendChild(tagText);
+                tagElement.appendChild(delBtn);
+                tagsContainer.appendChild(tagElement);
+            });
+
+            noteTagsInput.value = "";
+        };
+
+        submitNoteBtn.onclick = async () => {
+            const token = localStorage.getItem("userToken");
+            const now = new Date().toISOString();
+            const newNote = {
+                title: noteTitleInput.value.trim(),
+                content: noteContentInput.value.trim(),
+                isPinned: notePinnedInput.checked,
+                tags,
+                createdAt: now,
+                updatedAt: now
+            };
+
+            if (!newNote.title || !newNote.content) {
+                showNotification("error", "Title and content cannot be empty.");
+                return;
+            }
+
+            closeModal(addnoteCard);
+
+            try {
+                await sendNoteToBackend(newNote, token);
+                await getNotesForUser(token);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+    });
+}
+
+
+===== C:\DEV\my project\assets\js\ui\notification.js =====
+const MAX_VISIBLE = 3;
+
+let activeNotifications = [];
+let queue = [];
+
+export function showNotification(type, messageText) {
+    const notification = { type, messageText };
+
+    // If space available â†’ show immediately
+    if (activeNotifications.length < MAX_VISIBLE) {
+        renderNotification(notification);
+    } else {
+        queue.push(notification);
+    }
+}
+
+function renderNotification({ type, messageText }) {
+    const messagesContainer = document.querySelector(".notification-container");
+
+    const box = document.createElement("div");
+    box.className = `message-display  ${type}`;
+
+    const id = crypto.randomUUID();
+    box.dataset.id = id;
+
+    box.innerHTML = `
+        <button class="close-message">x</button>
+        <div class="message-content">
+            <h3 class="title">${type.charAt(0).toUpperCase() + type.slice(1)}</h3>
+            <span class="message-text">${messageText}</span>
+        </div>
+    `;
+    
+    // track active
+    activeNotifications.push({ id, element: box });
+    killNotificationAfterDelay(id, 5000); //
+    // close button
+    box.querySelector(".close-message").addEventListener("click", () => {
+        removeNotification(id);
+    });
+
+    messagesContainer.appendChild(box);
+}
+
+export function removeNotification(id) {
+    const messagesContainer = document.querySelector(".notification-container");
+
+    // remove from active list + DOM
+    activeNotifications = activeNotifications.filter(n => {
+        if (n.id === id) {
+            n.element.remove();
+            return false;
+        }
+        return true;
+    });
+
+    // fill slot from queue
+    if (queue.length > 0 && activeNotifications.length < MAX_VISIBLE) {
+        const next = queue.shift();
+        renderNotification(next);
+    }
+}
+
+export function killNotificationAfterDelay(id, delay) {
+    setTimeout(() => {
+        const notification = activeNotifications.find(n => n.id === id);
+
+        if (!notification) return;
+
+        notification.element.style.animation = "fadeOut 500ms forwards";
+
+        notification.element.addEventListener(
+            "animationend",
+            () => {
+                removeNotification(id);
+            },
+            { once: true }
+        );
+    }, delay);
+}
+
+
+===== C:\DEV\my project\assets\js\ui\sittings.js =====
+import {getFromLocalStorage, saveToLocalStorage} from '../utils/storage.js';
+import {showNotification} from './notification.js';
+import {applyTheme} from './theme.js';
+import {handlesUserUI} from './userUi.js';
+export function loadSittings() {
+    const savedSittings = getFromLocalStorage('sittings');
+    if (savedSittings) {
+        
+        applyTheme(savedSittings.darkMode);
+    }
+    
+    const savedUser = getFromLocalStorage('loggedInUser');
+        // fix  below for later
+        console.log(savedUser);
+        handlesUserUI(savedUser);
+}
+
+
+===== C:\DEV\my project\assets\js\ui\theme.js =====
+const rootStyles = getComputedStyle(document.documentElement);
+const primaryColor = rootStyles.getPropertyValue('--primary-color');
+const secondaryColor = rootStyles.getPropertyValue('--secondary-color');
+export function applyTheme(isDark) {
+    if (isDark) {
+        if (darkModeToggle) darkModeToggle.checked = true;
+        document.documentElement.style.setProperty('--secondary-color', '#0d1117');     
+        document.documentElement.style.setProperty('--primary-color', '#161b22');   
+        document.documentElement.style.setProperty('--third-color', '#30363d');      
+        document.documentElement.style.setProperty('--font-color', '#e6edf3');        
+    } else {
+        if (darkModeToggle) darkModeToggle.checked = false;
+        document.documentElement.style.setProperty('--primary-color', primaryColor);
+        document.documentElement.style.setProperty('--secondary-color', secondaryColor);
+        document.documentElement.style.setProperty('--font-color', '#333');
+        document.documentElement.style.setProperty('--third-color', '#ccc');
+    }
+}
+
+
+===== C:\DEV\my project\assets\js\ui\userUi.js =====
+/* --- FILE: assets/js/ui/userUi.js --- */
+
+import { getFromLocalStorage, saveToLocalStorage } from "../utils/storage.js";
+import { getNotesForUser } from "../api/notes.js";
+import { signUp } from "../auth/signUp.js";
+import { showModal, closeAllModals } from "./modals.js";
+import { showNotification } from "./notification.js";
+import { loginUser } from "../auth/login.js";
+import { logout } from "../auth/logout.js";
+
+const userDiv = document.querySelector('header .user');
+const usersignUpLogout = document.getElementById("user-signUp-logout");
+const notesContainer = document.querySelector(".notes-content");
+const searchBar = document.querySelector('header .search-bar');
+
+export function handlesUserUI(loggedInUser) {
+    const addNoteBtn = document.getElementById("addNoteBtn");
+    const noNotesMessage = document.querySelector(".no-notes-message");
+
+    if (!loggedInUser) {
+        notesContainer.innerHTML = '';
+        
+        // Use an assignment property to avoid duplicate click bindings
+        searchBar.onclick = () => {
+            showNotification("warning", "Please log in to search your notes.");
+            closeAllModals();
+        };
+
+        userDiv.children[0].src = "assets/images/df_user.png";
+        userDiv.children[1].textContent = "Guest";
+        noNotesMessage.style.display = "block";
+        noNotesMessage.innerHTML = "Please log in to view your notes.";
+        
+        usersignUpLogout.innerHTML = `<button id="signUp-btn">signUp</button><br><button id="login-btn">log in</button>`;
+        
+        const signUpBtn = document.getElementById("signUp-btn");
+        const loginBtn = document.getElementById("login-btn");
+        addNoteBtn.style.display = "none";
+        
+        // Use .onclick to safely overwrite previous event listeners
+        signUpBtn.onclick = () => {
+            signUp();
+        };
+        
+        loginBtn.onclick = () => {
+            loginUser();
+        };
+
+    } else {
+        noNotesMessage.style.display = "none";
+        noNotesMessage.innerHTML = "";
+        usersignUpLogout.innerHTML = `<button id="logout-btn">log out</button>`;
+        
+        const logoutBtn = document.getElementById("logout-btn");
+        logoutBtn.onclick = () => { 
+            logout();
+        };
+
+        searchBar.onclick = () => {
+            showModal(searchBar);
+        };
+        
+        addNoteBtn.style.display = "block";
+        saveToLocalStorage("loggedInUser", loggedInUser);
+        
+        if (loggedInUser.image.startsWith('assets/')) {
+            userDiv.children[0].src = loggedInUser.image;
+        } else {
+            userDiv.children[0].src = `http://localhost:5000/${loggedInUser.image}`;
+        }
+        
+        userDiv.children[1].textContent = loggedInUser.username || "User";
+        getNotesForUser(loggedInUser.token);
+    }
+}
+
+
+===== C:\DEV\my project\assets\js\utils\storage.js =====
+export function saveToLocalStorage(key, value) {
+    try {
+        localStorage.setItem(key, JSON.stringify(value));
+    } catch (error) {
+        console.error("Error saving to localStorage:", error);
+    }
+}
+
+export function getFromLocalStorage(key) {
+    try {
+        const value = localStorage.getItem(key);
+        return value ? JSON.parse(value) : null;
+    } catch (error) {
+        console.error("Error getting from localStorage:", error);
+        return null;
+    }
+}
+
+
+===== C:\DEV\my project\assets\js\utils\time.js =====
+export function timeAgo(dateString) {
+    const noteDate = new Date(dateString);
+    const now = new Date();
+    const diffInMs = now - noteDate; 
+    
+    const diffInSecs = Math.floor(diffInMs / 1000);
+    const diffInMins = Math.floor(diffInSecs / 60);
+    const diffInHours = Math.floor(diffInMins / 60);
+    const diffInDays = Math.floor(diffInHours / 24);
+
+    if (diffInSecs < 60) return "Just now";
+    if (diffInMins < 60) return `${diffInMins}m ago`;
+    if (diffInHours < 24) return `${diffInHours}h ago`;
+    if (diffInDays < 7) return `${diffInDays}d ago`;
+    
+    return noteDate.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+}   
+
+
+===== C:\DEV\my project\assets\txt\assets.txt =====
+##################
+calender svg vector :
+<svg xmlns="http://www.w3.org/2000/svg" width="800px" height="800px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M716 190.9v-67.8h-44v67.8H352v-67.8h-44v67.8H92v710h840v-710H716z m-580 44h172v69.2h44v-69.2h320v69.2h44v-69.2h172v151.3H136V234.9z m752 622H136V402.2h752v454.7z" fill="#39393A"/><path d="M319 565.7m-33 0a33 33 0 1 0 66 0 33 33 0 1 0-66 0Z" fill="#E73B37"/><path d="M510 565.7m-33 0a33 33 0 1 0 66 0 33 33 0 1 0-66 0Z" fill="#E73B37"/><path d="M701.1 565.7m-33 0a33 33 0 1 0 66 0 33 33 0 1 0-66 0Z" fill="#E73B37"/><path d="M319 693.4m-33 0a33 33 0 1 0 66 0 33 33 0 1 0-66 0Z" fill="#E73B37"/><path d="M510 693.4m-33 0a33 33 0 1 0 66 0 33 33 0 1 0-66 0Z" fill="#E73B37"/><path d="M701.1 693.4m-33 0a33 33 0 1 0 66 0 33 33 0 1 0-66 0Z" fill="#E73B37"/></svg>
+##################
+search icon svg vector :
+<svg width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M14.9536 14.9458L21 21M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+##################
+add icon svg vector :
+<svg xmlns="http://www.w3.org/2000/svg" width="800px" height="800px" viewBox="0 0 24 24" fill="none">
+<path d="M12.75 9C12.75 8.58579 12.4142 8.25 12 8.25C11.5858 8.25 11.25 8.58579 11.25 9L11.25 11.25H9C8.58579 11.25 8.25 11.5858 8.25 12C8.25 12.4142 8.58579 12.75 9 12.75H11.25V15C11.25 15.4142 11.5858 15.75 12 15.75C12.4142 15.75 12.75 15.4142 12.75 15L12.75 12.75H15C15.4142 12.75 15.75 12.4142 15.75 12C15.75 11.5858 15.4142 11.25 15 11.25H12.75V9Z" fill="#1C274C"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M12.0574 1.25H11.9426C9.63424 1.24999 7.82519 1.24998 6.41371 1.43975C4.96897 1.63399 3.82895 2.03933 2.93414 2.93414C2.03933 3.82895 1.63399 4.96897 1.43975 6.41371C1.24998 7.82519 1.24999 9.63422 1.25 11.9426V12.0574C1.24999 14.3658 1.24998 16.1748 1.43975 17.5863C1.63399 19.031 2.03933 20.1711 2.93414 21.0659C3.82895 21.9607 4.96897 22.366 6.41371 22.5603C7.82519 22.75 9.63423 22.75 11.9426 22.75H12.0574C14.3658 22.75 16.1748 22.75 17.5863 22.5603C19.031 22.366 20.1711 21.9607 21.0659 21.0659C21.9607 20.1711 22.366 19.031 22.5603 17.5863C22.75 16.1748 22.75 14.3658 22.75 12.0574V11.9426C22.75 9.63423 22.75 7.82519 22.5603 6.41371C22.366 4.96897 21.9607 3.82895 21.0659 2.93414C20.1711 2.03933 19.031 1.63399 17.5863 1.43975C16.1748 1.24998 14.3658 1.24999 12.0574 1.25ZM3.9948 3.9948C4.56445 3.42514 5.33517 3.09825 6.61358 2.92637C7.91356 2.75159 9.62177 2.75 12 2.75C14.3782 2.75 16.0864 2.75159 17.3864 2.92637C18.6648 3.09825 19.4355 3.42514 20.0052 3.9948C20.5749 4.56445 20.9018 5.33517 21.0736 6.61358C21.2484 7.91356 21.25 9.62177 21.25 12C21.25 14.3782 21.2484 16.0864 21.0736 17.3864C20.9018 18.6648 20.5749 19.4355 20.0052 20.0052C19.4355 20.5749 18.6648 20.9018 17.3864 21.0736C16.0864 21.2484 14.3782 21.25 12 21.25C9.62177 21.25 7.91356 21.2484 6.61358 21.0736C5.33517 20.9018 4.56445 20.5749 3.9948 20.0052C3.42514 19.4355 3.09825 18.6648 2.92637 17.3864C2.75159 16.0864 2.75 14.3782 2.75 12C2.75 9.62177 2.75159 7.91356 2.92637 6.61358C3.09825 5.33517 3.42514 4.56445 3.9948 3.9948Z" fill="#1C274C"/>
+</svg>
+##################
+
+
