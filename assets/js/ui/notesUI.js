@@ -1,10 +1,13 @@
 import { closeModal, showModal } from "./modals.js";
 import { sendNoteToBackend, getNotesForUser } from "../api/notes.js";
-import {timeAgo} from "../utils/time.js";
+import { timeAgo } from "../utils/time.js";
 import { deleteNote } from "../api/notes.js";
 import { getFromLocalStorage } from "../utils/storage.js";
 import { showNotification } from "./notification.js";
+import { quill } from "./config.js"; // Imported directly from your config layer
+
 const addNoteBtn = document.getElementById("addNoteBtn");
+
 export function createNotes(notes) {
     const notesContainer = document.querySelector(".notes-content");
     notesContainer.innerHTML = ""; 
@@ -22,7 +25,7 @@ export function createNotes(notes) {
             noteElement.classList.add("note");
             noteElement.innerHTML = `
             <h2>${note.title}</h2>
-            <p class="content">${note.content}</p>
+            <div class="content">${note.content}</div> 
             <ul class="categories">
                 ${note.tags.map(tag => `<li class="note-cat">${tag}</li>`).join('')}
             </ul>
@@ -52,7 +55,7 @@ export function createNotes(notes) {
             noteElement.classList.add("note");
             noteElement.innerHTML = `
             <h2>${note.title}</h2>
-            <p class="content">${note.content}</p>
+            <div class="content">${note.content}</div> 
             <ul class="categories">
                 ${note.tags.map(tag => `<li class="note-cat">${tag}</li>`).join('')}
             </ul>
@@ -65,19 +68,18 @@ export function createNotes(notes) {
                 <span class="updated">Updated: ${timeAgo(note.updatedAt)}</span>
             </div>`;
             notesContainer.appendChild(noteElement);
-            
-
         }
+    });  
 
-});  
-        let loggedInUser = getFromLocalStorage("loggedInUser")
-        let deleteBtns = document.querySelectorAll(`.notes-content .delete-btn`);
-            deleteBtns.forEach(btn => {
-                btn.addEventListener("click", () => {
-                    const noteId = btn.parentElement.parentElement.id;
-                    console.log( noteId);
-                    deleteNote(noteId, loggedInUser.token);
-                })});
+    let loggedInUser = getFromLocalStorage("loggedInUser");
+    let deleteBtns = document.querySelectorAll(`.notes-content .delete-btn`);
+    deleteBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+            const noteId = btn.parentElement.parentElement.id;
+            console.log(noteId);
+            deleteNote(noteId, loggedInUser.token);
+        });
+    });
 }
 
 export function triggerAddNoteModal() {
@@ -86,19 +88,24 @@ export function triggerAddNoteModal() {
         closeModal(document.querySelector(".modal.active"));
         const addnoteCard = document.getElementById("add-note-card");
         showModal(addnoteCard);
+        
         const submitNoteBtn = document.getElementById("save-note-btn");
         const noteTitleInput = document.getElementById("note-title");
-        const noteContentInput = document.getElementById("note-content");
         const noteTagsInput = document.querySelector("#add-note-card .add-tag input");
         const notePinnedInput = document.getElementById("pinNote");
         const tagsSubmitbtn = document.getElementById("add-tag-btn");
         const tagsContainer = document.querySelector("#add-note-card .tags");
 
+        // Clear all initial text inputs
         noteTitleInput.value = "";
-        noteContentInput.value = "";
         notePinnedInput.checked = false;
         noteTagsInput.value = "";
         tagsContainer.innerHTML = "";
+        
+        // FIXED: Clear imported quill config context directly
+        if (quill) {
+            quill.setText('');
+        }
 
         tagsSubmitbtn.onclick = () => {
             const newTags = noteTagsInput.value
@@ -135,18 +142,24 @@ export function triggerAddNoteModal() {
         };
 
         submitNoteBtn.onclick = async () => {
-            const token = localStorage.getItem("userToken");
+            const User = localStorage.getItem("loggedInUser");
             const now = new Date().toISOString();
+            const token = User ? JSON.parse(User).token : null;
+            
+            // FIXED: Extracting raw HTML formatted string content and checking length natively via imported config object
+            const editorContent = quill ? quill.root.innerHTML.trim() : "";
+            const isEditorEmpty = !quill || quill.getText().trim().length === 0;
+
             const newNote = {
                 title: noteTitleInput.value.trim(),
-                content: noteContentInput.value.trim(),
+                content: editorContent, 
                 isPinned: notePinnedInput.checked,
                 tags,
                 createdAt: now,
                 updatedAt: now
             };
 
-            if (!newNote.title || !newNote.content) {
+            if (!newNote.title || isEditorEmpty) {
                 showNotification("error", "Title and content cannot be empty.");
                 return;
             }

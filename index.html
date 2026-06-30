@@ -2,7 +2,9 @@
 <html>
 <head>
   <title>My App</title>
-  <link rel="stylesheet" href="./assets/css/style2.css">
+  <link rel="stylesheet" href="./dist/css/style.min.css">
+  <link rel="stylesheet" href="./node_modules/quill/dist/quill.snow.css">
+  <!-- <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet"> -->
 </head>
 <body>
   <div id="overlay"></div>
@@ -27,8 +29,12 @@
 </div>
 <div id="add-note-card" class="modal">
     <h2>New Note</h2>
-    <input id="note-title" type="text" placeholder="Title">
-    <textarea id="note-content" placeholder="Content"></textarea>
+    <div id="note-title">
+    </div>
+    <div class="editor-wrapper">
+        <div id="editor-container"></div>
+    </div>
+
     <div class="add-tag">
         <input type="text" placeholder="Add a tag...">
         <button id="add-tag-btn" type="button">Add Tag</button>
@@ -41,12 +47,11 @@
           <label class="toggle">
             <input type="checkbox" id="pinNote">
             <span class="slider"></span>
-              </label>
-            <!-- get tags from the server dynamically -->
           </label>
+        </div>
+      </label>
     </div>
   <button id="save-note-btn" type="submit">Save Note</button>
-</div>
 </div>
   <header>
     <div class="container">

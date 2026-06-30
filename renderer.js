@@ -1,6 +1,8 @@
 
 const startupToggle = document.getElementById("openAtStartupToggle");
 
+// Keep track of your local editor instance in renderer.js
+
 window.UI = {
     startupToggle: startupToggle,
     onStartupChange: function(callback) {

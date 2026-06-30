@@ -2,11 +2,11 @@ import {getFromLocalStorage, saveToLocalStorage} from '../utils/storage.js';
 import {showNotification} from './notification.js';
 import {applyTheme} from './theme.js';
 import {handlesUserUI} from './userUi.js';
-export function loadSittings() {
-    const savedSittings = getFromLocalStorage('sittings');
-    if (savedSittings) {
+export function loadSettings() {
+    const savedSettings = getFromLocalStorage('settings');
+    if (savedSettings) {
         
-        applyTheme(savedSittings.darkMode);
+        applyTheme(savedSettings.darkMode);
     }
     
     const savedUser = getFromLocalStorage('loggedInUser');
