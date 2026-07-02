@@ -8,8 +8,8 @@ import { quill } from "./config.js"; // Imported directly from your config layer
 
 const addNoteBtn = document.getElementById("addNoteBtn");
 
+const notesContainer = document.querySelector(".notes-content");
 export function createNotes(notes) {
-    const notesContainer = document.querySelector(".notes-content");
     notesContainer.innerHTML = ""; 
     let isPinnedNotes = notes.filter(note => note.isPinned);
     
@@ -95,14 +95,11 @@ export function triggerAddNoteModal() {
         const notePinnedInput = document.getElementById("pinNote");
         const tagsSubmitbtn = document.getElementById("add-tag-btn");
         const tagsContainer = document.querySelector("#add-note-card .tags");
-
-        // Clear all initial text inputs
         noteTitleInput.value = "";
         notePinnedInput.checked = false;
         noteTagsInput.value = "";
         tagsContainer.innerHTML = "";
-        
-        // FIXED: Clear imported quill config context directly
+
         if (quill) {
             quill.setText('');
         }
@@ -145,8 +142,6 @@ export function triggerAddNoteModal() {
             const User = localStorage.getItem("loggedInUser");
             const now = new Date().toISOString();
             const token = User ? JSON.parse(User).token : null;
-            
-            // FIXED: Extracting raw HTML formatted string content and checking length natively via imported config object
             const editorContent = quill ? quill.root.innerHTML.trim() : "";
             const isEditorEmpty = !quill || quill.getText().trim().length === 0;
 
@@ -174,4 +169,18 @@ export function triggerAddNoteModal() {
             }
         };
     });
+}
+
+function handleNotesUI(user) {
+       const noNotesMessage = document.querySelector(".no-notes-message");
+    if (user) {
+        addNoteBtn.style.display = "block";
+                noNotesMessage.style.display = "block";
+        noNotesMessage.innerHTML = "Please log in to view your notes.";
+    } else {
+    notesContainer.innerHTML = "";
+            noNotesMessage.style.display = "none";
+        noNotesMessage.innerHTML = "";
+        addNoteBtn.style.display = "none";
+    }
 }

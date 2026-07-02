@@ -7,6 +7,7 @@ import { showModal, closeAllModals } from "./modals.js";
 import { showNotification } from "./notification.js";
 import { loginUser } from "../auth/login.js";
 import { logout } from "../auth/logout.js";
+import { handlesNotesUI } from "./notesUI.js";
 
 const userDiv = document.querySelector('header .user');
 const usersignUpLogout = document.getElementById("user-signUp-logout");
@@ -14,11 +15,8 @@ const notesContainer = document.querySelector(".notes-content");
 const searchBar = document.querySelector('header .search-bar');
 
 export function handlesUserUI(loggedInUser) {
-    const addNoteBtn = document.getElementById("addNoteBtn");
-    const noNotesMessage = document.querySelector(".no-notes-message");
-
+    handlesNotesUI(loggedInUser);
     if (!loggedInUser) {
-        notesContainer.innerHTML = '';
         
         // Use an assignment property to avoid duplicate click bindings
         searchBar.onclick = () => {
@@ -28,8 +26,7 @@ export function handlesUserUI(loggedInUser) {
 
         userDiv.children[0].src = "assets/images/df_user.png";
         userDiv.children[1].textContent = "Guest";
-        noNotesMessage.style.display = "block";
-        noNotesMessage.innerHTML = "Please log in to view your notes.";
+
         
         usersignUpLogout.innerHTML = `<button id="signUp-btn">signUp</button><br><button id="login-btn">log in</button>`;
         
@@ -47,8 +44,7 @@ export function handlesUserUI(loggedInUser) {
         };
 
     } else {
-        noNotesMessage.style.display = "none";
-        noNotesMessage.innerHTML = "";
+
         usersignUpLogout.innerHTML = `<button id="logout-btn">log out</button>`;
         
         const logoutBtn = document.getElementById("logout-btn");
@@ -60,7 +56,6 @@ export function handlesUserUI(loggedInUser) {
             showModal(searchBar);
         };
         
-        addNoteBtn.style.display = "block";
         saveToLocalStorage("loggedInUser", loggedInUser);
         
         if (loggedInUser.image.startsWith('assets/')) {
