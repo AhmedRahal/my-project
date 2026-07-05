@@ -1,19 +1,14 @@
 import { closeModal, showModal } from "./modals.js";
-import { sendNoteToBackend, getNotesForUser } from "../api/notes.js";
+import { sendNoteToBackend, getNotesForUser,updateNote,deleteNote } from "../api/notes.js";
 import { timeAgo } from "../utils/time.js";
-import { deleteNote } from "../api/notes.js";
-import { getFromLocalStorage } from "../utils/storage.js";
+import { getFromLocalStorage,saveToLocalStorage } from "../utils/storage.js";
 import { showNotification } from "./notification.js";
 import { quillTitle, quillContent } from "./config.js"; 
-
+let loggedInUser = getFromLocalStorage("loggedInUser");
 const addNoteBtn = document.getElementById("addNoteBtn");
 const notesContainer = document.querySelector(".notes-content");
-
-/**
- * Builds a highly professional note block using flat, reliable div structural blocks.
- */
+const addnoteCard = document.getElementById("add-note-card");
 function buildNoteHTML(note) {
-    // 1. Process the content string to replace list structural items with clean symbols safely
     let processedContent = note.content;
     if (processedContent) {
         processedContent = processedContent
@@ -53,6 +48,7 @@ function buildNoteHTML(note) {
 }
 
 export function createNotes(notes) {
+    saveToLocalStorage("notes", notes);
     notesContainer.innerHTML = ""; 
     
     const isPinnedNotes = notes.filter(note => note.isPinned);
@@ -84,7 +80,6 @@ export function createNotes(notes) {
     });  
 
     // Event Delegations
-    let loggedInUser = getFromLocalStorage("loggedInUser");
     let deleteBtns = document.querySelectorAll(`.notes-content .delete-btn`);
     deleteBtns.forEach(btn => {
         btn.addEventListener("click", () => {
@@ -92,12 +87,19 @@ export function createNotes(notes) {
             deleteNote(noteId, loggedInUser.token);
         });
     });
+    let editBtns = document.querySelectorAll(`.notes-content .edit-btn`);
+    editBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+            const noteId = btn.closest('.note-card').id;
+            updateNoteUi(noteId, loggedInUser.token);
+        });
+    });
 }
 export function triggerAddNoteModal() {
     addNoteBtn.addEventListener("click", () => {
         let tags = [];
         closeModal(document.querySelector(".modal.active"));
-        const addnoteCard = document.getElementById("add-note-card");
+
         showModal(addnoteCard);
         
         const submitNoteBtn = document.getElementById("save-note-btn");
@@ -105,8 +107,8 @@ export function triggerAddNoteModal() {
         const notePinnedInput = document.getElementById("pinNote");
         const tagsSubmitbtn = document.getElementById("add-tag-btn");
         const tagsContainer = document.querySelector("#add-note-card .tags");
-        
-        notePinnedInput.checked = false;
+        submitNoteBtn.textContent = "Add Note";
+        notePinnedInput.checked =   false;
         noteTagsInput.value = "";
         tagsContainer.innerHTML = "";
 
@@ -115,35 +117,11 @@ export function triggerAddNoteModal() {
         if (quillContent) quillContent.setText('');
 
         tagsSubmitbtn.onclick = () => {
-            const newTags = noteTagsInput.value
-                .split(",")
-                .map(tag => tag.trim())
-                .filter(Boolean);
-
-            newTags.forEach(tag => {
-                if (tags.includes(tag)) return;
-                tags.push(tag);
-
-                const tagElement = document.createElement("div");
-                tagElement.classList.add("tag");
-
-                const tagText = document.createElement("span");
-                tagText.textContent = tag;
-
-                const delBtn = document.createElement("button");
-                delBtn.textContent = "x";
-                delBtn.classList.add("delete-tag-btn");
-
-                delBtn.onclick = () => {
-                    tags = tags.filter(t => t !== tag);
-                    tagElement.remove();
-                };
-
-                tagElement.appendChild(tagText);
-                tagElement.appendChild(delBtn);
-                tagsContainer.appendChild(tagElement);
-            });
+            // refactor this part to use the createTagsUI function to avoid code duplication
+            const newTags = noteTagsInput.value.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0);
             noteTagsInput.value = "";
+            tags = [...new Set([...tags, ...newTags])]; // Merge and remove duplicates
+            createTagsUI(tags, tagsContainer);
         };
     submitNoteBtn.onclick = async () => {
         const User = localStorage.getItem("loggedInUser");
@@ -210,4 +188,63 @@ export function handlesNotesUI(user) {
         addNoteBtn.style.display = "none";
         document.body.appendChild(noNotesMessage);
     }
+}
+
+
+export function updateNoteUi(noteId, token) {
+    let notes = getFromLocalStorage("notes") || [];
+    let note = notes.find(n => n.id === noteId);
+    let tags = [...note.tags];
+    showModal(addnoteCard);
+    const submitNoteBtn = document.getElementById("save-note-btn");
+    const noteTagsInput = document.querySelector("#add-note-card .add-tag input");
+    const notePinnedInput = document.getElementById("pinNote");
+    const tagsSubmitbtn = document.getElementById("add-tag-btn");
+    const tagsContainer = document.querySelector("#add-note-card .tags");
+    submitNoteBtn.textContent = "Update Note"
+    notePinnedInput.checked = note.isPinned;
+    console.log(quillTitle  , quillContent);
+    createTagsUI(note.tags, tagsContainer);
+        tagsSubmitbtn.onclick = () => {
+            const newTags = noteTagsInput.value.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0);
+            noteTagsInput.value = "";
+            tags = [...new Set([...tags, ...newTags])]; 
+            createTagsUI(tags, tagsContainer);
+        };
+    if (quillTitle) quillTitle.root.innerHTML = note.title
+    if (quillContent) quillContent.root.innerHTML = note.content;
+    console.log("Update Note button clicked for noteId:", noteId);
+    submitNoteBtn.onclick = async () => {
+        const now = new Date().toISOString();
+        const updatedNote = {
+            ...note,
+            title: quillTitle ? quillTitle.root.innerHTML.trim() : note.title,
+            content: quillContent ? quillContent.root.innerHTML.trim() : note.content,
+            isPinned: notePinnedInput.checked,
+            tags,
+            updatedAt: now
+        };
+        await updateNote(noteId, updatedNote, token);
+        closeModal(addnoteCard);
+    };
+}
+
+function createTagsUI(tags, tagsContainer) {
+    tagsContainer.innerHTML = "";
+    tags.map(tag => {
+        const tagElement = document.createElement("div");
+        tagElement.classList.add("tag");
+        const tagText = document.createElement("span");
+        tagText.textContent = tag;
+        tagElement.appendChild(tagText);
+        const delBtn = document.createElement("button");
+        delBtn.textContent = "x";
+        delBtn.classList.add("delete-tag-btn");
+        delBtn.onclick = () => {
+            tagsContainer.removeChild(tagElement);
+            tags = tags.filter(t => t !== tag);
+        }
+        tagElement.appendChild(delBtn);
+        tagsContainer.appendChild(tagElement);
+    });
 }

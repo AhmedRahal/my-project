@@ -76,3 +76,25 @@ export function deleteNote(noteId, token) {
         showNotification("error", error.message || "An error occurred while deleting the note");
     });
 }
+export async function updateNote(noteId, updatedNote, token) {
+    try {
+        const response = await fetch(`${apiUrl}update/note/${noteId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(updatedNote)
+        });
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw errorData;
+        }
+        const data = await response.json();
+        console.log('Note updated successfully:', data);
+        showNotification("success", "Note updated successfully");
+        getNotesForUser(token);
+    } catch (error) {
+        handleApiError(error);
+    }
+}
