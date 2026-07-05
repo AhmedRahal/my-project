@@ -4,84 +4,95 @@ import { timeAgo } from "../utils/time.js";
 import { deleteNote } from "../api/notes.js";
 import { getFromLocalStorage } from "../utils/storage.js";
 import { showNotification } from "./notification.js";
-import { quill } from "./config.js"; // Imported directly from your config layer
+import { quillTitle, quillContent } from "./config.js"; 
 
 const addNoteBtn = document.getElementById("addNoteBtn");
-
 const notesContainer = document.querySelector(".notes-content");
+
+/**
+ * Builds a highly professional note block using flat, reliable div structural blocks.
+ */
+function buildNoteHTML(note) {
+    // 1. Process the content string to replace list structural items with clean symbols safely
+    let processedContent = note.content;
+    if (processedContent) {
+        processedContent = processedContent
+            .replace(/<li data-list="unchecked">/g, '<li data-list="unchecked"><span class="ql-todo-icon">&#9744;</span> ')
+            .replace(/<li data-list="checked">/g, '<li data-list="checked"><span class="ql-todo-icon">&#9745;</span> ');
+    }
+
+    return `
+        <div class="note-card" id="${note.id}">
+            <div class="note-card-header">
+                <div class="note-card-title ql-editor">${note.title}</div>
+            </div>
+            
+            <div class="note-card-body content ql-editor">
+                ${processedContent}
+            </div> 
+            
+            <div class="note-card-footer">
+                <div class="note-tags-wrapper">
+                    <ul class="categories">
+                        ${note.tags.map(tag => `<li class="note-cat">${tag}</li>`).join('')}
+                    </ul>
+                </div>
+                
+                <div class="note-meta-timeline">
+                    <div class="created">Created: ${timeAgo(note.createdAt)}</div>
+                    <div class="updated">Updated: ${timeAgo(note.updatedAt)}</div>
+                </div>
+                
+                <div class="note-action-row">
+                    <button class="edit-btn">Edit</button>
+                    <button class="delete-btn">Delete</button>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
 export function createNotes(notes) {
     notesContainer.innerHTML = ""; 
-    let isPinnedNotes = notes.filter(note => note.isPinned);
     
+    const isPinnedNotes = notes.filter(note => note.isPinned);
+    const regularNotes = notes.filter(note => !note.isPinned);
+    
+    // 1. Render Pinned Section
     if (isPinnedNotes.length > 0) {
         const divider = document.createElement("div");
         divider.classList.add("grid-separator");
         divider.innerHTML = `<span>Pinned</span><hr>`;
         notesContainer.appendChild(divider);
-               
+                
         isPinnedNotes.forEach(note => {
-            const noteElement = document.createElement("div");
-            noteElement.id = `${note.id}`;
-            noteElement.classList.add("note");
-            noteElement.innerHTML = `
-            <h2>${note.title}</h2>
-            <div class="content">${note.content}</div> 
-            <ul class="categories">
-                ${note.tags.map(tag => `<li class="note-cat">${tag}</li>`).join('')}
-            </ul>
-            <div class="buttons">
-                <button class="edit-btn">Edit</button>
-                <button class="delete-btn">Delete</button>
-            </div>
-            <div class="time-line">
-                <p class="created">Created: ${timeAgo(note.createdAt)}</p>
-                <span class="updated">Updated: ${timeAgo(note.updatedAt)}</span>
-            </div>`;
-            notesContainer.appendChild(noteElement);
+            notesContainer.insertAdjacentHTML('beforeend', buildNoteHTML(note));
         });
     }
     
-    if (isPinnedNotes.length > 0 && notes.length - isPinnedNotes.length > 0) {
+    // 2. Section Divider Break
+    if (isPinnedNotes.length > 0 && regularNotes.length > 0) {
         const divider = document.createElement("div");
         divider.classList.add("grid-separator");
         divider.innerHTML = `<span>Others</span><hr>`;
         notesContainer.appendChild(divider);
     }
     
-    notes.forEach(note => {
-        const noteElement = document.createElement("div");
-        noteElement.id = `${note.id}`;
-        if (!note.isPinned) {
-            noteElement.classList.add("note");
-            noteElement.innerHTML = `
-            <h2>${note.title}</h2>
-            <div class="content">${note.content}</div> 
-            <ul class="categories">
-                ${note.tags.map(tag => `<li class="note-cat">${tag}</li>`).join('')}
-            </ul>
-            <div class="buttons">
-                <button class="edit-btn">Edit</button>
-                <button class="delete-btn">Delete</button>
-            </div>
-            <div class="time-line">
-                <p class="created">Created: ${timeAgo(note.createdAt)}</p>
-                <span class="updated">Updated: ${timeAgo(note.updatedAt)}</span>
-            </div>`;
-            notesContainer.appendChild(noteElement);
-        }
+    // 3. Render Standard Notes
+    regularNotes.forEach(note => {
+        notesContainer.insertAdjacentHTML('beforeend', buildNoteHTML(note));
     });  
 
+    // Event Delegations
     let loggedInUser = getFromLocalStorage("loggedInUser");
     let deleteBtns = document.querySelectorAll(`.notes-content .delete-btn`);
     deleteBtns.forEach(btn => {
         btn.addEventListener("click", () => {
-            const noteId = btn.parentElement.parentElement.id;
-            console.log(noteId);
+            const noteId = btn.closest('.note-card').id;
             deleteNote(noteId, loggedInUser.token);
         });
     });
 }
-
 export function triggerAddNoteModal() {
     addNoteBtn.addEventListener("click", () => {
         let tags = [];
@@ -90,19 +101,18 @@ export function triggerAddNoteModal() {
         showModal(addnoteCard);
         
         const submitNoteBtn = document.getElementById("save-note-btn");
-        const noteTitleInput = document.getElementById("note-title");
         const noteTagsInput = document.querySelector("#add-note-card .add-tag input");
         const notePinnedInput = document.getElementById("pinNote");
         const tagsSubmitbtn = document.getElementById("add-tag-btn");
         const tagsContainer = document.querySelector("#add-note-card .tags");
-        noteTitleInput.value = "";
+        
         notePinnedInput.checked = false;
         noteTagsInput.value = "";
         tagsContainer.innerHTML = "";
 
-        if (quill) {
-            quill.setText('');
-        }
+        // Reset both Quill editors
+        if (quillTitle) quillTitle.setText('');
+        if (quillContent) quillContent.setText('');
 
         tagsSubmitbtn.onclick = () => {
             const newTags = noteTagsInput.value
@@ -112,7 +122,6 @@ export function triggerAddNoteModal() {
 
             newTags.forEach(tag => {
                 if (tags.includes(tag)) return;
-
                 tags.push(tag);
 
                 const tagElement = document.createElement("div");
@@ -134,53 +143,71 @@ export function triggerAddNoteModal() {
                 tagElement.appendChild(delBtn);
                 tagsContainer.appendChild(tagElement);
             });
-
             noteTagsInput.value = "";
         };
+    submitNoteBtn.onclick = async () => {
+        const User = localStorage.getItem("loggedInUser");
+        const now = new Date().toISOString();
+        const token = User ? JSON.parse(User).token : null;
+        
+        // FIX: Extract title as styled HTML instead of plain text
+        let noteTitle = "";
+        if (quillTitle) {
+            noteTitle = typeof quillTitle.getSemanticHTML === 'function' 
+                ? quillTitle.getSemanticHTML().trim() 
+                : quillTitle.root.innerHTML.trim();
+        }
+        
+        let editorContent = "";
+        if (quillContent) {
+            editorContent = typeof quillContent.getSemanticHTML === 'function' 
+                ? quillContent.getSemanticHTML().trim() 
+                : quillContent.root.innerHTML.trim();
+        }
+        
+        // Empty checks (Checking against raw text length so empty HTML tags don't bypass validation)
+        const isTitleEmpty = !quillTitle || quillTitle.getText().trim().length === 0;
+        const isContentEmpty = !quillContent || quillContent.getText().trim().length === 0;
 
-        submitNoteBtn.onclick = async () => {
-            const User = localStorage.getItem("loggedInUser");
-            const now = new Date().toISOString();
-            const token = User ? JSON.parse(User).token : null;
-            const editorContent = quill ? quill.root.innerHTML.trim() : "";
-            const isEditorEmpty = !quill || quill.getText().trim().length === 0;
-
-            const newNote = {
-                title: noteTitleInput.value.trim(),
-                content: editorContent, 
-                isPinned: notePinnedInput.checked,
-                tags,
-                createdAt: now,
-                updatedAt: now
-            };
-
-            if (!newNote.title || isEditorEmpty) {
-                showNotification("error", "Title and content cannot be empty.");
-                return;
-            }
-
-            closeModal(addnoteCard);
-
-            try {
-                await sendNoteToBackend(newNote, token);
-                await getNotesForUser(token);
-            } catch (error) {
-                console.error(error);
-            }
+        const newNote = {
+            title: noteTitle, // Now contains the inline-styled HTML string
+            content: editorContent, 
+            isPinned: notePinnedInput.checked,
+            tags,
+            createdAt: now,
+            updatedAt: now
         };
+
+        if (isTitleEmpty || isContentEmpty) {
+            showNotification("error", "Title and content cannot be empty.");
+            return;
+        }
+
+        closeModal(addnoteCard);
+
+        try {
+            await sendNoteToBackend(newNote, token);
+            await getNotesForUser(token);
+        } catch (error) {
+            console.error(error);
+        }
+    };
     });
 }
+export function handlesNotesUI(user) {
+    const noNotesMessage = document.createElement("div");
+    noNotesMessage.classList.add("no-notes-message");
 
-function handleNotesUI(user) {
-       const noNotesMessage = document.querySelector(".no-notes-message");
     if (user) {
         addNoteBtn.style.display = "block";
-                noNotesMessage.style.display = "block";
-        noNotesMessage.innerHTML = "Please log in to view your notes.";
+        if (document.querySelector(".no-notes-message")) {
+            document.querySelector(".no-notes-message").remove();
+        }
     } else {
-    notesContainer.innerHTML = "";
-            noNotesMessage.style.display = "none";
-        noNotesMessage.innerHTML = "";
+        notesContainer.innerHTML = "";
+        noNotesMessage.style.display = "block";
+        noNotesMessage.innerHTML = ` <img src="./assets/images/warning.png" alt="No Notes"> <p>Please log in to view your notes.</p>`;
         addNoteBtn.style.display = "none";
+        document.body.appendChild(noNotesMessage);
     }
 }

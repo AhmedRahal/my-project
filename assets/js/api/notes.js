@@ -3,7 +3,7 @@ import { showNotification } from "../ui/notification.js";
 import { apiUrl } from "./config.js";
 import { handleApiError } from "./errorHandlers.js";
 
-// load all notes
+
 export async function getNotesForUser(token) { 
     try {
         const response = await fetch(`${apiUrl}notes/all`, {

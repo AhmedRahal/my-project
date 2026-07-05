@@ -1,0 +1,243 @@
+.notes-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+    padding: 32px;
+    height: calc(100vh - 65px);
+    overflow-y: auto;
+    background-color: var(--secondary-color);
+    align-content: start;
+
+    .grid-separator {
+        grid-column: 1 / -1;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin: 16px 0 8px 0;
+
+        span {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--font-muted);
+        }
+
+        hr {
+            flex-grow: 1;
+            border: none;
+            height: 1px;
+            background-color: var(--third-color);
+        }
+    }
+
+    /* Target the individual card */
+    .note-card {
+        background-color: var(--primary-color);
+        border: 1px solid var(--third-color);
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-sm);
+        display: flex;
+        flex-direction: column;
+        height: 400px;
+        position: relative;
+        overflow: hidden;
+        transition: transform var(--transition-smooth), box-shadow var(--transition-smooth), border-color var(--transition-smooth);
+
+        &:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--font-muted);
+
+            /* Show action buttons inside this specific card */
+            .note-card-footer .note-action-row {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .note-card-header {
+            padding: 16px 20px 8px 20px;
+            border-bottom: 1px solid var(--third-color);
+            flex-shrink: 0;
+
+            .note-card-title {
+                padding: 0 !important;
+                font-size: 16px;
+                font-weight: 600;
+                line-height: 1.4;
+                color: var(--font-color);
+                text-align: center !important;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                max-height: 40px;
+                min-height: auto !important; 
+                height: auto !important;
+            }
+        }
+.note-card-body {
+            padding: 12px 20px;
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--font-color);
+            opacity: .9;
+            flex-grow: 1;
+            min-height: auto !important;
+
+
+            display: block !important; 
+            overflow-y: auto !important;
+            -webkit-line-clamp: unset !important; 
+            text-overflow: clip !important;
+            max-height: 230px; 
+            .ql-size-small { font-size: 0.75em; }
+            .ql-size-large { font-size: 1.5em; }
+            .ql-size-huge  { font-size: 2.5em; }
+            p {
+                margin: 0;
+                height: max-content !important;
+            }
+            ul, ol {
+                margin-bottom: 1rem !important;
+                display: block !important;
+            }
+            ul li:not([data-list]) {
+                padding-left: 0 !important;
+                list-style-type: disc !important;
+                display: list-item !important;
+            }
+            
+            ol li:not([data-list]) {
+                padding-left: 0 !important;
+                list-style-type: decimal !important;
+                display: list-item !important;
+            }
+
+            // 3. Isolated layout for task checkboxes processed via JS
+            li[data-list="unchecked"], 
+            li[data-list="checked"] {
+                list-style-type: none !important;
+                display: block !important; 
+
+                position: relative;
+                padding-left: 10px !important;
+            }
+
+            // 4. Color alignments for dynamic JS components
+            .ql-todo-icon {
+                position: absolute;
+                left: 0;
+                top: 0;
+                color: var(--font-muted);
+                user-select: none;
+            }
+
+            li[data-list="checked"] {
+                color: var(--font-muted);
+                text-decoration: line-through;
+
+                .ql-todo-icon {
+                    color: var(--accent-color);
+                }
+            }
+        }
+
+        .note-card-footer {
+            padding: 12px 20px 16px 20px;
+            border-top: 1px solid var(--third-color);
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+
+            .note-tags-wrapper {
+                overflow: hidden;
+                height: fit-content;
+
+                .categories {
+                    display: flex;
+                    padding-left: 0 !important;
+                    flex-wrap: wrap;
+                    gap: 6px;
+                    list-style: none !important;
+                    padding: 0;
+                    margin: 0;
+                }
+
+                .note-cat {
+                    background-color: var(--primary-color);
+                    border: 1px solid var(--third-color);
+                    color: var(--font-muted);
+                    padding: 2px 8px;
+                    border-radius: var(--radius-sm);
+                    font-size: 10px;
+                    font-weight: 600;
+                }
+            }
+
+            .note-meta-timeline {
+                display: flex;
+                justify-content: space-between;
+                font-size: 11px;
+                color: var(--font-muted);
+                font-weight: 500;
+            }
+
+            /* Action row animation rules */
+            .note-action-row {
+                display: flex;
+                gap: 8px;
+                justify-content: flex-end;
+                margin-top: 4px;
+                opacity: 0;
+                transform: translateY(4px);
+                transition: opacity var(--transition-smooth), transform var(--transition-smooth);
+
+                button {
+                    padding: 6px 12px;
+                    font-size: 12px;
+                    font-weight: 600;
+                    border: 1px solid transparent;
+                    border-radius: var(--radius-sm);
+                    cursor: pointer;
+                    transition: var(--transition-smooth);
+
+                    &:active {
+                        transform: scale(0.96);
+                    }
+                }
+
+                .edit-btn {
+                    background-color: var(--primary-color);
+                    border-color: var(--third-color);
+                    color: var(--font-color);
+
+                    &:hover {
+                        background-color: var(--secondary-color);
+                        border-color: var(--font-muted);
+                    }
+                }
+
+                .delete-btn {
+                    background-color: var(--warning-color);
+                    color: var(--warning-text-color);
+
+                    &:hover {
+                        background-color: var(--warning-text-color);
+                        color: #fff;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.no-notes-message {
+    grid-column: 1 / -1;
+    margin-top: 80px;
+    font-size: 16px;
+    text-align: center;
+    color: var(--font-muted);
+    font-style: italic;
+}

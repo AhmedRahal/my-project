@@ -1,6 +1,12 @@
 // config.js
-export let quill = null; // Use 'let' so it can be changed inside this file
+// assets/js/ui/config.js
+export let quillTitle = null;
+export let quillContent = null;
 
-export function setQuillInstance(instance) {
-    quill = instance;
+export function setQuillTitleInstance(instance) {
+    quillTitle = instance;
+}
+
+export function setQuillContentInstance(instance) {
+    quillContent = instance;
 }

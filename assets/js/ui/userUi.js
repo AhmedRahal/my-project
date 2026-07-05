@@ -32,13 +32,9 @@ export function handlesUserUI(loggedInUser) {
         
         const signUpBtn = document.getElementById("signUp-btn");
         const loginBtn = document.getElementById("login-btn");
-        addNoteBtn.style.display = "none";
-        
-        // Use .onclick to safely overwrite previous event listeners
         signUpBtn.onclick = () => {
             signUp();
         };
-        
         loginBtn.onclick = () => {
             loginUser();
         };

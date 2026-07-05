@@ -1,26 +1,3 @@
-// ==========================================================================
-// Modern Dark/Light Adaptive Quill Editor Custom Stylesheet
-// Tailored for Quill v2.0 Layout Specifications
-// ==========================================================================
-
-// Container Wrapper
-.editor-wrapper {
-  max-width: 800px;
-  margin: 1.5rem auto;
-  background: var(--primary-color);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-md);
-  border: 1px solid var(--third-color);
-  overflow: hidden;
-  transition: box-shadow var(--transition-smooth), border-color var(--transition-smooth);
-
-  &:focus-within {
-    border-color: var(--accent-color);
-    box-shadow: var(--shadow-lg), 0 0 0 3px rgba(129, 140, 248, 0.25);
-  }
-}
-
-// 1. Toolbar Customization
 .ql-toolbar.ql-snow {
   border: none !important;
   background-color: var(--secondary-color);
@@ -32,7 +9,6 @@
   gap: 8px;
   align-items: center;
 
-  // Formatting groupings
   .ql-formats {
     margin-right: 8px !important;
     margin-bottom: 0 !important;
@@ -41,7 +17,6 @@
     gap: 4px;
   }
 
-  // Standalone Icon Action Buttons (Bold, Italic, Link, etc.)
   button {
     width: 28px !important;
     height: 28px !important;
@@ -52,8 +27,9 @@
     justify-content: center;
     padding: 0 !important;
     border-radius: var(--radius-sm);
-    background: transparent;
-    border: none;
+    background: transparent !important;      
+    background-color: transparent !important; 
+    border: none !important;
     cursor: pointer;
     transition: all var(--transition-smooth);
     
@@ -67,15 +43,18 @@
     }
 
     &:hover, 
+    &:active,
+    &:focus,
     &.ql-active {
+      background: var(--third-color) !important;
       background-color: var(--third-color) !important;
+      outline: none !important;
       
       .ql-stroke { stroke: var(--accent-color) !important; }
       .ql-fill { fill: var(--accent-color) !important; }
     }
   }
 
-  // Quill Dropdown Pickers (Font, Size, Color, Background)
   .ql-picker {
     font-weight: 500;
     height: 28px !important;
@@ -92,16 +71,21 @@
       display: flex !important;
       align-items: center;
       color: var(--font-muted) !important;
+      background-color: transparent !important;
+      background: transparent !important;
       transition: all var(--transition-smooth);
 
       .ql-stroke { stroke: var(--font-muted) !important; }
+      .ql-fill { fill: var(--font-muted) !important; }
 
       &:hover {
         border-color: var(--third-color);
         color: var(--font-color) !important;
-        background-color: var(--third-color);
+        background-color: var(--third-color) !important;
+        background: var(--third-color) !important;
         
         .ql-stroke { stroke: var(--font-muted) !important; }
+        .ql-fill { fill: var(--font-muted) !important; }
       }
       
       svg {
@@ -114,17 +98,17 @@
       }
     }
 
-    // Active dropdown trigger adjustments
     &.ql-expanded .ql-picker-label {
       border-color: var(--third-color) !important;
       background-color: var(--third-color) !important;
+      background: var(--third-color) !important;
       color: var(--font-color) !important;
       z-index: 101;
       
       .ql-stroke { stroke: var(--accent-color) !important; }
+      .ql-fill { fill: var(--accent-color) !important; }
     }
 
-    // Dropdown Panel Overlays
     &.ql-expanded .ql-picker-options {
       display: block !important;
       border: 1px solid var(--third-color) !important;
@@ -132,33 +116,90 @@
       border-radius: var(--radius-sm) !important;
       padding: 8px !important;
       background-color: var(--primary-color) !important; 
+      background: var(--primary-color) !important; 
       z-index: 100;
       top: 32px !important;
     }
 
-    // Text Lists inside drop-downs (Font Family, Sizes)
-    &:not(.ql-color-picker) .ql-picker-item {
+    .ql-picker-item {
       padding: 6px 10px !important;
       border-radius: 4px;
       color: var(--font-muted) !important;
-      display: block;
+      background-color: transparent; 
+      background: transparent;       
+      display: flex !important;
       width: 100%;
       text-align: left;
       transition: all var(--transition-smooth);
 
+      .ql-stroke { stroke: var(--font-muted) !important; }
+      .ql-fill { fill: var(--font-muted) !important; }
+
       &:hover {
         color: var(--font-color) !important;
-        background-color: var(--third-color) !important;
+        background-color: var(--third-color); 
+        background: var(--third-color);       
+
+        .ql-stroke { stroke: var(--font-color) !important; }
+        .ql-fill { fill: var(--font-color) !important; }
       }
 
       &.ql-selected {
         color: var(--accent-color) !important;
         background-color: var(--secondary-color) !important;
+        background: var(--secondary-color) !important;
         font-weight: 600;
+
+        .ql-stroke { stroke: var(--accent-color) !important; }
+        .ql-fill { fill: var(--accent-color) !important; }
       }
     }
 
-    // FIXED: Dedicated rules for Color & Background Swatches to prevent stacking bugs
+    &.ql-icon-picker {
+      width: 28px !important;
+
+      .ql-picker-label {
+        padding: 0 !important;
+        justify-content: center;
+        
+        svg {
+          position: static !important;
+          transform: none !important;
+          width: 18px !important;
+          height: 18px !important;
+        }
+      }
+
+      &.ql-expanded .ql-picker-options {
+        min-width: 48px !important;
+        display: flex !important;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .ql-picker-item {
+        justify-content: center;
+        padding: 6px !important;
+        background-color: transparent !important;
+        background: transparent !important;
+        
+        svg {
+          width: 16px !important;
+          height: 16px !important;
+        }
+
+        &.ql-selected {
+          background-color: var(--secondary-color) !important;
+          background: var(--secondary-color) !important;
+        }
+      }
+    }
+
+    &.ql-direction {
+      .ql-picker-label::before {
+        content: none !important;
+      }
+    }
     &.ql-color-picker {
       width: 28px !important;
 
@@ -175,7 +216,7 @@
       }
 
       &.ql-expanded .ql-picker-options {
-        width: 142px !important; // Fits standard color grid array spacing
+        width: 142px !important; 
         display: flex !important;
         flex-wrap: wrap;
         gap: 4px;
@@ -187,7 +228,7 @@
         padding: 0 !important;
         border-radius: 3px;
         cursor: pointer;
-        border: 1px solid rgba(0,0,0,0.1);
+        border: 1px solid rgba(255,255,255,0.1);
         transition: transform var(--transition-smooth);
 
         &:hover {
@@ -203,8 +244,6 @@
     }
   }
 }
-
-// 2. Editor Content Area
 .ql-container.ql-snow {
   border: none !important;
   font-family: var(--primary-font) !important;
@@ -213,11 +252,12 @@
   background-color: var(--primary-color);
 }
 
+
 .ql-editor {
   padding: 24px !important;
   min-height: 220px;
   line-height: 1.6;
-
+  
   &.ql-blank::before {
     color: var(--font-muted) !important;
     font-style: normal !important;
@@ -228,7 +268,15 @@
   p, ol, ul {
     margin-bottom: 1rem;
   }
-
+  .ql-size-small {
+    font-size: 0.75em;
+  }
+  .ql-size-large {
+    font-size: 1.5em;
+  }
+  .ql-size-huge {
+    font-size: 2.5em;
+  }
   code, pre.ql-syntax {
     font-family: var(--secondary-font) !important;
     border-radius: var(--radius-sm);
@@ -242,4 +290,5 @@
     box-shadow: var(--shadow-sm);
     border: 1px solid var(--third-color);
   }
+
 }

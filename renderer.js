@@ -23,3 +23,4 @@ window.api.getStartup().then(value => {
 window.UI.onStartupChange((isChecked) => {
     window.api.setStartup(isChecked);
 });
+

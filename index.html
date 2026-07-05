@@ -4,7 +4,6 @@
   <title>My App</title>
   <link rel="stylesheet" href="./dist/css/style.min.css">
   <link rel="stylesheet" href="./node_modules/quill/dist/quill.snow.css">
-  <!-- <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet"> -->
 </head>
 <body>
   <div id="overlay"></div>
@@ -29,13 +28,17 @@
 </div>
 <div id="add-note-card" class="modal">
     <h2>New Note</h2>
-    <div id="note-title">
+    <div class="editor-wrapper">
+
+      <div id="note-title">
+      </div>
     </div>
     <div class="editor-wrapper">
         <div id="editor-container"></div>
     </div>
 
-    <div class="add-tag">
+    <div class="card-footer">
+          <div class="add-tag">
         <input type="text" placeholder="Add a tag...">
         <button id="add-tag-btn" type="button">Add Tag</button>
     </div>
@@ -50,6 +53,7 @@
           </label>
         </div>
       </label>
+    </div>
     </div>
   <button id="save-note-btn" type="submit">Save Note</button>
 </div>
@@ -108,11 +112,9 @@
       </div>
     </div>
   </header>
-    <div class="no-notes-message">
-    
-  </div> 
-  <div class="notes-content">
 
+    <div class="notes-content">
+      
   </div>
 
   <div class="add-note-btn" id="addNoteBtn"> 

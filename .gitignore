@@ -8,6 +8,7 @@ jspm_packages/
 
 #txt files 
 *.txtnpm uninstall mysql2
+*.txt
 # Build logs and profiling configs
 npm-debug.log*
 yarn-debug.log*

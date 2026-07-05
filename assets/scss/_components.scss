@@ -292,23 +292,98 @@
     }
 }
 
+/* ... Everything above #add-note-card stays exactly the same ... */
 
 #add-note-card {
+    width: 100%;
     max-width: 700px;
-    #note-title {
-        margin-bottom: 16px;
-        font-size: 18px;
-        font-weight: 600;
-        height: 40px;
-        
+    max-height: 80vh; 
+    display: flex;
+    flex-direction: column;
+    
+    overflow-y: auto;
+    scroll-behavior: smooth;
+
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+        background: var(--third-color);
+        border-radius: var(--radius-sm);
+    }
+    &::-webkit-scrollbar-thumb:hover {
+        background: var(--font-muted);
+    }
+
+    .card-footer, .buttons-container {
+        flex-shrink: 0;
+        margin-top: auto; 
+    }
+} // <--- FIXED: This closing brace was missing!
+
+// Cleanly detached Quill container layout configurations
+#note-title {
+    margin-bottom: 16px;
+    font-size: 18px;
+    font-weight: 600;
+    flex-shrink: 0; 
+    height: 55px; 
+
+    // Target the actual .ql-editor injected inside #note-title
+    & .ql-editor {
+        display: block !important;
+        height: auto !important; 
+        min-height: 90px !important;
+        overflow-y: hidden !important;
+    }
+
+}
+#editor-container {
+    flex-grow: 1; 
+    min-height: 200px; 
+    max-height: 400px; 
+    overflow-y: auto; 
+    margin-bottom: 16px;
+    border: 1px solid var(--third-color);
+    border-radius: var(--radius-sm);
+    background-color: var(--primary-color);
+    transition: border-color var(--transition-smooth), box-shadow var(--transition-smooth);
+
+    &:focus-within {
+        border-color: var(--accent-color);
+        box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+    }
+    
+}
+.editor-wrapper {
+    max-width: 800px;
+    margin: 1.5rem auto;
+    background: var(--primary-color);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--third-color);
+    overflow: visible;
+    transition: box-shadow var(--transition-smooth), border-color var(--transition-smooth);
+    flex-shrink: 0; 
+    margin-bottom: 16px;
+    width: 100%;
+    display: block;
+
+    &:focus-within {
+        border-color: var(--accent-color);
+        box-shadow: var(--shadow-lg), 0 0 0 3px rgba(129, 140, 248, 0.15);
     }
 }
+
 
 #signUp-card input[type="file"] { 
     display: none !important; 
 }
 
-/* Unique Modal Additions */
+
 .file-upload-wrapper {
     display: flex;
     align-items: center;
@@ -443,6 +518,9 @@
             width: 24px;
             height: 24px;
             fill: white;
+            path {
+                fill: var(--primary-color) !important;
+            }
         }
     }
 
@@ -537,5 +615,31 @@
     &.error {
         border-left: 4px solid var(--warning-text-color);
         .title { color: var(--warning-text-color); }
+    }
+}
+
+.no-notes-message {
+    margin: 0 ;
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--font-muted);
+    font-size: 14px;
+    margin-top: 40px;
+    height: 100vh;
+    
+    img {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 16px;
+    }
+
+    p {
+        margin-top: 8px;
+        font-size: 20px;
+        color: var(--font-muted);
+        margin-bottom: 150px;
     }
 }
