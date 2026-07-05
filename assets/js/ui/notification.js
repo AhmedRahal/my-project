@@ -5,8 +5,6 @@ let queue = [];
 
 export function showNotification(type, messageText) {
     const notification = { type, messageText };
-
-    // If space available → show immediately
     if (activeNotifications.length < MAX_VISIBLE) {
         renderNotification(notification);
     } else {
@@ -30,11 +28,9 @@ function renderNotification({ type, messageText }) {
             <span class="message-text">${messageText}</span>
         </div>
     `;
-    
-    // track active
     activeNotifications.push({ id, element: box });
     killNotificationAfterDelay(id, 5000); //
-    // close button
+
     box.querySelector(".close-message").addEventListener("click", () => {
         removeNotification(id);
     });
@@ -45,7 +41,6 @@ function renderNotification({ type, messageText }) {
 export function removeNotification(id) {
     const messagesContainer = document.querySelector(".notification-container");
 
-    // remove from active list + DOM
     activeNotifications = activeNotifications.filter(n => {
         if (n.id === id) {
             n.element.remove();
@@ -54,7 +49,6 @@ export function removeNotification(id) {
         return true;
     });
 
-    // fill slot from queue
     if (queue.length > 0 && activeNotifications.length < MAX_VISIBLE) {
         const next = queue.shift();
         renderNotification(next);

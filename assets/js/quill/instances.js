@@ -42,9 +42,8 @@ let titlequillOptions = {
     }
 };
 
-// Export the initialization so it can be safely triggered once the UI elements exist
+
 export async function setupQuillInstances() {
-    // 1. Initialize Main Content Editor
     const contentInstance = await initializeQuillEditor('#editor-container', quillOptions);
     if (contentInstance) {
         setQuillContentInstance(contentInstance);

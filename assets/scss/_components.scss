@@ -1,4 +1,4 @@
-/* Sliders & Toggles */
+
 .toggle {
     cursor: pointer;
     position: relative;
@@ -42,7 +42,6 @@
     }
 }
 
-/* Settings Menu Layout */
 .settings-menu {
     cursor: pointer;
     position: relative;
@@ -76,6 +75,27 @@
         .settings-dropdown {
             right: 20px;
         }
+    }
+    &:hover .setting-text-dropdown {
+        opacity: 1;
+        visibility: visible;
+    }
+    .setting-text-dropdown {
+        font-size: 14px;
+        font-weight: 500;
+        position: absolute;
+        right: 20px;
+        top: 0;
+        margin-right: 10px;
+        color: var(--font-color);
+        background-color: var(--primary-color);
+        border: 1px solid var(--third-color);
+        border-radius: var(--radius-sm);
+        padding: 6px 12px;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity var(--transition-smooth), visibility var(--transition-smooth);
+        
     }
 
     .settings-dropdown{
@@ -139,7 +159,7 @@
     }
 }
 
-/* Search bar components */
+
 .search-bar {
     display: flex;
     position: relative;
@@ -194,7 +214,7 @@
     }
 }
 
-/* User Pill */
+
 .user {
     display: flex;
     align-items: center;
@@ -222,7 +242,7 @@
     }
 }
 
-/* Modals */
+
 #signUp-card, #login-card, #add-note-card {
     position: fixed;
     top: 50%;
@@ -292,7 +312,6 @@
     }
 }
 
-/* ... Everything above #add-note-card stays exactly the same ... */
 
 #add-note-card {
     width: 100%;
@@ -322,17 +341,13 @@
         flex-shrink: 0;
         margin-top: auto; 
     }
-} // <--- FIXED: This closing brace was missing!
-
-// Cleanly detached Quill container layout configurations
+}
 #note-title {
     margin-bottom: 16px;
     font-size: 18px;
     font-weight: 600;
     flex-shrink: 0; 
     height: 55px; 
-
-    // Target the actual .ql-editor injected inside #note-title
     & .ql-editor {
         display: block !important;
         height: auto !important; 
@@ -340,6 +355,44 @@
         overflow-y: hidden !important;
     }
 
+}
+.tag-input-wrapper {
+    width: 100%;
+    position: relative;
+}
+
+.suggestion-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
+    padding: 10px 14px;
+    font-size: 13px;
+    color: var(--font-color);
+    cursor: pointer;
+    transition: background-color var(--transition-smooth);
+
+    &:hover, &.selected {
+        background-color: var(--third-color);
+        color: var(--accent-color);
+
+        .tag-status-badge {
+            background-color: var(--primary-color);
+            color: var(--accent-color);
+        }
+    }
+
+    .tag-status-badge {
+        font-size: 10px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        background-color: var(--secondary-color);
+        color: var(--font-muted);
+        padding: 2px 6px;
+        border-radius: 4px;
+        border: 1px solid var(--third-color);
+        transition: all var(--transition-smooth);
+    }
 }
 #editor-container {
     flex-grow: 1; 
@@ -473,7 +526,6 @@
     }
 }
 
-/* FAB button */
 .add-note-btn {
     position: fixed;
     bottom: 32px;
@@ -541,7 +593,6 @@
     }
 }
 
-/* Toast System Layout */
 .notification-container {
     position: fixed;
     bottom: 24px;

@@ -1,5 +1,3 @@
-// config.js
-// assets/js/ui/config.js
 export let quillTitle = null;
 export let quillContent = null;
 

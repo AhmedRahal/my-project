@@ -11,6 +11,6 @@ export function handleApiError(error) {
         showNotification("error", "Invalid session. Please log in again.");
         logout();
     } else {
-        showNotification("error", error.error || "An unexpected error occurred");
+        showNotification("error", error || "An unexpected error occurred");
     }
 }

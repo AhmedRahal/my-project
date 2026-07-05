@@ -1,4 +1,3 @@
-/* --- FILE: assets/js/ui/userUi.js --- */
 
 import { getFromLocalStorage, saveToLocalStorage } from "../utils/storage.js";
 import { getNotesForUser } from "../api/notes.js";
@@ -13,12 +12,23 @@ const userDiv = document.querySelector('header .user');
 const usersignUpLogout = document.getElementById("user-signUp-logout");
 const notesContainer = document.querySelector(".notes-content");
 const searchBar = document.querySelector('header .search-bar');
+const signUpImageinput = document.getElementById("signUp-profile-picture");
+const fileText = document.getElementById('file-name-display');
+
+signUpImageinput.addEventListener('change', function() {
+    if (this.files && this.files.length > 0) {
+        fileText.textContent = this.files[0].name;
+        fileText.style.opacity = "1";
+    } else {
+        fileText.textContent = 'No file chosen';
+        fileText.style.opacity = "0.6";
+    }
+});
+
 
 export function handlesUserUI(loggedInUser) {
     handlesNotesUI(loggedInUser);
     if (!loggedInUser) {
-        
-        // Use an assignment property to avoid duplicate click bindings
         searchBar.onclick = () => {
             showNotification("warning", "Please log in to search your notes.");
             closeAllModals();

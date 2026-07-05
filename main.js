@@ -35,7 +35,7 @@ app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') app.quit();
 });
 
-// --- IPC HANDLERS ---
+
 ipcMain.on('set-startup', (event, value) => {
     app.setLoginItemSettings({ openAtLogin: value });
 });

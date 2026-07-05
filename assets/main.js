@@ -9,20 +9,21 @@ import { getNotesForUser } from "./js/api/notes.js";
 import { triggerAddNoteModal } from "./js/ui/notesUI.js";
 import { setupQuillInstances } from "./js/quill/instances.js";
 import { applyTheme } from "./js/ui/theme.js";
-
+import {initIPC} from "./js/electron/ipc.js";
+import { checkStatus } from "./js/utils/statue.js";
 const searchBar = document.querySelector('header .search-bar');
 const settingsBtn = document.querySelector('header .settings-menu');
 const settingsDropdown = document.querySelector('header .settings-dropdown');
 const darkModeToggle = document.querySelector('header .settings-dropdown #dark-mode .toggle input');
 const userDiv = document.querySelector('header .user');
-const signUpUsernameInput = document.getElementById("signUp-username");
 const signUpPasswordInput = document.getElementById("signUp-password");
-const signUpImageinput = document.getElementById("signUp-profile-picture");
 const signUpCard = document.getElementById("signUp-card");
-const fileText = document.getElementById('file-name-display');
+
 const loginUsernameInput = document.getElementById("login-username");
 const loginPasswordInput = document.getElementById("login-password");
 const submitLoginBtn = document.getElementById("submit-login");
+
+const signUpUsernameInput = document.getElementById("signUp-username");
 const adddNoteBtn = document.getElementById("addNoteBtn");
 const addnoteCard = document.querySelector(".add-note-card");
 let messageclosebtns = document.getElementsByClassName("close-message");
@@ -36,6 +37,7 @@ overlay.addEventListener("click", () => {
     closeAllModals();
 });
 
+
 settingsBtn.addEventListener("click", (e) => {
     showModal(settingsDropdown);
 });
@@ -44,15 +46,7 @@ settingsDropdown.addEventListener("click", (e) => {
     e.stopPropagation();
 });
 
-signUpImageinput.addEventListener('change', function() {
-    if (this.files && this.files.length > 0) {
-        fileText.textContent = this.files[0].name;
-        fileText.style.opacity = "1";
-    } else {
-        fileText.textContent = 'No file chosen';
-        fileText.style.opacity = "0.6";
-    }
-});
+
 
 console.log(getFromLocalStorage('loggedInUser'));
 
@@ -61,18 +55,19 @@ darkModeToggle.addEventListener('change', () => {
     applyTheme(settings.darkMode);
     saveToLocalStorage('settings', settings);
 });
-    // 1. Fire Settings initialization immediately (runs synchronously)
-    loadSettings();              
-    console.log("dom loaded")
-    // 2. Bind UI elements
-    triggerAddNoteModal();   
-// CRITICAL LIFE CYCLE SYNC:
+loadSettings();              
+triggerAddNoteModal();   
 
 window.addEventListener('DOMContentLoaded', () => {
-    
-
-    // 3. Fire Quill text engines asynchronously on their own chain safely
+    initIPC();
+    checkStatus();
     setupQuillInstances().catch(err => {
         console.error("Delayed Quill engine initialization failed completely: ", err);
     });
+});
+window.addEventListener('online', () => {
+    checkStatus();
+});
+window.addEventListener('offline', () => {
+    checkStatus();
 });

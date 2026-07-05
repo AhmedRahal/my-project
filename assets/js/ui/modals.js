@@ -1,11 +1,6 @@
-// --- FILE: C:\DEV\my project\assets\js\ui\modals.js ---
 const overlay = document.querySelector('#overlay');
 
-/**
- * Closes all open popups/modals except the optional exception modal
- */
 export function closeAllModals(exceptionModal = null) {
-    // Dynamically grab anything that could act as an active popup container
     const activePopups = document.querySelectorAll('.modal.active, .settings-dropdown.active, .search-bar.active');
     
     activePopups.forEach(popup => {

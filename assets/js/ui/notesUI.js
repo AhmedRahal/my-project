@@ -1,13 +1,16 @@
 import { closeModal, showModal } from "./modals.js";
-import { sendNoteToBackend, getNotesForUser,updateNote,deleteNote } from "../api/notes.js";
+import { sendNoteToBackend, getNotesForUser, updateNote, deleteNote } from "../api/notes.js";
 import { timeAgo } from "../utils/time.js";
-import { getFromLocalStorage,saveToLocalStorage } from "../utils/storage.js";
+import { getFromLocalStorage, saveToLocalStorage } from "../utils/storage.js";
 import { showNotification } from "./notification.js";
 import { quillTitle, quillContent } from "./config.js"; 
+import { createTagsSuggestionUI, createTagsUI,closeDropdown } from "./tagsUI.js";
+import { getUserTags } from "../utils/tags.js";
 let loggedInUser = getFromLocalStorage("loggedInUser");
 const addNoteBtn = document.getElementById("addNoteBtn");
 const notesContainer = document.querySelector(".notes-content");
 const addnoteCard = document.getElementById("add-note-card");
+
 function buildNoteHTML(note) {
     let processedContent = note.content;
     if (processedContent) {
@@ -50,11 +53,12 @@ function buildNoteHTML(note) {
 export function createNotes(notes) {
     saveToLocalStorage("notes", notes);
     notesContainer.innerHTML = ""; 
-    
-    const isPinnedNotes = notes.filter(note => note.isPinned);
-    const regularNotes = notes.filter(note => !note.isPinned);
-    
-    // 1. Render Pinned Section
+    if (notes.length === 0) {
+            notesContainer.innerHTML = `<span id = "message-0">No notes available. Click the "Add Note" button to create your first note.</span>`;
+            return; 
+    }
+    let isPinnedNotes = notes.filter(note => note.isPinned);
+    let regularNotes = notes.filter(note => !note.isPinned);
     if (isPinnedNotes.length > 0) {
         const divider = document.createElement("div");
         divider.classList.add("grid-separator");
@@ -66,7 +70,6 @@ export function createNotes(notes) {
         });
     }
     
-    // 2. Section Divider Break
     if (isPinnedNotes.length > 0 && regularNotes.length > 0) {
         const divider = document.createElement("div");
         divider.classList.add("grid-separator");
@@ -74,12 +77,9 @@ export function createNotes(notes) {
         notesContainer.appendChild(divider);
     }
     
-    // 3. Render Standard Notes
     regularNotes.forEach(note => {
         notesContainer.insertAdjacentHTML('beforeend', buildNoteHTML(note));
     });  
-
-    // Event Delegations
     let deleteBtns = document.querySelectorAll(`.notes-content .delete-btn`);
     deleteBtns.forEach(btn => {
         btn.addEventListener("click", () => {
@@ -95,83 +95,105 @@ export function createNotes(notes) {
         });
     });
 }
+
 export function triggerAddNoteModal() {
     addNoteBtn.addEventListener("click", () => {
         let tags = [];
         closeModal(document.querySelector(".modal.active"));
-
         showModal(addnoteCard);
-        
+        closeDropdown(document.getElementById("tags-suggestion-dropdown"));
         const submitNoteBtn = document.getElementById("save-note-btn");
         const noteTagsInput = document.querySelector("#add-note-card .add-tag input");
         const notePinnedInput = document.getElementById("pinNote");
         const tagsSubmitbtn = document.getElementById("add-tag-btn");
         const tagsContainer = document.querySelector("#add-note-card .tags");
+        
         submitNoteBtn.textContent = "Add Note";
-        notePinnedInput.checked =   false;
+        notePinnedInput.checked = false;
         noteTagsInput.value = "";
         tagsContainer.innerHTML = "";
-
-        // Reset both Quill editors
         if (quillTitle) quillTitle.setText('');
         if (quillContent) quillContent.setText('');
+        
+        noteTagsInput.addEventListener("keypress", (event) => {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                tagsSubmitbtn.click();
+            }
+        });
+
+        noteTagsInput.addEventListener("input", () => {
+            createTagsSuggestionUI(noteTagsInput.value, loggedInUser?.userId, tags, (selectedTag) => {
+                if (!tags.includes(selectedTag)) {
+                    tags.push(selectedTag);
+                    createTagsUI(tags, tagsContainer);
+                }
+                noteTagsInput.value = "";
+                noteTagsInput.focus();
+            });
+        });
+
+        document.addEventListener("click", (e) => {
+            const dropdown = document.getElementById("tags-suggestion-dropdown");
+            if (dropdown && !noteTagsInput.contains(e.target)) {
+                dropdown.style.display = "none";
+            }
+        });
 
         tagsSubmitbtn.onclick = () => {
-            // refactor this part to use the createTagsUI function to avoid code duplication
             const newTags = noteTagsInput.value.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0);
             noteTagsInput.value = "";
-            tags = [...new Set([...tags, ...newTags])]; // Merge and remove duplicates
+            tags = [...new Set([...tags, ...newTags])]; 
             createTagsUI(tags, tagsContainer);
         };
-    submitNoteBtn.onclick = async () => {
-        const User = localStorage.getItem("loggedInUser");
-        const now = new Date().toISOString();
-        const token = User ? JSON.parse(User).token : null;
-        
-        // FIX: Extract title as styled HTML instead of plain text
-        let noteTitle = "";
-        if (quillTitle) {
-            noteTitle = typeof quillTitle.getSemanticHTML === 'function' 
-                ? quillTitle.getSemanticHTML().trim() 
-                : quillTitle.root.innerHTML.trim();
-        }
-        
-        let editorContent = "";
-        if (quillContent) {
-            editorContent = typeof quillContent.getSemanticHTML === 'function' 
-                ? quillContent.getSemanticHTML().trim() 
-                : quillContent.root.innerHTML.trim();
-        }
-        
-        // Empty checks (Checking against raw text length so empty HTML tags don't bypass validation)
-        const isTitleEmpty = !quillTitle || quillTitle.getText().trim().length === 0;
-        const isContentEmpty = !quillContent || quillContent.getText().trim().length === 0;
 
-        const newNote = {
-            title: noteTitle, // Now contains the inline-styled HTML string
-            content: editorContent, 
-            isPinned: notePinnedInput.checked,
-            tags,
-            createdAt: now,
-            updatedAt: now
+        submitNoteBtn.onclick = async () => {
+            const User = localStorage.getItem("loggedInUser");
+            const now = new Date().toISOString();
+            const token = User ? JSON.parse(User).token : null;
+            let noteTitle = "";
+            if (quillTitle) {
+                noteTitle = typeof quillTitle.getSemanticHTML === 'function' 
+                    ? quillTitle.getSemanticHTML().trim() 
+                    : quillTitle.root.innerHTML.trim();
+            }
+            
+            let editorContent = "";
+            if (quillContent) {
+                editorContent = typeof quillContent.getSemanticHTML === 'function' 
+                    ? quillContent.getSemanticHTML().trim() 
+                    : quillContent.root.innerHTML.trim();
+            }
+            
+            const isTitleEmpty = !quillTitle || quillTitle.getText().trim().length === 0;
+            const isContentEmpty = !quillContent || quillContent.getText().trim().length === 0;
+
+            const newNote = {
+                title: noteTitle, 
+                content: editorContent, 
+                isPinned: notePinnedInput.checked,
+                tags,
+                createdAt: now,
+                updatedAt: now
+            };
+
+            if (isTitleEmpty || isContentEmpty) {
+                showNotification("error", "Title and content cannot be empty.");
+                return;
+            }
+
+            closeModal(addnoteCard);
+
+            try {
+                await sendNoteToBackend(newNote, token);
+                await getNotesForUser(token);
+            } catch (error) {
+                console.error(error);
+            }
         };
-
-        if (isTitleEmpty || isContentEmpty) {
-            showNotification("error", "Title and content cannot be empty.");
-            return;
-        }
-
-        closeModal(addnoteCard);
-
-        try {
-            await sendNoteToBackend(newNote, token);
-            await getNotesForUser(token);
-        } catch (error) {
-            console.error(error);
-        }
-    };
     });
 }
+
 export function handlesNotesUI(user) {
     const noNotesMessage = document.createElement("div");
     noNotesMessage.classList.add("no-notes-message");
@@ -190,30 +212,45 @@ export function handlesNotesUI(user) {
     }
 }
 
-
 export function updateNoteUi(noteId, token) {
     let notes = getFromLocalStorage("notes") || [];
     let note = notes.find(n => n.id === noteId);
     let tags = [...note.tags];
+    
+    closeDropdown(document.getElementById("tags-suggestion-dropdown"));
     showModal(addnoteCard);
     const submitNoteBtn = document.getElementById("save-note-btn");
     const noteTagsInput = document.querySelector("#add-note-card .add-tag input");
     const notePinnedInput = document.getElementById("pinNote");
     const tagsSubmitbtn = document.getElementById("add-tag-btn");
     const tagsContainer = document.querySelector("#add-note-card .tags");
-    submitNoteBtn.textContent = "Update Note"
+    
+    noteTagsInput.value = '';
+    submitNoteBtn.textContent = "Update Note";
     notePinnedInput.checked = note.isPinned;
-    console.log(quillTitle  , quillContent);
-    createTagsUI(note.tags, tagsContainer);
-        tagsSubmitbtn.onclick = () => {
-            const newTags = noteTagsInput.value.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0);
+    
+    createTagsUI(tags, tagsContainer);
+    noteTagsInput.addEventListener("input", () => {
+        createTagsSuggestionUI(noteTagsInput.value, loggedInUser?.userId, tags, (selectedTag) => {
+            if (!tags.includes(selectedTag)) {
+                tags.push(selectedTag);
+                createTagsUI(tags, tagsContainer);
+            }   
             noteTagsInput.value = "";
-            tags = [...new Set([...tags, ...newTags])]; 
-            createTagsUI(tags, tagsContainer);
-        };
-    if (quillTitle) quillTitle.root.innerHTML = note.title
+            noteTagsInput.focus();
+        });
+    });
+
+    tagsSubmitbtn.onclick = () => {
+        const newTags = noteTagsInput.value.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0);
+        noteTagsInput.value = "";
+        tags = [...new Set([...tags, ...newTags])]; 
+        createTagsUI(tags, tagsContainer);
+    };
+
+    if (quillTitle) quillTitle.root.innerHTML = note.title;
     if (quillContent) quillContent.root.innerHTML = note.content;
-    console.log("Update Note button clicked for noteId:", noteId);
+    
     submitNoteBtn.onclick = async () => {
         const now = new Date().toISOString();
         const updatedNote = {
@@ -229,22 +266,3 @@ export function updateNoteUi(noteId, token) {
     };
 }
 
-function createTagsUI(tags, tagsContainer) {
-    tagsContainer.innerHTML = "";
-    tags.map(tag => {
-        const tagElement = document.createElement("div");
-        tagElement.classList.add("tag");
-        const tagText = document.createElement("span");
-        tagText.textContent = tag;
-        tagElement.appendChild(tagText);
-        const delBtn = document.createElement("button");
-        delBtn.textContent = "x";
-        delBtn.classList.add("delete-tag-btn");
-        delBtn.onclick = () => {
-            tagsContainer.removeChild(tagElement);
-            tags = tags.filter(t => t !== tag);
-        }
-        tagElement.appendChild(delBtn);
-        tagsContainer.appendChild(tagElement);
-    });
-}

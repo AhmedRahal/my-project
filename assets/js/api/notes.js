@@ -1,7 +1,7 @@
 import { createNotes } from "../ui/notesUi.js";
 import { showNotification } from "../ui/notification.js";
 import { apiUrl } from "./config.js";
-import { handleApiError } from "./errorHandlers.js";
+import { handleApiError } from "./errorHandler.js";
 
 
 export async function getNotesForUser(token) { 

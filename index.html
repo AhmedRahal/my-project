@@ -38,10 +38,13 @@
     </div>
 
     <div class="card-footer">
-          <div class="add-tag">
-        <input type="text" placeholder="Add a tag...">
-        <button id="add-tag-btn" type="button">Add Tag</button>
-    </div>
+      <div class="add-tag">
+          <div class="tag-input-wrapper" style="position: relative; width: 100%;">
+              <input type="text" placeholder="Add a tag...">
+              <div id="tags-suggestion-dropdown" class="tags-dropdown-menu"></div>
+          </div>
+          <button id="add-tag-btn" type="button">Add Tag</button>
+      </div>
     <div class="tags"></div>
     <div id="isPinned">
       <label for="pin-note">
@@ -84,6 +87,7 @@
           <div class="line"></div>
           <div class="line"></div>
         </div>
+        <span class="setting-text-dropdown">Settings</span>
         <div class="settings-dropdown modal" id="settings-dropdown-modal">
           <ul>
             <li id="dark-mode">
@@ -129,6 +133,5 @@
   <div class="notification-container">
   </div>
   <script src="./assets/main.js" type="module"></script>
-  <script src="renderer.js"></script>
 </body>
 </html>

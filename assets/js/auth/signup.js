@@ -41,7 +41,7 @@ export function signUp() {
                 console.log("Logged In Successfully:", loggedInUser);
                 saveToLocalStorage("loggedInUser", loggedInUser);
                 saveToLocalStorage("userToken", loggedInUser.token);
-                handlesUserUI();
+                handlesUserUI(loggedInUser);
                 showNotification("success", "Sign up successful");
                 signUpCard.classList.remove("active");
                 overlay.classList.remove("active");
@@ -55,6 +55,3 @@ export function signUp() {
         signUpImageinput.value = "";
     });
 }
-
-
-

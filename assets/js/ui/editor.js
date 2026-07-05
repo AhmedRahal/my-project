@@ -1,22 +1,18 @@
 export async function initializeQuillEditor(id, options) {
     try {
-        // Wait completely until the script is injected and window.Quill is initialized
         await window.api.loadQuillScript();
         console.log("Quill script loaded successfully, window.Quill is now available.");
         if (!window.Quill) {
             throw new Error("Quill script loaded, but window.Quill remains undefined.");
         }
 
-        // CRITICAL FIX: Only register global formats once to prevent registry corruption
         if (!window.Quill.__stylesRegistered) {
             const ColorStyle = window.Quill.import('attributors/style/color');
             const BackgroundStyle = window.Quill.import('attributors/style/background');
-            // const SizeStyle = window.Quill.import('attributors/style/size');
             const AlignStyle = window.Quill.import('attributors/style/align');
 
             window.Quill.register(ColorStyle, true);
             window.Quill.register(BackgroundStyle, true);
-            // window.Quill.register(SizeStyle, true);
             window.Quill.register(AlignStyle, true);
             
             window.Quill.__stylesRegistered = true;

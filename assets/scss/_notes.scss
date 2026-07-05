@@ -7,7 +7,14 @@
     overflow-y: auto;
     background-color: var(--secondary-color);
     align-content: start;
-
+    #message-0 {
+        grid-column: 1 / -1;
+        margin-top: 80px;
+        font-size: 16px;
+        text-align: center;
+        color: var(--font-muted);
+        font-style: italic;
+    }
     .grid-separator {
         grid-column: 1 / -1;
         display: flex;
@@ -30,8 +37,6 @@
             background-color: var(--third-color);
         }
     }
-
-    /* Target the individual card */
     .note-card {
         background-color: var(--primary-color);
         border: 1px solid var(--third-color);
@@ -48,8 +53,6 @@
             transform: translateY(-4px);
             box-shadow: var(--shadow-lg);
             border-color: var(--font-muted);
-
-            /* Show action buttons inside this specific card */
             .note-card-footer .note-action-row {
                 opacity: 1;
                 transform: translateY(0);
@@ -114,7 +117,6 @@
                 display: list-item !important;
             }
 
-            // 3. Isolated layout for task checkboxes processed via JS
             li[data-list="unchecked"], 
             li[data-list="checked"] {
                 list-style-type: none !important;
@@ -124,7 +126,6 @@
                 padding-left: 10px !important;
             }
 
-            // 4. Color alignments for dynamic JS components
             .ql-todo-icon {
                 position: absolute;
                 left: 0;
@@ -184,7 +185,6 @@
                 font-weight: 500;
             }
 
-            /* Action row animation rules */
             .note-action-row {
                 display: flex;
                 gap: 8px;
