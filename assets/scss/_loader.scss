@@ -1,0 +1,76 @@
+// ==============================================================================
+// Loader & Submission Request Blocking System
+// ==============================================================================
+button.is-loading-btn,
+.modal button.is-loading-btn {
+    position: relative;
+    color: transparent !important;
+    pointer-events: none !important;
+    
+    &::after {
+        content: "";
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        top: calc(50% - 8px);
+        left: calc(50% - 8px);
+        border: 2px solid transparent;
+        border-radius: 50%;
+        border-top-color: #ffffff !important; // Forces visibility over background clear-outs
+        border-right-color: #ffffff !important;
+        animation: btnSpinner 0.6s linear infinite;
+    }
+}
+@keyframes btnSpinner {
+    to { transform: rotate(360deg); }
+}
+
+// 2. Global Blocking Modal Overlay & Message Display
+#global-request-blocker {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(15, 23, 42, 0.4); // Subtle tinted overlay
+    backdrop-filter: blur(2px);
+    z-index: 99999; // Top tier priority over modal layers (100)
+    display: none;
+    justify-content: center;
+    align-items: center;
+
+    &.active {
+        display: flex;
+    }
+
+    .blocker-status-box {
+        background-color: var(--primary-color);
+        border: 1px solid var(--third-color);
+        box-shadow: var(--shadow-lg);
+        padding: 16px 24px;
+        border-radius: var(--radius-md);
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        animation: appearMessage 0.25s var(--transition-smooth);
+
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--third-color);
+            border-top-color: var(--accent-color);
+            border-radius: 50%;
+            animation: btnSpinner 0.8s linear infinite;
+        }
+
+        span {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--font-color);
+        }
+    }
+}
+
+// 3. Prevent interaction inside fields / Quill windows when loading
+.app-is-submitting {
+    pointer-events: none !important;
+    user-select: none !important;
+    opacity: 0.7;
+}

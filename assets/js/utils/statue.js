@@ -1,13 +1,12 @@
 import {showNotification} from "../ui/notification.js";
-
-let onlineStatus = navigator.onLine;
-export function checkStatus() {
+export function checkStatus(message = null,displayMessage=true) {
     if (navigator.onLine) {
-        showNotification("success", "You are online. You can sync your notes with the server.");
+
+        displayMessage ? showNotification("success", message || "You are online. You can sync your notes with the server.") : true;
         console.log("Online");
         return true;
     } else {
-        showNotification("warning", "You are in offline mode. All changes will be saved locally and synced when back online.");
+        displayMessage ? showNotification("warning",message || "You are in offline mode. All changes will be saved locally and synced when back online.")  : false;
         console.log("Offline");
         return false;
     }  

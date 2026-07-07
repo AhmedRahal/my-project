@@ -3,7 +3,7 @@ import { showNotification } from '../ui/notification.js';
 import { handlesUserUI } from '../ui/userUi.js';
 import { saveToLocalStorage } from '../utils/storage.js';
 import { closeAllModals } from '../ui/modals.js';
-
+import { handleApiError } from './errorHandler.js';
 export async function login(username, password) {
     let loggedInUser = null;
     try {
@@ -51,10 +51,10 @@ export async function register(formDataPayload) {
         if (response.ok) {
             return data; 
         } else {
-            console.error('Server registration error payload:', data);
-            return data;
+            throw data;
         }
     } catch (error) {
+        handleApiError(error);
         return error;
     }
 }

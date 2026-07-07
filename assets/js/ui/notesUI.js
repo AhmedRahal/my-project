@@ -4,8 +4,11 @@ import { timeAgo } from "../utils/time.js";
 import { getFromLocalStorage, saveToLocalStorage } from "../utils/storage.js";
 import { showNotification } from "./notification.js";
 import { quillTitle, quillContent } from "./config.js"; 
-import { createTagsSuggestionUI, createTagsUI,closeDropdown } from "./tagsUI.js";
+import { createTagsSuggestionUI, createTagsUI, closeDropdown } from "./tagsUI.js";
 import { getUserTags } from "../utils/tags.js";
+// IMPORT YOUR LOADER UTILITIES HERE
+import { startLoading, stopLoading } from "../utils/requestManager.js"; 
+
 let loggedInUser = getFromLocalStorage("loggedInUser");
 const addNoteBtn = document.getElementById("addNoteBtn");
 const notesContainer = document.querySelector(".notes-content");
@@ -19,8 +22,9 @@ function buildNoteHTML(note) {
             .replace(/<li data-list="checked">/g, '<li data-list="checked"><span class="ql-todo-icon">&#9745;</span> ');
     }
 
+    // Set the HTML attribute explicitly using your note.noteId property
     return `
-        <div class="note-card" id="${note.id}">
+        <div class="note-card" noteId="${note.noteId}">
             <div class="note-card-header">
                 <div class="note-card-title ql-editor">${note.title}</div>
             </div>
@@ -80,17 +84,22 @@ export function createNotes(notes) {
     regularNotes.forEach(note => {
         notesContainer.insertAdjacentHTML('beforeend', buildNoteHTML(note));
     });  
+
+    // Handle Delete Clicks using getAttribute('noteId')
     let deleteBtns = document.querySelectorAll(`.notes-content .delete-btn`);
     deleteBtns.forEach(btn => {
         btn.addEventListener("click", () => {
-            const noteId = btn.closest('.note-card').id;
+            const noteId = btn.closest('.note-card').getAttribute('noteId');
             deleteNote(noteId, loggedInUser.token);
         });
     });
+
+    // Handle Edit Clicks using getAttribute('noteId')
     let editBtns = document.querySelectorAll(`.notes-content .edit-btn`);
     editBtns.forEach(btn => {
         btn.addEventListener("click", () => {
-            const noteId = btn.closest('.note-card').id;
+            const noteId = btn.closest('.note-card').getAttribute('noteId');
+            console.log("NoteId:", noteId);
             updateNoteUi(noteId, loggedInUser.token);
         });
     });
@@ -168,6 +177,11 @@ export function triggerAddNoteModal() {
             const isTitleEmpty = !quillTitle || quillTitle.getText().trim().length === 0;
             const isContentEmpty = !quillContent || quillContent.getText().trim().length === 0;
 
+            if (isTitleEmpty || isContentEmpty) {
+                showNotification("error", "Title and content cannot be empty.");
+                return;
+            }
+
             const newNote = {
                 title: noteTitle, 
                 content: editorContent, 
@@ -177,18 +191,16 @@ export function triggerAddNoteModal() {
                 updatedAt: now
             };
 
-            if (isTitleEmpty || isContentEmpty) {
-                showNotification("error", "Title and content cannot be empty.");
-                return;
-            }
-
-            closeModal(addnoteCard);
+            startLoading({ buttonElement: submitNoteBtn });
 
             try {
                 await sendNoteToBackend(newNote, token);
                 await getNotesForUser(token);
+                closeModal(addnoteCard); 
             } catch (error) {
                 console.error(error);
+            } finally {
+                stopLoading(submitNoteBtn);
             }
         };
     });
@@ -214,7 +226,15 @@ export function handlesNotesUI(user) {
 
 export function updateNoteUi(noteId, token) {
     let notes = getFromLocalStorage("notes") || [];
-    let note = notes.find(n => n.id === noteId);
+    // Matched specifically against the n.noteId field inside local storage
+    let note = notes.find(n => n.noteId == noteId);
+    
+    if (!note) {
+        console.error(`Note with ID ${noteId} not found in local storage.`);
+        showNotification("error", "Failed to retrieve note records.");
+        return;
+    }
+
     let tags = [...note.tags];
     
     closeDropdown(document.getElementById("tags-suggestion-dropdown"));
@@ -261,8 +281,17 @@ export function updateNoteUi(noteId, token) {
             tags,
             updatedAt: now
         };
-        await updateNote(noteId, updatedNote, token);
-        closeModal(addnoteCard);
+
+        startLoading({ buttonElement: submitNoteBtn });
+
+        try {
+            await updateNote(noteId, updatedNote, token);
+            closeModal(addnoteCard); 
+        } catch (error) {
+            console.error(error);
+            showNotification("error", "Failed to update note.");
+        } finally {
+            stopLoading(submitNoteBtn, "Update Note");
+        }
     };
 }
-

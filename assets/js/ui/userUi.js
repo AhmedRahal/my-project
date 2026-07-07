@@ -7,7 +7,7 @@ import { showNotification } from "./notification.js";
 import { loginUser } from "../auth/login.js";
 import { logout } from "../auth/logout.js";
 import { handlesNotesUI } from "./notesUI.js";
-
+import {checkStatus} from "../utils/statue.js"
 const userDiv = document.querySelector('header .user');
 const usersignUpLogout = document.getElementById("user-signUp-logout");
 const notesContainer = document.querySelector(".notes-content");
@@ -43,10 +43,22 @@ export function handlesUserUI(loggedInUser) {
         const signUpBtn = document.getElementById("signUp-btn");
         const loginBtn = document.getElementById("login-btn");
         signUpBtn.onclick = () => {
-            signUp();
+            if (checkStatus(null,false) ){
+
+                signUp();
+            }else {
+                showNotification("warning",  "you are offline. please connect to the internet to login");
+                closeAllModals();
+            }
         };
         loginBtn.onclick = () => {
-            loginUser();
+            if (checkStatus(null,false) ){
+
+                loginUser();
+            }else {
+                showNotification("warning",  "you are offline. please connect to the internet to login");
+                closeAllModals();
+            }
         };
 
     } else {
