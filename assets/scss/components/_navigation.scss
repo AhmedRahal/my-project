@@ -28,12 +28,33 @@
         left: 14px;
         display: flex;
         align-items: center;
-        pointer-events: none;
+        pointer-events: auto; 
+        cursor: pointer;
+        z-index: 2;
 
         svg {
             width: 18px;
             height: 18px;
-            fill: var(--font-muted);
+            stroke: var(--font-muted); 
+            transition: var(--transition-smooth);
+
+            /* CHANGE HERE: Force the lens fill to map to your primary color variable */
+            .lens-bg {
+                fill: var(--primary-color);
+                transition: var(--transition-smooth);
+            }
+        }
+    }
+
+    /* Target both the stroke and the lens fill when focusing the input */
+    &:focus-within {
+        .icon svg {
+            stroke: var(--accent-color);
+            
+            .lens-bg {
+                /* Optional: Changes the lens background to match the input's focus background */
+                fill: var(--primary-color); 
+            }
         }
     }
 
@@ -58,8 +79,158 @@
             box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
         }
     }
+    input {
+        width: 100%;
+        padding: 10px 46px 10px 42px; // Expand right padding to allocate space for filter icon
+        background-color: var(--secondary-color);
+        border: 1px solid var(--third-color);
+        border-radius: var(--radius-md);
+        font-size: 14px;
+        color: var(--font-color);
+        transition: var(--transition-smooth);
+    }
+
+    // NEW: Style your interactive filtering button trigger
+.filter-toggle-btn {
+        position: absolute;
+        right: 14px; /* Locks it to the right inside the relative container */
+        top: 50%;
+        transform: translateY(-50%); /* Perfectly centers it vertically */
+        background: none;
+        border: none;
+        color: var(--font-muted);
+
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 4px;
+        width: 30px;
+        height: 30px; /* Explicit height ensures clean vertical alignment */
+        border-radius: var(--radius-sm);
+        transition: var(--transition-smooth);
+        z-index: 2;
+
+        &:hover, &.active {
+            color: var(--accent-color);
+            background-color: var(--third-color);
+        }
+    }
+
+    // NEW: Premium Floating Advanced Filter Control Dropdown Panel
+    .filter-dropdown-panel {
+        position: absolute;
+        top: calc(100% + 8px);
+        right: 0;
+        width: 320px;
+        background-color: var(--secondary-color);
+        border: 1px solid var(--third-color);
+        border-radius: var(--radius-md);
+        padding: 16px;
+        box-shadow: var(--shadow-lg);
+        display: none; // Controlled via JS toggle class
+        flex-direction: column;
+        gap: 14px;
+        z-index: 1000;
+
+        &.active {
+            display: flex;
+            animation: fadeInSlide 0.2s ease-out;
+        }
+
+        .filter-row {
+            display: flex;
+            gap: 12px;
+            width: 100%;
+
+            &.status-toggles {
+                flex-direction: column;
+                gap: 10px;
+                background-color: var(--primary-color);
+                padding: 10px;
+                border-radius: var(--radius-sm);
+                border: 1px solid var(--third-color);
+            }
+        }
+
+        .filter-group {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+
+            &.full-width {
+                width: 100%;
+            }
+
+            label {
+                font-size: 12px;
+                font-weight: 600;
+                color: var(--font-muted);
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+
+            select, input[type="text"] {
+                width: 100%;
+                padding: 8px 12px;
+                background-color: var(--primary-color);
+                border: 1px solid var(--third-color);
+                border-radius: var(--radius-sm);
+                font-size: 13px;
+                color: var(--font-color);
+                transition: var(--transition-smooth);
+                outline: none;
+
+                &:focus {
+                    border-color: var(--accent-color);
+                }
+            }
+        }
+
+        .toggle-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .toggle-label {
+                font-size: 13px;
+                color: var(--font-color);
+            }
+        }
+
+        .clear-filters-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: var(--third-color);
+            border: none;
+            border-radius: var(--radius-sm);
+            color: var(--font-color);
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            margin-top: 4px;
+
+            &:hover {
+                background-color: var(--accent-color);
+                color: #ffffff;
+            }
+        }
+    }
 }
 
+// Simple dropdown animation keyframe
+@keyframes fadeInSlide {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 // 2. Settings Trigger Menu (Burger Microinteraction) & Dropdown
 .settings-menu {
     cursor: pointer;

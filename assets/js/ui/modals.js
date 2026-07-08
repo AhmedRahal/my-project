@@ -15,14 +15,21 @@ export function closeAllModals(exceptionModal = null) {
 }
 
 
-export function showModal(modal) {
+export function showModal(modal, options = {}) {
     if (!modal) return;
-    console.log("Showing modal:", modal);
+    
+    const noOverlay = options.noOverlay || false;
+    const fromEvent = options.fromEvent || 'null';
+    const additionalModals = options.additionalModals || [];
+
+    console.log("Showing modal:", modal, fromEvent);
     closeAllModals(modal);
     
-    
-    if (overlay) overlay.classList.add("active");
+    if (overlay && !noOverlay) overlay.classList.add("active");
     modal.classList.add("active");
+    additionalModals.forEach(m => {
+        if (m) m.classList.add("active");
+    });
 }
 
 export function closeModal(modal) {

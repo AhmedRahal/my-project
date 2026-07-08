@@ -51,7 +51,6 @@ export async function setupQuillInstances() {
     }
 
     const titleEditorInstance = await initializeQuillEditor('#note-title', titlequillOptions);
-    console.log("D");
     if (titleEditorInstance) {
         setQuillTitleInstance(titleEditorInstance);
         

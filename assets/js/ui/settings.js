@@ -10,6 +10,5 @@ export function loadSettings() {
     }
     
     const savedUser = getFromLocalStorage('loggedInUser');
-        console.log(savedUser);
         handlesUserUI(savedUser);
 }

@@ -28,10 +28,11 @@ export async function handlesUserUI(loggedInUser) {
     // 1. Correctly wait for DOM container to be built/removed
             await handlesNotesUI(loggedInUser);
     if (!loggedInUser) {
-        searchBar.onclick = () => {
+        searchBar.addEventListener("click", (e) => {
+            e.stopPropagation();
             showNotification("warning", "Please log in to search your notes.");
             closeAllModals();
-        };
+        });
 
         userDiv.children[0].src = "assets/images/df_user.png";
         userDiv.children[1].textContent = "Guest";
@@ -41,7 +42,8 @@ export async function handlesUserUI(loggedInUser) {
         const signUpBtn = document.getElementById("signUp-btn");
         const loginBtn = document.getElementById("login-btn");
         
-        signUpBtn.onclick = () => {
+        signUpBtn.onclick = (e) => {
+            e.stopPropagation();
             if (checkStatus(null, false)) {
                 signUp();
             } else {
@@ -50,7 +52,8 @@ export async function handlesUserUI(loggedInUser) {
             }
         };
         
-        loginBtn.onclick = () => {
+        loginBtn.onclick = (e) => {
+            e.stopPropagation();
             if (checkStatus(null, false)) {
                 loginUser();
             } else {
@@ -67,9 +70,17 @@ export async function handlesUserUI(loggedInUser) {
             logout();
         };
 
-        searchBar.onclick = () => {
-            showModal(searchBar);
-        };
+        searchBar.addEventListener("click", (e) => {
+            const isDropdownClick = e.target.closest('.filter-dropdown-panel');
+            const isToggleBtnClick = e.target.closest('.filter-toggle-btn');
+
+    // If it's either of those, do nothing and return early
+    if (isDropdownClick || isToggleBtnClick) {
+        return;
+    }
+            e.stopPropagation();        
+            showModal(searchBar, {noOverlay: true, additionalModals: [document.getElementById('filterDropdownPanel')], fromEvent: 'userDiv' });
+        });
         
         saveToLocalStorage("loggedInUser", loggedInUser);
         

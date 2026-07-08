@@ -49,8 +49,10 @@ function buildNoteHTML(note) {
     `;
 }
 
-export async function createNotes(notes) {
-    saveToLocalStorage("notes", notes);
+export async function createNotes(notes,savedNotes=true) {
+    if (savedNotes) {
+        saveToLocalStorage("notes", notes);
+    }
     notesContainer = document.querySelector(".notes-content") ;
     notesContainer.innerHTML = ""; 
     if (notes.length === 0) {

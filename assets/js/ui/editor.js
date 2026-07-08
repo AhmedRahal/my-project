@@ -1,7 +1,6 @@
 export async function initializeQuillEditor(id, options) {
     try {
         await window.api.loadQuillScript();
-        console.log("Quill script loaded successfully, window.Quill is now available.");
         if (!window.Quill) {
             throw new Error("Quill script loaded, but window.Quill remains undefined.");
         }
