@@ -1,8 +1,19 @@
 @charset "UTF-8";
-@import 'token';
-@import 'base';
-@import 'layout';
-@import 'notes';
-@import 'loader';
-@import 'components';
-@import 'quill';
+
+// 1. Tokens
+@import 'abstracts/token';
+
+// 2. Core Architecture System Layers
+@import 'core/base';
+@import 'core/layout';
+@import 'components/loader';
+
+// 3. Extracted Modular UI Components
+@import 'components/forms';
+@import 'components/modals';
+@import 'components/navigation';
+@import 'components/buttons';
+@import 'components/notification';
+@import 'components/cards';
+// 4. Vendors
+@import 'vendors/quill';

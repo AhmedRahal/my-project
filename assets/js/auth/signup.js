@@ -2,7 +2,7 @@ import { register } from "../api/auth.js";
 import { showNotification } from "../ui/notification.js";
 import { handlesUserUI } from "../ui/userUi.js";
 import { showModal, closeModal } from "../ui/modals.js";
-import { saveToLocalStorage } from "../utils/storage.js";
+import {saveToLocalStorage,getFromLocalStorage} from "../utils/storage.js";
 import { startLoading, stopLoading } from "../utils/requestManager.js";
 export function signUp() {
     const signUpUsernameInput = document.getElementById("signUp-username");
@@ -15,7 +15,7 @@ export function signUp() {
     console.log("Sign Up function called");
     showModal(signUpCard);
 
-    submitsignUpBtn.addEventListener("click", async () => {
+    submitsignUpBtn.onclick = async () => {
         let password = signUpPasswordInput.value.trim();
         let username = signUpUsernameInput.value.trim();
         let image = signUpImageinput.files[0];
@@ -48,6 +48,7 @@ export function signUp() {
                 console.log("Logged In Successfully:", loggedInUser);
                 saveToLocalStorage("loggedInUser", loggedInUser);
                 saveToLocalStorage("userToken", loggedInUser.token);
+                console.log(loggedInUser);
                 handlesUserUI(loggedInUser);
                 showNotification("success", "Sign up successful");
                 
@@ -73,11 +74,11 @@ export function signUp() {
                 signUpPasswordInput.value = "";
                 signUpImageinput.value = "";
             };
-    });
+    };
 }
 
 export function handlesSignUpUIError(error) {
-    if (error = 'USERNAME TAKEN') {
+    if (error === "USERNAME TAKEN") {
                 const usernameInput = document.getElementById("signUp-username");
         usernameInput.classList.add("erroranimated");
         setTimeout(() => {

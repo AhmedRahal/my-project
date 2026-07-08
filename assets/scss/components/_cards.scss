@@ -1,0 +1,205 @@
+// ==============================================================================
+// Reusable Card Interfaces & Content Sub-modules
+// ==============================================================================
+
+.note-card {
+    background-color: var(--primary-color);
+    border: 1px solid var(--third-color);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    height: 400px;
+    position: relative;
+    overflow: hidden;
+    transition: transform var(--transition-smooth), box-shadow var(--transition-smooth), border-color var(--transition-smooth);
+
+    &:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-lg);
+        border-color: var(--font-muted);
+
+        .note-card-footer .note-action-row {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    // 1. Header Sub-module
+    .note-card-header {
+        padding: 16px 20px 8px 20px;
+        border-bottom: 1px solid var(--third-color);
+        flex-shrink: 0;
+
+        .note-card-title {
+            padding: 0 !important;
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 1.4;
+            color: var(--font-color);
+            text-align: center !important;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-height: 40px;
+            min-height: auto !important; 
+            height: auto !important;
+        }
+    }
+
+    // 2. Body Sub-module (With Rich Text Contextual Nesting)
+    .note-card-body {
+        padding: 12px 20px;
+        font-size: 14px;
+        line-height: 1.6;
+        color: var(--font-color);
+        opacity: .9;
+        flex-grow: 1;
+        min-height: auto !important;
+        display: block !important; 
+        overflow-y: auto !important;
+        -webkit-line-clamp: unset !important; 
+        text-overflow: clip !important;
+        max-height: 230px; 
+
+        // Quill Rich Text Typography & Node Render Overrides
+        .ql-size-small { font-size: 0.75em; }
+        .ql-size-large { font-size: 1.5em; }
+        .ql-size-huge  { font-size: 2.5em; }
+
+        p {
+            margin: 0;
+            height: max-content !important;
+        }
+
+        ul, ol {
+            margin-bottom: 1rem !important;
+            display: block !important;
+        }
+
+        ul li:not([data-list]) {
+            padding-left: 0 !important;
+            list-style-type: disc !important;
+            display: list-item !important;
+        }
+        
+        ol li:not([data-list]) {
+            padding-left: 0 !important;
+            list-style-type: decimal !important;
+            display: list-item !important;
+        }
+
+        li[data-list="unchecked"], 
+        li[data-list="checked"] {
+            list-style-type: none !important;
+            display: block !important; 
+            position: relative;
+            padding-left: 10px !important;
+        }
+
+        .ql-todo-icon {
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: var(--font-muted);
+            user-select: none;
+        }
+
+        li[data-list="checked"] {
+            color: var(--font-muted);
+            text-decoration: line-through;
+
+            .ql-todo-icon {
+                color: var(--accent-color);
+            }
+        }
+    }
+
+    // 3. Footer Sub-module (Metadata, Tags, & Actions)
+    .note-card-footer {
+        padding: 12px 20px 16px 20px;
+        border-top: 1px solid var(--third-color);
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
+        .note-tags-wrapper {
+            overflow: hidden;
+            height: fit-content;
+
+            .categories {
+                display: flex;
+                padding-left: 0 !important;
+                flex-wrap: wrap;
+                gap: 6px;
+                list-style: none !important;
+                padding: 0;
+                margin: 0;
+            }
+
+            .note-cat {
+                background-color: var(--primary-color);
+                border: 1px solid var(--third-color);
+                color: var(--font-muted);
+                padding: 2px 8px;
+                border-radius: var(--radius-sm);
+                font-size: 10px;
+                font-weight: 600;
+            }
+        }
+
+        .note-meta-timeline {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: var(--font-muted);
+            font-weight: 500;
+        }
+
+        .note-action-row {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+            margin-top: 4px;
+            opacity: 0;
+            transform: translateY(4px);
+            transition: opacity var(--transition-smooth), transform var(--transition-smooth);
+
+            button {
+                padding: 6px 12px;
+                font-size: 12px;
+                font-weight: 600;
+                border: 1px solid transparent;
+                border-radius: var(--radius-sm);
+                cursor: pointer;
+                transition: var(--transition-smooth);
+
+                &:active {
+                    transform: scale(0.96);
+                }
+            }
+
+            .edit-btn {
+                background-color: var(--primary-color);
+                border-color: var(--third-color);
+                color: var(--font-color);
+
+                &:hover {
+                    background-color: var(--secondary-color);
+                    border-color: var(--font-muted);
+                }
+            }
+
+            .delete-btn {
+                background-color: var(--warning-color);
+                color: var(--warning-text-color);
+
+                &:hover {
+                    background-color: var(--warning-text-color);
+                    color: #fff;
+                }
+            }
+        }
+    }
+}

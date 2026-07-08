@@ -1,4 +1,3 @@
-
 import { getFromLocalStorage, saveToLocalStorage } from "../utils/storage.js";
 import { getNotesForUser } from "../api/notes.js";
 import { signUp } from "../auth/signUp.js";
@@ -7,10 +6,10 @@ import { showNotification } from "./notification.js";
 import { loginUser } from "../auth/login.js";
 import { logout } from "../auth/logout.js";
 import { handlesNotesUI } from "./notesUI.js";
-import {checkStatus} from "../utils/statue.js"
+import { checkStatus } from "../utils/statue.js"
+
 const userDiv = document.querySelector('header .user');
 const usersignUpLogout = document.getElementById("user-signUp-logout");
-const notesContainer = document.querySelector(".notes-content");
 const searchBar = document.querySelector('header .search-bar');
 const signUpImageinput = document.getElementById("signUp-profile-picture");
 const fileText = document.getElementById('file-name-display');
@@ -25,9 +24,9 @@ signUpImageinput.addEventListener('change', function() {
     }
 });
 
-
-export function handlesUserUI(loggedInUser) {
-    handlesNotesUI(loggedInUser);
+export async function handlesUserUI(loggedInUser) {
+    // 1. Correctly wait for DOM container to be built/removed
+            await handlesNotesUI(loggedInUser);
     if (!loggedInUser) {
         searchBar.onclick = () => {
             showNotification("warning", "Please log in to search your notes.");
@@ -37,32 +36,30 @@ export function handlesUserUI(loggedInUser) {
         userDiv.children[0].src = "assets/images/df_user.png";
         userDiv.children[1].textContent = "Guest";
 
-        
         usersignUpLogout.innerHTML = `<button id="signUp-btn">signUp</button><br><button id="login-btn">log in</button>`;
         
         const signUpBtn = document.getElementById("signUp-btn");
         const loginBtn = document.getElementById("login-btn");
+        
         signUpBtn.onclick = () => {
-            if (checkStatus(null,false) ){
-
+            if (checkStatus(null, false)) {
                 signUp();
-            }else {
-                showNotification("warning",  "you are offline. please connect to the internet to login");
+            } else {
+                showNotification("warning", "you are offline. please connect to the internet to login");
                 closeAllModals();
             }
         };
+        
         loginBtn.onclick = () => {
-            if (checkStatus(null,false) ){
-
+            if (checkStatus(null, false)) {
                 loginUser();
-            }else {
-                showNotification("warning",  "you are offline. please connect to the internet to login");
+            } else {
+                showNotification("warning", "you are offline. please connect to the internet to login");
                 closeAllModals();
             }
         };
 
     } else {
-
         usersignUpLogout.innerHTML = `<button id="logout-btn">log out</button>`;
         
         const logoutBtn = document.getElementById("logout-btn");
@@ -83,6 +80,10 @@ export function handlesUserUI(loggedInUser) {
         }
         
         userDiv.children[1].textContent = loggedInUser.username || "User";
-        getNotesForUser(loggedInUser.token);
+        
+        // 2. This will now flawlessly render notes because handlesNotesUI finished preparing the DOM node
+
+        await getNotesForUser(loggedInUser.token);
     }
+
 }

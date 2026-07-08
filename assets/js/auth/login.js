@@ -2,13 +2,14 @@ import { login } from "../api/auth.js"
 import { showNotification } from "../ui/notification.js";
 import { closeModal,showModal } from "../ui/modals.js";
 import { startLoading, stopLoading } from "../utils/requestManager.js"; 
-
+import {saveToLocalStorage} from "../utils/storage.js";
+import {handlesUserUI} from "../ui/userUi.js";
 export function loginUser() {
     const loginCard = document.getElementById("login-card");
     const submitLoginBtn = document.getElementById("submit-login");
     const loginUsernameInput = document.getElementById("login-username");
     const loginPasswordInput = document.getElementById("login-password");
-    
+    let loggedInUser = null;
     showModal(loginCard);
     
     submitLoginBtn.onclick = async () => {
@@ -27,8 +28,17 @@ export function loginUser() {
         try {
             // 2. Perform authentication request.
             // Note: Your api/auth.js script internally runs handlesUserUI() upon success!
-            await login(username, password);
-            
+            let result =await login(username, password);
+            loggedInUser = {
+                            username: result.userInfo.username,
+                            image: result.userInfo.image,
+                            token: result.token,
+                            userId: result.userInfo.id
+                        };
+                        saveToLocalStorage('loggedInUser', loggedInUser);
+                        saveToLocalStorage('userToken', result.token);
+
+                        showNotification("success", "Login successful");
             // 3. Clear credentials out of the DOM fields
             loginUsernameInput.value = "";
             loginPasswordInput.value = "";
@@ -38,6 +48,7 @@ export function loginUser() {
         } catch (error) {
             console.error("Login component catch handler:", error);
         } finally {
+            handlesUserUI(loggedInUser);
             // 5. Always stop loading in the finally block to release the UI blocks
             stopLoading(submitLoginBtn);
         }

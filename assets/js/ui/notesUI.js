@@ -8,19 +8,14 @@ import { createTagsSuggestionUI, createTagsUI, closeDropdown } from "./tagsUI.js
 import { getUserTags } from "../utils/tags.js";
 // IMPORT YOUR LOADER UTILITIES HERE
 import { startLoading, stopLoading } from "../utils/requestManager.js"; 
-
+const deleteNoteCard = document.getElementById("delete-note-card");
 let loggedInUser = getFromLocalStorage("loggedInUser");
 const addNoteBtn = document.getElementById("addNoteBtn");
-const notesContainer = document.querySelector(".notes-content");
+let notesContainer = document.querySelector(".notes-content");
 const addnoteCard = document.getElementById("add-note-card");
 
 function buildNoteHTML(note) {
     let processedContent = note.content;
-    if (processedContent) {
-        processedContent = processedContent
-            .replace(/<li data-list="unchecked">/g, '<li data-list="unchecked"><span class="ql-todo-icon">&#9744;</span> ')
-            .replace(/<li data-list="checked">/g, '<li data-list="checked"><span class="ql-todo-icon">&#9745;</span> ');
-    }
 
     // Set the HTML attribute explicitly using your note.noteId property
     return `
@@ -54,10 +49,12 @@ function buildNoteHTML(note) {
     `;
 }
 
-export function createNotes(notes) {
+export async function createNotes(notes) {
     saveToLocalStorage("notes", notes);
+    notesContainer = document.querySelector(".notes-content") ;
     notesContainer.innerHTML = ""; 
     if (notes.length === 0) {
+        console.log("creating notes in",notesContainer); 
             notesContainer.innerHTML = `<span id = "message-0">No notes available. Click the "Add Note" button to create your first note.</span>`;
             return; 
     }
@@ -90,7 +87,16 @@ export function createNotes(notes) {
     deleteBtns.forEach(btn => {
         btn.addEventListener("click", () => {
             const noteId = btn.closest('.note-card').getAttribute('noteId');
-            deleteNote(noteId, loggedInUser.token);
+            showModal(deleteNoteCard);
+            const cancelDeleteBtn = document.getElementById("cancel-delete-note-btn");
+            const deleteNoteBtn = document.getElementById("delete-note-btn");
+            cancelDeleteBtn.onclick = () => {
+                closeModal(deleteNoteCard);
+            };
+            deleteNoteBtn.onclick = () => {
+                deleteNote(noteId, loggedInUser.token);
+                closeModal(deleteNoteCard);
+            };
         });
     });
 
@@ -150,6 +156,11 @@ export function triggerAddNoteModal() {
         });
 
         tagsSubmitbtn.onclick = () => {
+        if (noteTagsInput.value.trim().length === 0) {
+            showNotification("info", "Please enter at least one tag.");
+            noteTagsInput.focus();
+            return;
+        }
             const newTags = noteTagsInput.value.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0);
             noteTagsInput.value = "";
             tags = [...new Set([...tags, ...newTags])]; 
@@ -195,35 +206,71 @@ export function triggerAddNoteModal() {
 
             try {
                 await sendNoteToBackend(newNote, token);
-                await getNotesForUser(token);
                 closeModal(addnoteCard); 
             } catch (error) {
                 console.error(error);
             } finally {
                 stopLoading(submitNoteBtn);
             }
+            try {
+                await getNotesForUser(token);
+            } catch (error) {
+                console.error(error);
+            }
         };
     });
 }
 
+
 export function handlesNotesUI(user) {
-    const noNotesMessage = document.createElement("div");
-    noNotesMessage.classList.add("no-notes-message");
+    return new Promise((resolve) => {
+        // 1. Instantly update file state scope
+        loggedInUser = user;
 
-    if (user) {
-        addNoteBtn.style.display = "block";
-        if (document.querySelector(".no-notes-message")) {
-            document.querySelector(".no-notes-message").remove();
+        // Check for DOM references
+        const existingWarning = document.querySelector(".no-notes-message");
+        let currentNotesContainer = document.querySelector(".notes-content");
+
+        if (user) {
+            // Remove error screen if visible
+            if (existingWarning) {
+                existingWarning.remove();
+            }
+
+            // Create container if missing from the DOM entirely
+            if (!currentNotesContainer) {
+                currentNotesContainer = document.createElement("div");
+                currentNotesContainer.classList.add("notes-content");
+                // Insert layout context safely right before the Floating Action Button
+                document.body.insertBefore(currentNotesContainer, addNoteBtn);
+            }
+
+            // Reassign global active pointer to the guaranteed DOM element
+            notesContainer = currentNotesContainer;
+            addNoteBtn.style.display = "block";
+
+        } else {
+            // Clear current layout context when logged out
+            if (currentNotesContainer) {
+                currentNotesContainer.remove();
+            }
+            addNoteBtn.style.display = "none";
+
+            if (!existingWarning) {
+                const noNotesMessage = document.createElement("div");
+                noNotesMessage.classList.add("no-notes-message");
+                noNotesMessage.innerHTML = `
+                    <img src="./assets/images/warning.png" alt="No Notes"> 
+                    <p>Please log in to view your notes.</p>
+                `;
+                document.body.appendChild(noNotesMessage);
+            }
         }
-    } else {
-        notesContainer.innerHTML = "";
-        noNotesMessage.style.display = "block";
-        noNotesMessage.innerHTML = ` <img src="./assets/images/warning.png" alt="No Notes"> <p>Please log in to view your notes.</p>`;
-        addNoteBtn.style.display = "none";
-        document.body.appendChild(noNotesMessage);
-    }
-}
 
+        // DOM changes are synchronous and instantly bound. Resolve the promise.
+        resolve();
+    });
+}
 export function updateNoteUi(noteId, token) {
     let notes = getFromLocalStorage("notes") || [];
     // Matched specifically against the n.noteId field inside local storage
@@ -262,6 +309,11 @@ export function updateNoteUi(noteId, token) {
     });
 
     tagsSubmitbtn.onclick = () => {
+        if (noteTagsInput.value.trim().length === 0) {
+            showNotification("info", "Please enter at least one tag.");
+            noteTagsInput.focus();
+            return;
+        }
         const newTags = noteTagsInput.value.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0);
         noteTagsInput.value = "";
         tags = [...new Set([...tags, ...newTags])]; 
@@ -269,7 +321,12 @@ export function updateNoteUi(noteId, token) {
     };
 
     if (quillTitle) quillTitle.root.innerHTML = note.title;
-    if (quillContent) quillContent.root.innerHTML = note.content;
+    if (quillContent) {
+    let cleanContent = note.content
+        .replace(/<span class="ql-todo-icon">.*?<\/span>\s*/g, ''); 
+        
+    quillContent.root.innerHTML = cleanContent;
+}
     
     submitNoteBtn.onclick = async () => {
         const now = new Date().toISOString();

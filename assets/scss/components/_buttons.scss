@@ -1,0 +1,136 @@
+// ==============================================================================
+// App Standalone Interactive Buttons & Micro-actions
+// ==============================================================================
+
+// 1. Core Modal Submission & Action Callouts
+.modal button,
+#signUp-card button,
+#login-card button,
+#add-note-card button {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--accent-color);
+    border: none;
+    border-radius: var(--radius-sm);
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+
+    &:hover {
+        background-color: var(--accent-hover);
+        box-shadow: var(--shadow-md);
+    }
+}
+
+// 2. Custom Input Form File Upload Buttons
+.file-upload-btn {
+    background-color: var(--primary-color);
+    border: 1px solid var(--third-color);
+    color: var(--font-color);
+    padding: 6px 12px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+
+    &:hover {
+        background-color: var(--secondary-color);
+        border-color: var(--font-muted);
+    }
+}
+
+// 3. Fixed Primary Sticky Creation Widget Button (FAB)
+.add-note-btn {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    z-index: 80;
+    width: 56px;
+    height: 56px;
+    background-color: var(--accent-color);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-lg);
+    cursor: pointer;
+    transition: transform var(--transition-smooth), background-color var(--transition-smooth);
+
+    &:hover {
+        background-color: var(--accent-hover);
+        transform: translateY(-4px) scale(1.05);
+
+        .hover-text {
+            opacity: 1;
+            visibility: visible;
+        }
+    }
+
+    &:active {
+        transform: translateY(0) scale(0.95);
+    }
+
+    .icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+
+        svg {
+            width: 24px;
+            height: 24px;
+            fill: white;
+            path {
+                fill: var(--primary-color) !important;
+            }
+        }
+    }
+
+    .hover-text {
+        position: absolute;
+        bottom: 68px;
+        right: 0;
+        background-color: var(--primary-color);
+        color: var(--font-color);
+        padding: 6px 12px;
+        border-radius: var(--radius-sm);
+        font-size: 12px;
+        font-weight: 500;
+        white-space: nowrap;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity var(--transition-smooth), visibility var(--transition-smooth);
+    }
+}
+
+button.is-loading-btn,
+.modal button.is-loading-btn {
+    position: relative;
+    color: transparent !important;
+    pointer-events: none !important;
+    
+    &::after {
+        content: "";
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        top: calc(50% - 8px);
+        left: calc(50% - 8px);
+        border: 2px solid transparent;
+        border-radius: 50%;
+        border-top-color: #ffffff !important; // Forces visibility over background clear-outs
+        border-right-color: #ffffff !important;
+        animation: btnSpinner 0.6s linear infinite;
+    }
+}
+
+@keyframes btnSpinner {
+    to { transform: rotate(360deg); }
+}

@@ -4,7 +4,6 @@ import { handlesSignUpUIError } from "../auth/signup.js";
 export function handleApiError(error) {
     console.log('API Error:', error);
     if (error.code === "TOKEN EXPIRED") {
-        console.warn("sssss")
         showNotification("error", "Your session has expired. Please log in again.");
         logout();
         throw error;

@@ -2,10 +2,11 @@ import { createNotes } from "../ui/notesUi.js";
 import { showNotification } from "../ui/notification.js";
 import { apiUrl } from "./config.js";
 import { handleApiError } from "./errorHandler.js";
-
+import { startLoading , stopLoading } from "../utils/requestManager.js";
 
 export async function getNotesForUser(token) { 
     try {
+        startLoading({ fullscreen: true, message: "Loading notes..." });
         const response = await fetch(`${apiUrl}notes/all`, {
             method: 'GET',
             headers: {
@@ -18,11 +19,12 @@ export async function getNotesForUser(token) {
             throw errorData;
         }
         const notes = await response.json();
-        console.log('Fetched notes:', notes);
         createNotes(notes);
 
     } catch (error) {
         handleApiError(error);
+    }finally {
+        stopLoading();
     }
 }
 
@@ -43,7 +45,7 @@ export async function sendNoteToBackend(note, token) {
     })
     .catch(error => {
         handleApiError(error);
-    });
+    })
 }
 
 // delete note

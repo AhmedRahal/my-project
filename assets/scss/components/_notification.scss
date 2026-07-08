@@ -1,0 +1,137 @@
+// ==============================================================================
+// Toast Notifications, Empty Feedback Modules, & Errors
+// ==============================================================================
+
+// 1. Toast Notification Floating Display Wrapper
+.notification-container {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 10000;
+    pointer-events: none;
+}
+
+.message-display {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    min-width: 320px;
+    max-width: 420px;
+    padding: 16px;
+    background-color: var(--primary-color);
+    border: 1px solid var(--third-color);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    animation: appearMessage 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    pointer-events: auto;
+
+    .message-content {
+        flex: 1;
+    }
+
+    .title {
+        margin-bottom: 4px;
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--font-color);
+    }
+
+    .message-text {
+        font-size: 13px;
+        line-height: 1.4;
+        color: var(--font-muted);
+    }
+
+    .close-message {
+        background: none;
+        border: none;
+        color: var(--font-muted);
+        font-size: 16px;
+        cursor: pointer;
+
+        &:hover {
+            color: var(--font-color);
+        }
+    }
+
+    // Contextual Status Variants
+    &.success {
+        border-left: 4px solid #10b981;
+        .title { color: #10b981; }
+    }
+
+    &.warning {
+        border-left: 4px solid #f59e0b;
+        .title { color: #f59e0b; }
+    }
+
+    &.info {
+        border-left: 4px solid var(--accent-color);
+        .title { color: var(--accent-color); }
+    }
+
+    &.error {
+        border-left: 4px solid var(--warning-text-color);
+        .title { color: var(--warning-text-color); }
+    }
+}
+
+// 2. Empty-State Visual Dashboard Layouts
+.no-notes-message {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--font-muted);
+    font-size: 14px;
+    margin-top: 40px;
+    height: 100vh;
+    grid-column: 1 / -1;
+    margin-top: 80px;
+    font-size: 16px;
+    text-align: center;
+    color: var(--font-muted);
+    font-style: italic;
+    img {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 16px;
+    }
+
+    p {
+        margin-top: 8px;
+        font-size: 20px;
+        color: var(--font-muted);
+        margin-bottom: 150px;
+    }
+}
+
+// 3. User Forms Input Fields Error Animations
+.erroranimated {
+    animation: shake 0.5s, redborder 0.5s;
+}
+
+@keyframes redborder {
+    0% { border-color: var(--font-muted); }
+    50% { border-color: var(--warning-text-color); }
+    100% { border-color: var(--font-muted); }
+}
+
+@keyframes shake {
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    10% { transform: translate(-1px, -2px) rotate(-1deg); }
+    20% { transform: translate(-3px, 0px) rotate(1deg); }
+    30% { transform: translate(3px, 2px) rotate(0deg); }
+    40% { transform: translate(1px, -1px) rotate(1deg); }
+    50% { transform: translate(-1px, 2px) rotate(-1deg); }
+    60% { transform: translate(-3px, 1px) rotate(0deg); }
+    70% { transform: translate(3px, 1px) rotate(-1deg); }
+    80% { transform: translate(-1px, -1px) rotate(1deg); }
+    90% { transform: translate(1px, 2px) rotate(0deg); }
+    100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
