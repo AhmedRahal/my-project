@@ -2,7 +2,7 @@ import {apiUrl} from "./config.js";
 import {handleApiError} from "./errorHandler.js";
 
 export default function getUserTagsApi(userId) {
-    return fetch(`${apiUrl}/user/tags/${userId}`, {
+    return fetch(`${apiUrl}notes/tags`, {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${JSON.parse(localStorage.getItem('userToken'))}`,

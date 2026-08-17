@@ -1,5 +1,7 @@
 import { filterService } from "../utils/searchFilter.js";
+import { getFromLocalStorage } from "../utils/storage.js";
 import { showModal, closeModal,closeAllModals } from "./modals.js";
+import { showNotification } from "./notification.js";
 // --- 1. DOM Core Selector Element Handles ---
 const filterToggleBtn = document.getElementById('filterToggleBtn');
 const filterDropdownPanel = document.getElementById('filterDropdownPanel');
@@ -16,17 +18,24 @@ const searchBar = document.querySelector('.search-bar');
 
 
 export function toggleFilterDropdown() {
+
     if (filterToggleBtn && filterDropdownPanel) {
     filterToggleBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        showModal(filterDropdownPanel, { noOverlay: true, additionalMdoals: [searchBar] , fromEvent: 'filterToggleBtn' });
+        if (getFromLocalStorage("loggedInUser") == null) {
+        showNotification("warning","please login to search your notes");
+        return
+    }
+        showModal(filterDropdownPanel, { noOverlay: true,toggle: true, additionalModals: [searchBar] ,focusInputs: true, fromEvent: 'filterToggleBtn' });
+        searchBar.focus();
     });
     document.addEventListener('click', (e) => {
-        console.log(e.target);
-        e.stopPropagation();
-        if (!filterDropdownPanel.contains(e.target) && !filterToggleBtn.contains(e.target)) {
+        // console.log(e.target);
+        // e.stopPropagation();
+        if (!filterDropdownPanel.contains(e.target) && !filterToggleBtn.contains(e.target) && filterDropdownPanel.classList.contains("active") && searchBar.classList.contains("active")) {
             closeModal(filterDropdownPanel);
             closeModal(searchBar);
+            console.log("Filter dropdown panel closed");
         }
     });
 }

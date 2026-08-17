@@ -4,6 +4,7 @@ import { closeModal,showModal } from "../ui/modals.js";
 import { startLoading, stopLoading } from "../utils/requestManager.js"; 
 import {saveToLocalStorage} from "../utils/storage.js";
 import {handlesUserUI} from "../ui/userUi.js";
+import {validateInput} from "../utils/validationHalnder.js";
 export function loginUser() {
     const loginCard = document.getElementById("login-card");
     const submitLoginBtn = document.getElementById("submit-login");
@@ -29,6 +30,9 @@ export function loginUser() {
             // 2. Perform authentication request.
             // Note: Your api/auth.js script internally runs handlesUserUI() upon success!
             let result =await login(username, password);
+            if (result.success === false) {
+                return;
+            }
             loggedInUser = {
                             username: result.userInfo.username,
                             image: result.userInfo.image,
@@ -40,9 +44,7 @@ export function loginUser() {
 
                         showNotification("success", "Login successful");
             // 3. Clear credentials out of the DOM fields
-            loginUsernameInput.value = "";
-            loginPasswordInput.value = "";
-            
+
             // 4. Dismiss the current active layout view context safely
             closeModal(loginCard);
         } catch (error) {
@@ -51,6 +53,9 @@ export function loginUser() {
             handlesUserUI(loggedInUser);
             // 5. Always stop loading in the finally block to release the UI blocks
             stopLoading(submitLoginBtn);
+            loginUsernameInput.value = "";
+            loginPasswordInput.value = "";
+            
         }
     };
 }

@@ -6,7 +6,6 @@ export function timeAgo(dateString) {
     const diffInMins = Math.floor(diffInSecs / 60);
     const diffInHours = Math.floor(diffInMins / 60);
     const diffInDays = Math.floor(diffInHours / 24);
-    console.log(dateString, "->", diffInDays, "days ago");
     if (diffInSecs < 60) return "Just now";
     if (diffInMins < 60) return `${diffInMins}m ago`;
     if (diffInHours < 24) return `${diffInHours}h ago`;

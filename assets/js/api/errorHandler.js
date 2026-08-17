@@ -1,6 +1,7 @@
 import { showNotification } from "../ui/notification.js";
 import { logout } from "../auth/logout.js";
 import { handlesSignUpUIError } from "../auth/signup.js";
+import {stopLoading} from "../utils/requestManager.js";
 export function handleApiError(error) {
     console.log('API Error:', error);
     if (error.code === "TOKEN EXPIRED") {
@@ -15,9 +16,23 @@ export function handleApiError(error) {
         throw error;
     }
 
+    else if (error.code === "INCORRECT PASSWORD") {
+        showNotification("error", "Incorrect old password");
+        throw error;
+    }
+    else if (error.code === "EMPTY FIELDS") {
+        showNotification("error", "Both old and new passwords are required");
+        throw error;
+    }
+    else if (error.code === "USERNAME TAKEN") {
+        showNotification("error", "Username is already taken");
+        throw error;
+    }
+    
     else {
         showNotification("error", error || "An unexpected error occurred");
 
         throw error;
     }
+
 }

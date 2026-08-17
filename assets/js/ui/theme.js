@@ -1,18 +1,13 @@
 export function applyTheme(isDark) {
+    // 1. Update the DOM class
     if (isDark) {
-        if (typeof darkModeToggle !== 'undefined' && darkModeToggle) darkModeToggle.checked = true;
-        document.documentElement.style.setProperty('--primary-color', '#161b22');   
-        document.documentElement.style.setProperty('--secondary-color', '#0d1117'); 
-        document.documentElement.style.setProperty('--third-color', '#30363d');      
-        document.documentElement.style.setProperty('--font-color', '#e6edf3');       
-        document.documentElement.style.setProperty('--font-muted', '#8b949e');
+        document.documentElement.classList.add('dark');
     } else {
-        if (typeof darkModeToggle !== 'undefined' && darkModeToggle) darkModeToggle.checked = false;
-        
-        document.documentElement.style.setProperty('--primary-color', '#ffffff');
-        document.documentElement.style.setProperty('--secondary-color', '#f8fafc');
-        document.documentElement.style.setProperty('--third-color', '#e2e8f0');
-        document.documentElement.style.setProperty('--font-color', '#0f172a');
-        document.documentElement.style.setProperty('--font-muted', '#64748b');
+        document.documentElement.classList.remove('dark');
+    }
+
+    // 2. Handle the checkbox toggle safely
+    if (typeof darkModeToggle !== 'undefined' && darkModeToggle) {
+        darkModeToggle.checked = isDark;
     }
 }

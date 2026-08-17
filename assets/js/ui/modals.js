@@ -21,15 +21,31 @@ export function showModal(modal, options = {}) {
     const noOverlay = options.noOverlay || false;
     const fromEvent = options.fromEvent || 'null';
     const additionalModals = options.additionalModals || [];
-
-    console.log("Showing modal:", modal, fromEvent);
+    const toggle = options.toggle || false;
+    const focusInputs = options.focusInputs || false;
     closeAllModals(modal);
-    
-    if (overlay && !noOverlay) overlay.classList.add("active");
-    modal.classList.add("active");
+    console.log(" fromEvent:", fromEvent);
+    console.log("Showing modal:", modal);
+    console.log(additionalModals);
+    if (overlay && !noOverlay) {
+        overlay.classList.add("active")
+    };
     additionalModals.forEach(m => {
+        console.log("Adding modal:", m);
         if (m) m.classList.add("active");
-    });
+        if(focusInputs) {
+            m.childNodes.forEach(c => {
+                if (c.focus && c.tagName === "INPUT") {
+                    console.log("Focusing modal:", c);
+                    c.focus();
+                }
+            });
+    }});
+    if (toggle) {
+        modal.classList.toggle("active");
+        return;
+    };
+    modal.classList.add("active");
 }
 
 export function closeModal(modal) {

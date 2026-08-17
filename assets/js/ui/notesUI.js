@@ -6,9 +6,9 @@ import { showNotification } from "./notification.js";
 import { quillTitle, quillContent } from "./config.js"; 
 import { createTagsSuggestionUI, createTagsUI, closeDropdown } from "./tagsUI.js";
 import { getUserTags } from "../utils/tags.js";
-// IMPORT YOUR LOADER UTILITIES HERE
+import { showConfirm } from "./confirmUi.js";
 import { startLoading, stopLoading } from "../utils/requestManager.js"; 
-const deleteNoteCard = document.getElementById("delete-note-card");
+
 let loggedInUser = getFromLocalStorage("loggedInUser");
 const addNoteBtn = document.getElementById("addNoteBtn");
 let notesContainer = document.querySelector(".notes-content");
@@ -89,16 +89,9 @@ export async function createNotes(notes,savedNotes=true) {
     deleteBtns.forEach(btn => {
         btn.addEventListener("click", () => {
             const noteId = btn.closest('.note-card').getAttribute('noteId');
-            showModal(deleteNoteCard);
-            const cancelDeleteBtn = document.getElementById("cancel-delete-note-btn");
-            const deleteNoteBtn = document.getElementById("delete-note-btn");
-            cancelDeleteBtn.onclick = () => {
-                closeModal(deleteNoteCard);
-            };
-            deleteNoteBtn.onclick = () => {
+            showConfirm("Delete Note", "Are you sure you want to delete this note?", () => {
                 deleteNote(noteId, loggedInUser.token);
-                closeModal(deleteNoteCard);
-            };
+            });
         });
     });
 
@@ -108,6 +101,7 @@ export async function createNotes(notes,savedNotes=true) {
         btn.addEventListener("click", () => {
             const noteId = btn.closest('.note-card').getAttribute('noteId');
             console.log("NoteId:", noteId);
+            console.log("Token:", loggedInUser.token,"user:",loggedInUser);
             updateNoteUi(noteId, loggedInUser.token);
         });
     });
@@ -117,7 +111,7 @@ export function triggerAddNoteModal() {
     addNoteBtn.addEventListener("click", () => {
         let tags = [];
         closeModal(document.querySelector(".modal.active"));
-        showModal(addnoteCard);
+        showModal(addnoteCard,{noOverlay: false});
         closeDropdown(document.getElementById("tags-suggestion-dropdown"));
         const submitNoteBtn = document.getElementById("save-note-btn");
         const noteTagsInput = document.querySelector("#add-note-card .add-tag input");

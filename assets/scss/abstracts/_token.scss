@@ -1,4 +1,5 @@
 :root {
+    /* --- Base / Light Mode Color Tokens --- */
     --primary-color: #ffffff;
     --secondary-color: #f8fafc; 
     --third-color: #e2e8f0;     
@@ -13,6 +14,7 @@
     --warning-color: #fef2f2;
     --warning-text-color: #ef4444;
     
+    /* Shadows (Light) */
     --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
     --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
@@ -22,4 +24,48 @@
     --radius-lg: 16px;
     
     --transition-smooth: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+
+    --input-bg: #ffffff;
+    --input-border: #cbd5e1;               
+    --input-focus-ring: rgba(79, 70, 229, 0.15);
+    
+    /* Interactive Transparencies */
+    --hover-overlay: rgba(15, 23, 42, 0.04); 
+    --active-overlay: rgba(15, 23, 42, 0.08);
+
+    /* Semantic Health States */
+    --success-color: #f0fdf4;
+    --success-text: #16a34a;
+    --border-danger: #fca5a5;               
+}
+
+/* --- Dark Mode Overrides --- */
+.dark {
+    /* Main Backgrounds & Typography (GitHub-inspired dark) */
+    --primary-color: #161b22;   
+    --secondary-color: #0d1117; 
+    --third-color: #30363d;      
+    --font-color: #e6edf3;       
+    --font-muted: #8b949e;
+
+    /* Inputs */
+    --input-bg: #0d1117;
+    --input-border: #30363d;
+    --input-focus-ring: rgba(79, 70, 229, 0.3);
+
+    /* Shadows (Softer and deeper for dark backgrounds) */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.6), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
+
+    /* Interactive Overlays (Using white transparency instead of black) */
+    --hover-overlay: rgba(255, 255, 255, 0.04);
+    --active-overlay: rgba(255, 255, 255, 0.08);
+
+    /* Warnings & Semantic States */
+    --warning-color: rgba(239, 68, 68, 0.1);  /* Subtle red tint */
+    --warning-text-color: #fca5a5;
+    --success-color: rgba(22, 163, 74, 0.1);  /* Subtle green tint */
+    --success-text: #4ade80;
+    --border-danger: #ef4444;
 }

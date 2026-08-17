@@ -4,6 +4,7 @@ import { handlesUserUI } from "../ui/userUi.js";
 import { showModal, closeModal } from "../ui/modals.js";
 import {saveToLocalStorage,getFromLocalStorage} from "../utils/storage.js";
 import { startLoading, stopLoading } from "../utils/requestManager.js";
+import { validateInput ,getPasswordStrength} from "../utils/validationHalnder.js";
 export function signUp() {
     const signUpUsernameInput = document.getElementById("signUp-username");
     const signUpPasswordInput = document.getElementById("signUp-password");
@@ -14,7 +15,29 @@ export function signUp() {
 
     console.log("Sign Up function called");
     showModal(signUpCard);
+    signUpPasswordInput.oninput = () => {
+        let strength = getPasswordStrength(signUpPasswordInput.value)
+        console.log(strength);
+        if (strength.label === "Weak") {
+            signUpPasswordInput.style.borderColor = "var(--warning-text-color)";
+            signUpPasswordInput.style.color = "var(--warning-text-color)";
+        }else if (strength.label === "Medium") {
+            signUpPasswordInput.style.borderColor = "#f59e0b";
+            signUpPasswordInput.style.color = "#f59e0b";
+            
 
+        }
+        else if (strength.label === "Strong") {
+            signUpPasswordInput.style.borderColor = "#10b981";
+            signUpPasswordInput.style.color = "#10b981";
+        }
+        else if (strength.label === "Empty") {
+
+            // signUpPasswordInput.classList.add("erroranimated");
+            signUpPasswordInput.style.borderColor = "var(--accent-color)";
+            signUpPasswordInput.style.color = "var(--font-color)";
+        }
+    }
     submitsignUpBtn.onclick = async () => {
         let password = signUpPasswordInput.value.trim();
         let username = signUpUsernameInput.value.trim();
@@ -25,6 +48,11 @@ export function signUp() {
             showNotification("error", "All fields are required");
             return;
         }
+        if (!validateInput({username, password}).isValid) {
+            showNotification("error", validateInput({username, password}).error);
+            return;
+        }
+        
 
         let formData = new FormData();
         formData.append('username', username);

@@ -4,10 +4,17 @@ import { apiUrl } from "./config.js";
 import { handleApiError } from "./errorHandler.js";
 import { startLoading , stopLoading } from "../utils/requestManager.js";
 
+// Utility helper to safely format URLs without worrying about missing/double slashes
+const getUrl = (endpoint) => {
+    const base = apiUrl.endsWith('/') ? apiUrl : `${apiUrl}/`;
+    const cleanEndpoint = endpoint.startsWith('/') ? endpoint.slice(1) : endpoint;
+    return `${base}${cleanEndpoint}`;
+};
+
 export async function getNotesForUser(token) { 
     try {
         startLoading({ fullscreen: true, message: "Loading notes..." });
-        const response = await fetch(`${apiUrl}notes/all`, {
+        const response = await fetch(getUrl('notes'), { // 
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -23,14 +30,14 @@ export async function getNotesForUser(token) {
 
     } catch (error) {
         handleApiError(error);
-    }finally {
+    } finally {
         stopLoading();
     }
 }
 
 // add note
 export async function sendNoteToBackend(note, token) {
-    await fetch(`${apiUrl}notes`, {
+    await fetch(getUrl('notes'), { // 
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -50,7 +57,7 @@ export async function sendNoteToBackend(note, token) {
 
 // delete note
 export function deleteNote(noteId, token) {
-    fetch(`${apiUrl}delete/note/${noteId}`, {
+    fetch(getUrl(`notes/${noteId}`), { // 
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
@@ -78,9 +85,11 @@ export function deleteNote(noteId, token) {
         showNotification("error", error.message || "An error occurred while deleting the note");
     });
 }
+
+// update note
 export async function updateNote(noteId, updatedNote, token) {
     try {
-        const response = await fetch(`${apiUrl}update/note/${noteId}`, {
+        const response = await fetch(getUrl(`notes/${noteId}`), { //  Fixed typo and slash
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
