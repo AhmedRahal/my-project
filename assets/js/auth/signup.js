@@ -88,9 +88,7 @@ export function signUp() {
                 signUpUsernameInput.value = "";
                 signUpPasswordInput.value = "";
                 signUpImageinput.value = "";
-            } else {
-                showNotification("error", result ? result.message || "Sign up failed" : "An error occurred during sign up");
-            }
+            } 
 
         } catch (error) {
             console.error("Sign up error:", error.message);

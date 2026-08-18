@@ -76,3 +76,6 @@ ehthumbs_vista.db
 
 # WebStorm / JetBrains
 .idea/
+
+#python 
+.py 

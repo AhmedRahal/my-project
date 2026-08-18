@@ -17,6 +17,9 @@ export function validateInput(inputs = {}){
             return {"error": "age must be "}
         }
     }
+    else {
+        return {'isValid' : true}
+    }
 }
 
 function isAlpha(char) {
