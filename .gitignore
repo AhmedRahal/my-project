@@ -77,5 +77,10 @@ ehthumbs_vista.db
 # WebStorm / JetBrains
 .idea/
 
+<<<<<<< HEAD
 #python 
 .py 
+=======
+*.py
+*.spec
+>>>>>>> 5baacea (added a profile section new refactored code bugs fixes and ui/ux improvements)
