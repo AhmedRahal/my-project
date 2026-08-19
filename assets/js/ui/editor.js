@@ -1,62 +1,83 @@
 export async function initializeQuillEditor(id, options) {
-    try {
-        await window.api.loadQuillScript();
-        if (!window.Quill) {
-            throw new Error("Quill script loaded, but window.Quill remains undefined.");
-        }
+	try {
+		await window.api.loadQuillScript();
+		if (!window.Quill) {
+			throw new Error(
+				"Quill script loaded, but window.Quill remains undefined.",
+			);
+		}
 
-        if (!window.Quill.__stylesRegistered) {
-            const ColorStyle = window.Quill.import('attributors/style/color');
-            const BackgroundStyle = window.Quill.import('attributors/style/background');
-            const AlignStyle = window.Quill.import('attributors/style/align');
+		if (!window.Quill.__stylesRegistered) {
+			const ColorStyle = window.Quill.import("attributors/style/color");
+			const BackgroundStyle = window.Quill.import(
+				"attributors/style/background",
+			);
+			const AlignStyle = window.Quill.import("attributors/style/align");
 
-            window.Quill.register(ColorStyle, true);
-            window.Quill.register(BackgroundStyle, true);
-            window.Quill.register(AlignStyle, true);
-            
-            window.Quill.__stylesRegistered = true;
-        }
+			window.Quill.register(ColorStyle, true);
+			window.Quill.register(BackgroundStyle, true);
+			window.Quill.register(AlignStyle, true);
 
-        // Explicitly format configuration constraints
-        options.formats = options.formats || [
-            'background', 'bold', 'color', 'font', 'code', 
-            'italic', 'link', 'size', 'strike', 'underline', 
-            'blockquote', 'header', 'indent', 'list', 'align', 
-            'direction', 'code-block', 'image', 'video'
-        ];
+			window.Quill.__stylesRegistered = true;
+		}
 
-        // Create Instance safely
-        let quillInstance = new window.Quill(id, options);
-        return quillInstance; 
-    } catch (err) {
-        console.error("Editor Setup Error:", err);
-    }
+		// Explicitly format configuration constraints
+		options.formats = options.formats || [
+			"background",
+			"bold",
+			"color",
+			"font",
+			"code",
+			"italic",
+			"link",
+			"size",
+			"strike",
+			"underline",
+			"blockquote",
+			"header",
+			"indent",
+			"list",
+			"align",
+			"direction",
+			"code-block",
+			"image",
+			"video",
+		];
+
+		// Create Instance safely
+		let quillInstance = new window.Quill(id, options);
+		return quillInstance;
+	} catch (err) {
+		console.error("Editor Setup Error:", err);
+	}
 }
 
 export function enableToolbarTooltips(quillInstance, enable = true) {
-    if (!enable || !quillInstance) return;
-    const tooltipTitles = {
-        'bold': 'Bold (Ctrl+B)',
-        'italic': 'Italic (Ctrl+I)',
-        'underline': 'Underline (Ctrl+U)',
-        'image': 'Insert Image',
-        'code-block': 'Insert Code Block',
-        'clean': 'Clear Formatting',
-        'font': 'Font Family',
-        'size': 'Text Size',
-        'color': 'Text Color',
-        'background': 'Background Highlight Color'
-    };
+	if (!enable || !quillInstance) return;
+	const tooltipTitles = {
+		bold: "Bold (Ctrl+B)",
+		italic: "Italic (Ctrl+I)",
+		underline: "Underline (Ctrl+U)",
+		image: "Insert Image",
+		"code-block": "Insert Code Block",
+		clean: "Clear Formatting",
+		font: "Font Family",
+		size: "Text Size",
+		color: "Text Color",
+		background: "Background Highlight Color",
+	};
 
-    const container = quillInstance.container.parentElement;
-    const toolbarContainer = container.querySelector('.ql-toolbar');
-    if (!toolbarContainer) return;
+	const container = quillInstance.container.parentElement;
+	const toolbarContainer = container.querySelector(".ql-toolbar");
+	if (!toolbarContainer) return;
 
-    for (const [className, titleText] of Object.entries(tooltipTitles)) {
-        const button = toolbarContainer.querySelector(`button.ql-${className}`);
-        if (button) button.setAttribute('title', titleText);
-        
-        const picker = toolbarContainer.querySelector(`.ql-picker.ql-${className}`);
-        if (picker) picker.setAttribute('title', titleText);
-    }
+	for (const [className, titleText] of Object.entries(tooltipTitles)) {
+		const button = toolbarContainer.querySelector(`button.ql-${className}`);
+		if (button) button.setAttribute("title", titleText);
+
+		const picker = toolbarContainer.querySelector(
+			`.ql-picker.ql-${className}`,
+		);
+		if (picker) picker.setAttribute("title", titleText);
+	}
 }
