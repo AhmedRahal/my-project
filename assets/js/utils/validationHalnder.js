@@ -17,14 +17,10 @@ export function validateInput(inputs = {}){
             return {"error": "age must be "}
         }
     }
-<<<<<<< HEAD
     else {
         return {'isValid' : true}
     }
-=======
->>>>>>> 5baacea (added a profile section new refactored code bugs fixes and ui/ux improvements)
 }
-
 function isAlpha(char) {
     return char.match(/^[a-zA-Z]+$/);
 }
