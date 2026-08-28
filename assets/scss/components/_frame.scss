@@ -1,0 +1,44 @@
+.frame {
+	height: 40px;
+	padding: 2px 10px;
+	margin: 1px 1px 0 1px;
+
+	// Window dragging configuration
+	-webkit-app-region: drag;
+	user-select: none;
+	flex-shrink: 0;
+
+	background-color: var(--primary-color);
+	box-shadow: -1px 14px 1px 1px var(--third-color);
+
+	display: flex;
+	align-items: center;
+
+	padding-right: env(titlebar-area-width, 140px);
+
+	.interactive-element {
+		-webkit-app-region: no-drag;
+	}
+
+	svg {
+		width: 24px;
+		height: 24px;
+
+		path {
+			fill: var(--accent-color) !important;
+		}
+
+		line {
+			stroke: var(--accent-color) !important;
+		}
+
+		&:hover {
+			path {
+				fill: var(--accent-hover) !important;
+			}
+			line {
+				stroke: var(--accent-hover) !important;
+			}
+		}
+	}
+}

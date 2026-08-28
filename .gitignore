@@ -1,7 +1,4 @@
-# ==============================================================================
-# Node & Dependencies
-# ==============================================================================
-# Never commit your heavy dependencies folder
+
 node_modules/
 jspm_packages/
 
@@ -15,10 +12,6 @@ yarn-error.log*
 .pnpm-debug.log*
 .eslintcache
 
-# ==============================================================================
-# Electron Binaries & Build Artifacts
-# ==============================================================================
-# Ignore local Electron builds and packaged distributables (e.g., from electron-builder or forge)
 dist/
 out/
 build/
@@ -27,11 +20,8 @@ build/
 *.dmp
 *.clog
 
-# ==============================================================================
-# Databases & Local Storage
-# ==============================================================================
-# Since you're using better-sqlite3, ignore local development database files 
-# so you don't commit test data or lock files to git.
+
+
 *.db
 *.sqlite
 *.sqlite3
@@ -39,19 +29,14 @@ build/
 *.db-wal
 *.db-shm
 
-# ==============================================================================
-# Environment Variables & Secrets
-# ==============================================================================
-# Keep API keys, session secrets, or configuration values safe locally
+
 .env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
 
-# ==============================================================================
-# Operating System Junk
-# ==============================================================================
+
 # macOS
 .DS_Store
 .AppleDouble
@@ -64,9 +49,7 @@ ehthumbs.db
 ehthumbs_vista.db
 *.lnk
 
-# ==============================================================================
-# IDEs & Code Editors
-# ==============================================================================
+
 # VS Code
 .vscode/
 !.vscode/settings.json

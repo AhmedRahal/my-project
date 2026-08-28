@@ -20,8 +20,6 @@ export async function initializeQuillEditor(id, options) {
 
 			window.Quill.__stylesRegistered = true;
 		}
-
-		// Explicitly format configuration constraints
 		options.formats = options.formats || [
 			"background",
 			"bold",

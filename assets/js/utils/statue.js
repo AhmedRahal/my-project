@@ -4,7 +4,8 @@ export function checkStatus(message = null, displayMessage = true) {
 		displayMessage
 			? showNotification(
 					"success",
-					message || "You are online. You can sync your notes with the server.",
+					message ||
+						"You are online. You can sync your notes with the server.",
 				)
 			: true;
 		return true;
@@ -17,12 +18,5 @@ export function checkStatus(message = null, displayMessage = true) {
 				)
 			: false;
 		return false;
-	}
-}
-{
-	{
-		{
-			sadsa;
-		}
 	}
 }

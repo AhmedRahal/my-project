@@ -4,111 +4,111 @@
 
 // 1. Sliding Toggle Switch
 .toggle {
-    cursor: pointer;
-    position: relative;
-    width: 46px;
-    height: 24px;
-    display: inline-block;
+	cursor: pointer;
+	position: relative;
+	width: 46px;
+	height: 24px;
+	display: inline-block;
 
-    input {
-        opacity: 0;
-        width: 0;
-        height: 0;
+	input {
+		opacity: 0;
+		width: 0;
+		height: 0;
 
-        &:checked + .slider {
-            background: #10b981; 
-            
-            &::before {
-                transform: translateX(22px);
-            }
-        }
-    }
+		&:checked + .slider {
+			background: #10b981;
+
+			&::before {
+				transform: translateX(22px);
+			}
+		}
+	}
 }
 
 .slider {
-    position: absolute;
-    inset: 0;
-    background: var(--third-color);
-    border-radius: var(--radius-lg);
-    transition: var(--transition-smooth);
+	position: absolute;
+	inset: 0;
+	background: var(--third-color);
+	border-radius: var(--radius-lg);
+	transition: var(--transition-smooth);
 
-    &::before {
-        content: "";
-        position: absolute;
-        width: 18px;
-        height: 18px;
-        left: 3px;
-        top: 3px;
-        background: white;
-        border-radius: 50%;
-        box-shadow: var(--shadow-sm);
-        transition: var(--transition-smooth);
-    }
+	&::before {
+		content: "";
+		position: absolute;
+		width: 18px;
+		height: 18px;
+		left: 3px;
+		top: 3px;
+		background: white;
+		border-radius: 50%;
+		box-shadow: var(--shadow-sm);
+		transition: var(--transition-smooth);
+	}
 }
 
-
-#signUp-card input[type="file"] { 
-    display: none !important; 
+#signUp-card input[type="file"],
+#import-data-modal input[type="file"] {
+	display: none !important;
 }
-
 
 // 2. Tag Inline Wrapper & Dropdown Suggestions
 .tag-input-wrapper {
-    width: 100%;
-    position: relative;
+	width: 100%;
+	position: relative;
 }
 
 .suggestion-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between; 
-    padding: 10px 14px;
-    font-size: 13px;
-    color: var(--font-color);
-    cursor: pointer;
-    transition: background-color var(--transition-smooth);
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 10px 14px;
+	font-size: 13px;
+	color: var(--font-color);
+	cursor: pointer;
+	transition: background-color var(--transition-smooth);
 
-    &:hover, &.selected {
-        background-color: var(--third-color);
-        color: var(--accent-color);
+	&:hover,
+	&.selected {
+		background-color: var(--third-color);
+		color: var(--accent-color);
 
-        .tag-status-badge {
-            background-color: var(--primary-color);
-            color: var(--accent-color);
-        }
-    }
+		.tag-status-badge {
+			background-color: var(--primary-color);
+			color: var(--accent-color);
+		}
+	}
 
-    .tag-status-badge {
-        font-size: 10px;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        background-color: var(--secondary-color);
-        color: var(--font-muted);
-        padding: 2px 6px;
-        border-radius: 4px;
-        border: 1px solid var(--third-color);
-        transition: all var(--transition-smooth);
-    }
+	.tag-status-badge {
+		font-size: 10px;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.5px;
+		background-color: var(--secondary-color);
+		color: var(--font-muted);
+		padding: 2px 6px;
+		border-radius: 4px;
+		border: 1px solid var(--third-color);
+		transition: all var(--transition-smooth);
+	}
 }
 
 // 3. File Upload Interface Wrapper
 .file-upload-wrapper {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 16px;
-    border: 1px solid var(--third-color);
-    background-color: var(--secondary-color);
-    border-radius: var(--radius-sm);
+	display: flex;
+	align-items: center;
+	width: 100%;
+	padding: 8px;
+	margin-bottom: 16px;
+	border: 1px solid var(--third-color);
+	background-color: var(--secondary-color);
+	border-radius: var(--radius-sm);
 }
 
-#file-name-display {
-    color: var(--font-muted);
-    font-size: 13px;
-    margin-left: 12px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
+.file-name-display {
+	color: var(--font-muted);
+	font-size: 13px;
+	margin-left: 12px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
 }
