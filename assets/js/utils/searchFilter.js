@@ -1,5 +1,5 @@
 import { getFromLocalStorage } from "../utils/storage.js";
-import { createNotes } from "../ui/notesUi.js";
+import { createNotes } from "../ui/notesUi/noteList.js";
 import { currentFilter } from "../ui/config.js";
 
 export function applyFilters() {

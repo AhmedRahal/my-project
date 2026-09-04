@@ -8,21 +8,25 @@
 		"dev:vite": "vite",
 		"dev:electron": "wait-on http://localhost:5173 && electron .",
 		"start": "pnpm run --parallel \"/^dev:.*/\"",
-		"build": "vite build"
+		"build": "vite build",
+		"rebuild": "electron-rebuild"
 	},
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
 	"type": "commonjs",
 	"devDependencies": {
+		"@types/dompurify": "^3.2.0",
 		"concurrently": "^10.0.5",
 		"electron": "^40.4.1",
+		"electron-rebuild": "^3.2.9",
 		"sass": "^1.103.1",
 		"vite": "^8.2.2",
 		"wait-on": "^9.1.0"
 	},
 	"dependencies": {
 		"better-sqlite3": "^12.6.2",
+		"dompurify": "^3.4.14",
 		"quill": "^2.0.3"
 	}
 }

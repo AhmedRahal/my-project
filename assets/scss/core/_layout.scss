@@ -157,12 +157,28 @@ header {
 			gap: 6px;
 			flex-grow: 1;
 			margin: 5px 0;
+			.icon-wrapper {
+				.icon {
+					width: 20px;
+					height: 20px;
+					color: var(--font-muted);
+					transition: color var(--transition-smooth);
+				}
+
+				.icon:hover,
+				.icon.active {
+					color: var(--accent-color);
+				}
+			}
 			.profile-tab-btn {
 				width: 100%;
 				margin: 5px;
 				background: transparent;
 				border: none;
 				outline: none;
+				display: flex;
+				align-items: center;
+				gap: 10px;
 				text-align: left;
 				padding: 10px 14px;
 				font-family: var(--primary-font);
@@ -358,6 +374,23 @@ header {
 				outline: none;
 				border-color: var(--accent-color);
 				box-shadow: 0 0 0 3px var(--input-focus-ring);
+			}
+		}
+		.icon-wrapper {
+			button {
+				display: flex;
+				align-items: center;
+				gap: 4px;
+				width: 200px;
+			}
+			.icon {
+				width: 25px;
+				height: 25px;
+				color: var(--font-muted);
+			}
+			.icon:hover,
+			.icon.active {
+				color: var(--accent-color);
 			}
 		}
 

@@ -306,6 +306,7 @@
 	}
 
 	.settings-dropdown {
+		z-index: 99999999;
 		position: fixed;
 		top: 65px;
 		width: 320px;
@@ -318,8 +319,6 @@
 		padding: 8px;
 		transition: var(--transition-smooth);
 		border-radius: var(--radius-md);
-		z-index: 100;
-
 		&.active {
 			right: 20px;
 		}

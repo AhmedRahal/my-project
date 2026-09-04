@@ -1,0 +1,10 @@
+.icon {
+	width: 15px;
+	height: 15px;
+	color: var(--font-muted);
+	transition: color var(--transition-smooth);
+}
+.icon:hover,
+.icon.active {
+	color: var(--accent-color);
+}

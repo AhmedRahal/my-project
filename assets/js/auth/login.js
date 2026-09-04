@@ -3,7 +3,7 @@ import { showNotification } from "../ui/notification.js";
 import { closeModal, showModal } from "../ui/modals.js";
 import { startLoading, stopLoading } from "../utils/requestManager.js";
 import { saveToLocalStorage } from "../utils/storage.js";
-import { handlesUserUI } from "../ui/userUi.js";
+import { handlesUserUI } from "../ui/userUi/index.js";
 import { validateInput } from "../utils/validationHalnder.js";
 export function loginUser() {
 	const loginCard = document.getElementById("login-card");

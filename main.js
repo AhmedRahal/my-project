@@ -1,7 +1,10 @@
 const { app, BrowserWindow, ipcMain, Menu, nativeTheme } = require("electron");
 const { spawn } = require("child_process");
 const path = require("path");
+const fs = require("fs");
+const { initializeDatabase } = require("./assets/database/initdb.js");
 let pythonProcess = null;
+let dbPath = null;
 
 function startPythonBackend() {
 	if (!app.isPackaged) {
@@ -92,6 +95,15 @@ function createWindow() {
 
 app.whenReady().then(() => {
 	nativeTheme.themeSource = "dark";
+	const userDataPath = app.getPath("userData");
+	const dbDir = path.join(userDataPath, "nurov");
+	dbPath = path.join(dbDir, "nurov.db");
+
+	// Create the directory if it doesn't already exist
+	if (!fs.existsSync(dbDir)) {
+		fs.mkdirSync(dbDir, { recursive: true });
+	}
+	initializeDatabase(dbPath);
 	startPythonBackend();
 	createWindow();
 });
@@ -114,6 +126,7 @@ app.on("window-all-closed", () => {
 	if (process.platform !== "darwin") app.quit();
 });
 
+// Window Control IPC Handlers
 ipcMain.on("window-minimize", (event) => {
 	const win = BrowserWindow.fromWebContents(event.sender);
 	if (win) win.minimize();

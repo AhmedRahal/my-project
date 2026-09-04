@@ -4,7 +4,7 @@ import {
 	removeLocalStorage,
 } from "../utils/storage.js";
 import { showNotification } from "../ui/notification.js";
-import { handlesUserUI } from "../ui/userUi.js";
+import { handlesUserUI } from "../ui/userUi/index.js";
 import { closeAllModals } from "../ui/modals.js";
 export function logout(message = true) {
 	localStorage.removeItem("userToken");

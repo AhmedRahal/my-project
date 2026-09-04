@@ -1,4 +1,4 @@
-import { createNotes } from "../ui/notesUi.js";
+import { createNotes } from "../ui/notesUi/noteList.js";
 import { showNotification } from "../ui/notification.js";
 import { apiUrl } from "./config.js";
 import { handleApiError } from "./errorHandler.js";

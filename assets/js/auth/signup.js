@@ -1,6 +1,6 @@
 import { register } from "../api/auth.js";
 import { showNotification } from "../ui/notification.js";
-import { handlesUserUI } from "../ui/userUi.js";
+import { handlesUserUI } from "../ui/userUi/index.js";
 import { showModal, closeModal } from "../ui/modals.js";
 import { saveToLocalStorage, getFromLocalStorage } from "../utils/storage.js";
 import { startLoading, stopLoading } from "../utils/requestManager.js";

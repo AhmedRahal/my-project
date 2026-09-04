@@ -1,13 +1,18 @@
 // ==================================================
 // FILE: C:\DEV\my-project\assets\main.js
 // ==================================================
+// import styleText from "./scss/style.scss?inline";
 
+// // Inject immediately before DOM elements render
+// const style = document.createElement("style");
+// style.textContent = styleText;
+// document.head.appendChild(style);
 import { loadSettings } from "./js/ui/settings.js";
 import { getFromLocalStorage, saveToLocalStorage } from "./js/utils/storage.js";
-import { handlesUserUI } from "./js/ui/userUi.js";
+import { handlesUserUI } from "./js/ui/userUi/index.js";
 import { showModal, closeAllModals } from "./js/ui/modals.js";
 import { getNotesForUser } from "./js/api/notes.js";
-import { triggerAddNoteModal } from "./js/ui/notesUi.js";
+import { triggerAddNoteModal } from "./js/ui/notesUi/addNote.js";
 import { setupQuillInstances } from "./js/quill/instances.js";
 import { applyTheme } from "./js/ui/theme.js";
 import { initIPC } from "./js/electron/ipc.js";

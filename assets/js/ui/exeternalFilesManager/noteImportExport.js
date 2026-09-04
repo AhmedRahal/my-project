@@ -2,7 +2,7 @@ import { getFromLocalStorage } from "../../utils/storage.js";
 import { showNotification } from "../notification.js";
 import { closeModal } from "../modals.js";
 import { addnotes, getNotesForUser } from "../../api/notes.js";
-import { inputImageHandler } from "../userUi.js";
+import { inputImageHandler } from "../userUi/imageInput.js";
 
 const importModal = document.getElementById("import-data-modal");
 const cancelImportBtn = document.getElementById("cancel-import-btn");

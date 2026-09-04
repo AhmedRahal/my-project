@@ -16,5 +16,7 @@
 @import "components/notification";
 @import "components/cards";
 @import "components/frame";
+@import "components/icons/icons_default"; // Change to match exact path
+@import "components/icons/icons_special";
 // 4. Vendors
 @import "vendors/quill";

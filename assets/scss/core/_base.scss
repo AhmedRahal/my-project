@@ -9,6 +9,7 @@ body {
 	font-family: var(--primary-font);
 	background-color: var(--primary-color);
 	overflow: hidden;
+
 	-webkit-font-smoothing: antialiased;
 }
 
@@ -20,6 +21,7 @@ ol {
 #overlay {
 	position: fixed;
 	inset: 0;
+	top: 40px;
 	background-color: rgba(15, 23, 42, 0.3);
 	backdrop-filter: blur(4px);
 	display: none;
