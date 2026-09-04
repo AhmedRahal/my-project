@@ -224,7 +224,8 @@ header {
 		background-color: var(--primary-color);
 
 		.profile-section {
-			max-width: 650px;
+			max-width: 900px;
+			width: 100%;
 			display: flex;
 			flex-direction: column;
 
@@ -259,13 +260,19 @@ header {
 			flex-direction: column;
 			gap: 6px;
 			box-shadow: var(--shadow-sm);
-
+			cursor: pointer;
+			&:hover {
+				box-shadow: var(--shadow-md);
+			}
 			.stat-title {
 				font-size: 12px;
 				font-weight: 600;
 				text-transform: uppercase;
 				color: var(--font-muted);
 				letter-spacing: 0.5px;
+				display: flex;
+				align-items: center;
+				gap: 6px;
 			}
 
 			.stat-value {
@@ -476,6 +483,553 @@ header {
 		&:hover {
 			background-color: var(--warning-text-color);
 			color: #ffffff;
+		}
+	}
+}
+
+/* --- Tab Section 1: Dashboard Analytics --- */
+
+#tab-stats {
+	/* ==========================================================
+	   Dashboard Header
+	   ========================================================== */
+
+	.dashboard-header {
+		display: flex;
+		align-items: flex-start;
+		justify-content: space-between;
+		gap: 20px;
+		margin-bottom: 32px;
+
+		h2 {
+			margin-bottom: 6px;
+		}
+
+		.section-desc {
+			margin-bottom: 0;
+		}
+	}
+
+	/* ==========================================================
+	   Dashboard Action
+	   ========================================================== */
+
+	.dashboard-action {
+		height: 38px;
+		padding: 0 14px;
+
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: 7px;
+
+		background-color: var(--accent-color);
+		border: 1px solid var(--accent-color);
+		border-radius: var(--radius-sm);
+
+		color: #ffffff;
+
+		font-family: var(--primary-font);
+		font-size: 13px;
+		font-weight: 500;
+
+		cursor: pointer;
+
+		transition:
+			background-color var(--transition-smooth),
+			border-color var(--transition-smooth),
+			transform 0.1s ease;
+
+		svg {
+			width: 16px;
+			height: 16px;
+		}
+
+		&:hover {
+			background-color: var(--accent-hover);
+			border-color: var(--accent-hover);
+		}
+
+		&:active {
+			transform: scale(0.98);
+		}
+	}
+
+	/* ==========================================================
+	   Statistics
+	   ========================================================== */
+
+	.stats-grid {
+		display: grid;
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		gap: 16px;
+		width: 100%;
+		margin-bottom: 16px;
+
+		.stat-card {
+			background-color: var(--secondary-color);
+			border: 1px solid var(--third-color);
+			border-radius: var(--radius-md);
+
+			padding: 18px 20px;
+
+			display: flex;
+			flex-direction: column;
+			gap: 6px;
+
+			box-shadow: var(--shadow-sm);
+
+			cursor: default;
+
+			transition:
+				border-color var(--transition-smooth),
+				box-shadow var(--transition-smooth),
+				transform 0.1s ease;
+
+			&:hover {
+				border-color: var(--font-muted);
+				box-shadow: var(--shadow-md);
+				transform: translateY(-1px);
+			}
+		}
+
+		.stat-card-top {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+
+			margin-bottom: 6px;
+		}
+
+		.stat-title {
+			font-size: 12px;
+			font-weight: 600;
+			text-transform: uppercase;
+
+			color: var(--font-muted);
+
+			letter-spacing: 0.5px;
+
+			display: flex;
+			align-items: center;
+			gap: 6px;
+		}
+
+		.stat-icon {
+			width: 30px;
+			height: 30px;
+
+			display: flex;
+			align-items: center;
+			justify-content: center;
+
+			background-color: var(--primary-color);
+			border: 1px solid var(--third-color);
+			border-radius: var(--radius-sm);
+
+			color: var(--font-muted);
+
+			svg {
+				width: 16px;
+				height: 16px;
+			}
+		}
+
+		.stat-value {
+			font-size: 28px;
+			font-weight: 700;
+
+			color: var(--font-color);
+
+			font-family: var(--secondary-font);
+			line-height: 1.1;
+		}
+
+		.stat-subtext {
+			font-size: 11px;
+			color: var(--font-muted);
+		}
+	}
+
+	/* ==========================================================
+	   Generic Dashboard Card
+	   ========================================================== */
+
+	.dashboard-card {
+		background-color: var(--secondary-color);
+		border: 1px solid var(--third-color);
+		border-radius: var(--radius-md);
+
+		box-shadow: var(--shadow-sm);
+
+		transition:
+			border-color var(--transition-smooth),
+			box-shadow var(--transition-smooth);
+
+		&:hover {
+			border-color: var(--font-muted);
+			box-shadow: var(--shadow-md);
+		}
+	}
+
+	.dashboard-card-header {
+		display: flex;
+		align-items: flex-start;
+		justify-content: space-between;
+		gap: 16px;
+
+		margin-bottom: 20px;
+
+		h3 {
+			margin: 0 0 5px 0;
+
+			font-size: 15px;
+			font-weight: 600;
+
+			color: var(--font-color);
+		}
+
+		p {
+			margin: 0;
+
+			font-size: 12px;
+			color: var(--font-muted);
+		}
+	}
+
+	/* ==========================================================
+	   Writing Activity
+	   ========================================================== */
+
+	.activity-card {
+		padding: 20px;
+		margin-bottom: 16px;
+	}
+
+	.activity-period {
+		padding: 5px 9px;
+
+		background-color: var(--primary-color);
+		border: 1px solid var(--third-color);
+		border-radius: var(--radius-sm);
+
+		font-size: 11px;
+		color: var(--font-muted);
+
+		white-space: nowrap;
+	}
+
+	.activity-chart {
+		display: flex;
+		width: 100%;
+		height: 180px;
+	}
+
+	.chart-y-axis {
+		width: 24px;
+
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+
+		padding: 2px 0 24px;
+
+		span {
+			font-size: 10px;
+			color: var(--font-muted);
+		}
+	}
+
+	.chart-area {
+		position: relative;
+		flex: 1;
+		min-width: 0;
+	}
+
+	.chart-grid-lines {
+		position: absolute;
+		top: 2px;
+		left: 0;
+		right: 0;
+		bottom: 24px;
+
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+
+		span {
+			width: 100%;
+			height: 1px;
+			background-color: var(--third-color);
+		}
+	}
+
+	.chart-bars {
+		position: absolute;
+		inset: 2px 0 0;
+
+		display: grid;
+		grid-template-columns: repeat(7, 1fr);
+		gap: 12px;
+	}
+
+	.chart-day {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+
+		min-width: 0;
+
+		> span {
+			height: 24px;
+
+			display: flex;
+			align-items: flex-end;
+
+			font-size: 10px;
+			color: var(--font-muted);
+		}
+	}
+
+	.bar-wrapper {
+		width: 100%;
+		flex: 1;
+
+		display: flex;
+		align-items: flex-end;
+		justify-content: center;
+	}
+
+	.activity-bar {
+		width: 24px;
+		max-width: 70%;
+
+		min-height: 3px;
+
+		background-color: var(--accent-color);
+
+		border-radius: var(--radius-sm) var(--radius-sm) 2px 2px;
+
+		opacity: 0.85;
+
+		cursor: pointer;
+
+		transition:
+			height 0.3s ease,
+			opacity var(--transition-smooth);
+
+		&:hover {
+			opacity: 1;
+		}
+	}
+
+	/* ==========================================================
+	   Bottom Cards
+	   ========================================================== */
+
+	.dashboard-bottom-grid {
+		width: 100%;
+
+		display: grid;
+		grid-template-columns:
+			minmax(0, 1.5fr)
+			minmax(0, 1fr);
+
+		gap: 16px;
+	}
+
+	.recent-notes-card,
+	.tags-card {
+		padding: 20px;
+	}
+
+	/* ==========================================================
+	   Dashboard Links
+	   ========================================================== */
+
+	.dashboard-link {
+		padding: 0;
+
+		background: none;
+		border: none;
+
+		font-family: var(--primary-font);
+		font-size: 12px;
+		font-weight: 500;
+
+		color: var(--accent-color);
+
+		cursor: pointer;
+
+		transition: color var(--transition-smooth);
+
+		&:hover {
+			color: var(--font-color);
+		}
+	}
+
+	/* ==========================================================
+	   Recent Notes
+	   ========================================================== */
+
+	.recent-notes-list {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.recent-note {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+
+		padding: 10px 6px;
+
+		cursor: pointer;
+
+		transition: background-color var(--transition-smooth);
+
+		&:hover {
+			background-color: var(--hover-overlay);
+		}
+
+		& + .recent-note {
+			border-top: 1px solid var(--third-color);
+		}
+	}
+
+	.recent-note-icon {
+		width: 32px;
+		height: 32px;
+
+		flex-shrink: 0;
+
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		background-color: var(--primary-color);
+		border: 1px solid var(--third-color);
+		border-radius: var(--radius-sm);
+
+		color: var(--font-muted);
+
+		svg {
+			width: 15px;
+			height: 15px;
+		}
+	}
+
+	.recent-note-info {
+		min-width: 0;
+
+		display: flex;
+		flex-direction: column;
+		gap: 3px;
+
+		strong {
+			overflow: hidden;
+
+			font-size: 13px;
+			font-weight: 500;
+
+			color: var(--font-color);
+
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+
+		span {
+			font-size: 11px;
+			color: var(--font-muted);
+		}
+	}
+
+	/* ==========================================================
+	   Tags
+	   ========================================================== */
+
+	.dashboard-tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+	}
+
+	.dashboard-tag {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+
+		padding: 7px 10px;
+
+		background-color: var(--primary-color);
+		border: 1px solid var(--third-color);
+		border-radius: var(--radius-sm);
+
+		cursor: pointer;
+
+		transition:
+			background-color var(--transition-smooth),
+			border-color var(--transition-smooth);
+
+		span {
+			font-size: 12px;
+			font-weight: 500;
+			color: var(--font-color);
+		}
+
+		small {
+			font-size: 10px;
+			color: var(--font-muted);
+		}
+
+		&:hover {
+			background-color: var(--hover-overlay);
+			border-color: var(--accent-color);
+
+			span {
+				color: var(--accent-color);
+			}
+		}
+	}
+
+	/* ==========================================================
+	   Responsive Dashboard
+	   ========================================================== */
+
+	@media (max-width: 1100px) {
+		.stats-grid {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+
+	@media (max-width: 800px) {
+		.dashboard-bottom-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.dashboard-header {
+			flex-direction: column;
+			align-items: flex-start;
+		}
+	}
+
+	@media (max-width: 560px) {
+		.stats-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.activity-card,
+		.recent-notes-card,
+		.tags-card {
+			padding: 16px;
+		}
+
+		.chart-bars {
+			gap: 5px;
+		}
+
+		.activity-bar {
+			width: 18px;
 		}
 	}
 }

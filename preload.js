@@ -15,7 +15,7 @@ contextBridge.exposeInMainWorld("api", {
 
 	setStartup: (value) => ipcRenderer.send("set-startup", value),
 	getStartup: () => ipcRenderer.invoke("get-startup"),
-
+	dbrequest: (request) => ipcRenderer.invoke("db-request", request),
 	saveNote: (data) => ipcRenderer.send("save-note", data),
 
 	loadQuillScript: () => {

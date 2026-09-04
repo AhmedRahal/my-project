@@ -481,27 +481,419 @@
 
 				<main class="profile-content-area">
 					<section id="tab-stats" class="profile-section active">
-						<h2>Your Dashboard</h2>
-						<p class="section-desc">
-							A quick glance at your writing habits.
-						</p>
+						<div class="dashboard-header">
+							<div>
+								<h2>Your Dashboard</h2>
+								<p class="section-desc">
+									A quick glance at your writing habits.
+								</p>
+							</div>
 
-						<div class="stats-grid">
+							<button
+								class="dashboard-action"
+								id="dashboard-new-note-btn"
+							>
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								>
+									<path d="M12 5v14" />
+									<path d="M5 12h14" />
+								</svg>
+
+								New Note
+							</button>
+						</div>
+
+						<!-- =========================
+	     Overview Statistics
+	========================= -->
+						<div class="stats-grid dashboard-stats">
+							<!-- Total Notes -->
 							<div class="stat-card">
-								<span class="stat-title">Total Notes</span>
+								<div class="stat-card-top">
+									<span class="stat-title">
+										Total Notes
+									</span>
+
+									<div class="stat-icon">
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											viewBox="0 0 24 24"
+											fill="none"
+											stroke="currentColor"
+											stroke-width="1.8"
+											stroke-linecap="round"
+											stroke-linejoin="round"
+										>
+											<path
+												d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+											/>
+											<path d="M14 2v6h6" />
+											<path d="M8 13h8" />
+											<path d="M8 17h5" />
+										</svg>
+									</div>
+								</div>
+
 								<span id="stat-total" class="stat-value"
 									>0</span
 								>
+
+								<span class="stat-subtext">
+									Notes in your library
+								</span>
 							</div>
+
+							<!-- Pinned Notes -->
 							<div class="stat-card">
-								<span class="stat-title">Pinned Notes</span>
+								<div class="stat-card-top">
+									<span class="stat-title">
+										Pinned Notes
+									</span>
+
+									<div class="stat-icon">
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											viewBox="0 0 24 24"
+											fill="none"
+											stroke="currentColor"
+											stroke-width="1.8"
+											stroke-linecap="round"
+											stroke-linejoin="round"
+										>
+											<path d="M12 17v5" />
+											<path d="M5 7h14" />
+											<path d="M7 3h10l-1 8 3 3H5l3-3z" />
+										</svg>
+									</div>
+								</div>
+
 								<span id="stat-pinned" class="stat-value"
 									>0</span
 								>
+
+								<span class="stat-subtext">
+									Notes you've pinned
+								</span>
 							</div>
+
+							<!-- Tags -->
 							<div class="stat-card">
-								<span class="stat-title">Total Tags Used</span>
+								<div class="stat-card-top">
+									<span class="stat-title"> Tags Used </span>
+
+									<div class="stat-icon">
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											viewBox="0 0 24 24"
+											fill="none"
+											stroke="currentColor"
+											stroke-width="1.8"
+											stroke-linecap="round"
+											stroke-linejoin="round"
+										>
+											<path
+												d="M20.59 13.41 13.41 20.59a2 2 0 0 1-2.82 0L3.41 13.41a2 2 0 0 1 0-2.82L10.59 3.41a2 2 0 0 1 1.41-.59H19a2 2 0 0 1 2 2v7a2 2 0 0 1-.59 1.41z"
+											/>
+											<circle cx="16" cy="8" r="1" />
+										</svg>
+									</div>
+								</div>
+
 								<span id="stat-tags" class="stat-value">0</span>
+
+								<span class="stat-subtext">
+									Unique tags across notes
+								</span>
+							</div>
+
+							<!-- Words -->
+							<div class="stat-card">
+								<div class="stat-card-top">
+									<span class="stat-title">
+										Words Written
+									</span>
+
+									<div class="stat-icon">
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											viewBox="0 0 24 24"
+											fill="none"
+											stroke="currentColor"
+											stroke-width="1.8"
+											stroke-linecap="round"
+											stroke-linejoin="round"
+										>
+											<path d="M4 4h16" />
+											<path d="M4 20h16" />
+											<path
+												d="M9 4c0 4 6 4 6 8s-6 4-6 8"
+											/>
+										</svg>
+									</div>
+								</div>
+
+								<span id="stat-words" class="stat-value"
+									>0</span
+								>
+
+								<span class="stat-subtext">
+									Across all your notes
+								</span>
+							</div>
+						</div>
+
+						<!-- =========================
+	     Writing Activity
+	========================= -->
+						<div class="dashboard-card activity-card">
+							<div class="dashboard-card-header">
+								<div>
+									<h3>Writing Activity</h3>
+									<p>Notes created over the last 7 days.</p>
+								</div>
+
+								<span class="activity-period">Last 7 days</span>
+							</div>
+
+							<div
+								class="activity-chart"
+								id="writing-activity-chart"
+							>
+								<div class="chart-y-axis">
+									<span>10</span>
+									<span>5</span>
+									<span>0</span>
+								</div>
+
+								<div class="chart-area">
+									<div class="chart-grid-lines">
+										<span></span>
+										<span></span>
+										<span></span>
+									</div>
+
+									<div class="chart-bars">
+										<div class="chart-day">
+											<div class="bar-wrapper">
+												<div
+													class="activity-bar"
+													data-value="2"
+													style="height: 20%"
+												></div>
+											</div>
+											<span>Mon</span>
+										</div>
+
+										<div class="chart-day">
+											<div class="bar-wrapper">
+												<div
+													class="activity-bar"
+													data-value="5"
+													style="height: 50%"
+												></div>
+											</div>
+											<span>Tue</span>
+										</div>
+
+										<div class="chart-day">
+											<div class="bar-wrapper">
+												<div
+													class="activity-bar"
+													data-value="3"
+													style="height: 30%"
+												></div>
+											</div>
+											<span>Wed</span>
+										</div>
+
+										<div class="chart-day">
+											<div class="bar-wrapper">
+												<div
+													class="activity-bar"
+													data-value="7"
+													style="height: 70%"
+												></div>
+											</div>
+											<span>Thu</span>
+										</div>
+
+										<div class="chart-day">
+											<div class="bar-wrapper">
+												<div
+													class="activity-bar"
+													data-value="4"
+													style="height: 40%"
+												></div>
+											</div>
+											<span>Fri</span>
+										</div>
+
+										<div class="chart-day">
+											<div class="bar-wrapper">
+												<div
+													class="activity-bar"
+													data-value="8"
+													style="height: 80%"
+												></div>
+											</div>
+											<span>Sat</span>
+										</div>
+
+										<div class="chart-day">
+											<div class="bar-wrapper">
+												<div
+													class="activity-bar"
+													data-value="6"
+													style="height: 60%"
+												></div>
+											</div>
+											<span>Sun</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<!-- =========================
+	     Bottom Dashboard
+	========================= -->
+						<div class="dashboard-bottom-grid">
+							<!-- Recent Notes -->
+							<div class="dashboard-card recent-notes-card">
+								<div class="dashboard-card-header">
+									<div>
+										<h3>Recent Notes</h3>
+										<p>Your latest activity.</p>
+									</div>
+
+									<button
+										class="dashboard-link"
+										id="view-all-notes-btn"
+									>
+										View all
+									</button>
+								</div>
+
+								<div
+									class="recent-notes-list"
+									id="dashboard-recent-notes"
+								>
+									<div class="recent-note">
+										<div class="recent-note-icon">
+											<svg
+												xmlns="http://www.w3.org/2000/svg"
+												viewBox="0 0 24 24"
+												fill="none"
+												stroke="currentColor"
+												stroke-width="1.8"
+												stroke-linecap="round"
+												stroke-linejoin="round"
+											>
+												<path
+													d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+												/>
+												<path d="M14 2v6h6" />
+											</svg>
+										</div>
+
+										<div class="recent-note-info">
+											<strong>Project Ideas</strong>
+											<span>Today · 12:42 PM</span>
+										</div>
+									</div>
+
+									<div class="recent-note">
+										<div class="recent-note-icon">
+											<svg
+												xmlns="http://www.w3.org/2000/svg"
+												viewBox="0 0 24 24"
+												fill="none"
+												stroke="currentColor"
+												stroke-width="1.8"
+												stroke-linecap="round"
+												stroke-linejoin="round"
+											>
+												<path
+													d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+												/>
+												<path d="M14 2v6h6" />
+											</svg>
+										</div>
+
+										<div class="recent-note-info">
+											<strong>Flask API Notes</strong>
+											<span>Yesterday · 8:21 PM</span>
+										</div>
+									</div>
+
+									<div class="recent-note">
+										<div class="recent-note-icon">
+											<svg
+												xmlns="http://www.w3.org/2000/svg"
+												viewBox="0 0 24 24"
+												fill="none"
+												stroke="currentColor"
+												stroke-width="1.8"
+												stroke-linecap="round"
+												stroke-linejoin="round"
+											>
+												<path
+													d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+												/>
+												<path d="M14 2v6h6" />
+											</svg>
+										</div>
+
+										<div class="recent-note-info">
+											<strong>Godot Ideas</strong>
+											<span>2 days ago</span>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<!-- Most Used Tags -->
+							<div class="dashboard-card tags-card">
+								<div class="dashboard-card-header">
+									<div>
+										<h3>Most Used Tags</h3>
+										<p>Your most common topics.</p>
+									</div>
+								</div>
+
+								<div class="dashboard-tags" id="dashboard-tags">
+									<div class="dashboard-tag">
+										<span>#coding</span>
+										<small>12</small>
+									</div>
+
+									<div class="dashboard-tag">
+										<span>#godot</span>
+										<small>8</small>
+									</div>
+
+									<div class="dashboard-tag">
+										<span>#ideas</span>
+										<small>6</small>
+									</div>
+
+									<div class="dashboard-tag">
+										<span>#project</span>
+										<small>4</small>
+									</div>
+
+									<div class="dashboard-tag">
+										<span>#school</span>
+										<small>3</small>
+									</div>
+								</div>
 							</div>
 						</div>
 					</section>

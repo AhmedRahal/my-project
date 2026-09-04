@@ -22,6 +22,23 @@ export const deleteAccountBtn = document.getElementById("delete-account-btn");
 export const statTotal = document.getElementById("stat-total");
 export const statPinned = document.getElementById("stat-pinned");
 export const statTags = document.getElementById("stat-tags");
+export const statWords = document.getElementById("stat-words");
+
+export const dashboardNewNoteBtn = document.getElementById(
+	"dashboard-new-note-btn",
+);
+
+export const dashboardRecentNotes = document.getElementById(
+	"dashboard-recent-notes",
+);
+
+export const dashboardTags = document.getElementById("dashboard-tags");
+
+export const dashboardActivityChart = document.getElementById(
+	"writing-activity-chart",
+);
+
+export const viewAllNotesBtn = document.getElementById("view-all-notes-btn");
 export const editUsernameInput = document.getElementById("edit-username-input");
 export const saveAccountBtn = document.getElementById("save-account-btn");
 export const updatePasswordBtn = document.getElementById("update-password-btn");

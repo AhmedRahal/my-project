@@ -1,6 +1,6 @@
 {
-	"name": "my-project",
-	"version": "1.0.0",
+	"name": "nurov",
+	"version": "0.0.3",
 	"description": "",
 	"main": "main.js",
 	"scripts": {
