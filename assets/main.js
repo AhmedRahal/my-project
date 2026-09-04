@@ -19,15 +19,13 @@ import { initIPC } from "./js/electron/ipc.js";
 import { checkStatus } from "./js/utils/statue.js";
 import { toggleFilterDropdown } from "./js/ui/search.js";
 import { initToolbar } from "./js/ui/toolbar/main.js";
+import { settings } from "./js/ui/config.js";
 const settingsBtn = document.querySelector("header .settings-menu");
 const settingsDropdown = document.querySelector("header .settings-dropdown");
 const darkModeToggle = document.querySelector(
 	"header .settings-dropdown #dark-mode .toggle input",
 );
 
-let settings = {
-	darkMode: false,
-};
 overlay.addEventListener("click", () => {
 	closeAllModals();
 });

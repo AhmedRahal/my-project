@@ -1,5 +1,8 @@
 import { renderDashboard } from "./dashboard.js";
-import { getFromLocalStorage } from "../../utils/storage.js";
+import {
+	getFromLocalStorage,
+	saveToLocalStorage,
+} from "../../utils/storage.js";
 import { apiUrl } from "../../api/config.js";
 import { checkStatus } from "../../utils/statue.js";
 import { refreshUserTags } from "../../utils/tags.js";
@@ -20,7 +23,7 @@ import {
 	editAvatarInput,
 	avatarInputText,
 } from "./dom.js";
-
+import { settings } from "../config.js";
 profileTabBtns.forEach((btn) => {
 	btn.addEventListener("click", (e) => {
 		profileTabBtns.forEach((b) => b.classList.remove("active"));
@@ -39,7 +42,8 @@ export function switchView(viewName) {
 	const currentNotesContainer = document.querySelector(".notes-content");
 	inputImageHandler(signUpImageinput, fileText);
 	inputImageHandler(editAvatarInput, avatarInputText);
-
+	settings.currentView = viewName;
+	saveToLocalStorage("settings", settings);
 	if (viewName === "profile") {
 		if (currentNotesContainer) currentNotesContainer.style.display = "none";
 		if (addNoteFloatingBtn) addNoteFloatingBtn.style.display = "none";

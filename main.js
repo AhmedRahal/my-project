@@ -80,8 +80,11 @@ function createWindow() {
 	// Position DevTools below the top titlebar
 	setupDevToolsBounds(win);
 
-	// Dock DevTools to the right side
-	win.webContents.openDevTools({ mode: "right" });
+	// Only auto-open DevTools in dev — was previously unconditional, which
+	// meant it also opened for end users in a packaged build.
+	if (!app.isPackaged) {
+		win.webContents.openDevTools({ mode: "right" });
+	}
 
 	win.webContents.on("did-finish-load", () => {
 		win.webContents.send("window-is-maximized", win.isMaximized());

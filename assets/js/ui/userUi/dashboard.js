@@ -1,5 +1,6 @@
 import { getFromLocalStorage } from "../../utils/storage.js";
 import { escapeHtml, sanitizeHtml } from "../notesUi/sanitize.js";
+import { updateNoteUi } from "../notesUi/editNote.js";
 import {
 	statTotal,
 	statPinned,
@@ -11,6 +12,13 @@ import {
 	dashboardActivityChart,
 	viewAllNotesBtn,
 } from "./dom.js";
+
+dashboardRecentNotes.addEventListener("click", (e) => {
+	const card = e.target.closest(".recent-note");
+	if (!card) return;
+	const user = getFromLocalStorage("loggedInUser");
+	if (user) updateNoteUi(card.dataset.noteId, user.token);
+});
 
 function getPlainText(html) {
 	if (!html) return "";
@@ -97,7 +105,6 @@ function formatDate(dateString) {
 		day: "numeric",
 	});
 }
-
 function renderRecentNotes(notes) {
 	if (!dashboardRecentNotes) return;
 
@@ -109,55 +116,35 @@ function renderRecentNotes(notes) {
 				No notes yet.
 			</div>
 		`;
-
 		return;
 	}
+
+	const user = getFromLocalStorage("loggedInUser");
+	if (!user) return;
 
 	dashboardRecentNotes.innerHTML = recentNotes
 		.map((note) => {
 			const titleText = getPlainText(note.title) || "Untitled Note";
-
 			const preview =
 				getPlainText(note.content).replace(/\s+/g, " ").slice(0, 80) ||
 				"No content";
-
 			const date = formatDate(note.updatedAt || note.createdAt);
 
 			return `
-				<div class="recent-note" data-note-id="${escapeHtml(note.noteId)}">
-
+				<div class="recent-note" data-note-id="${escapeHtml(note.noteId)}" >
 					<div class="recent-note-icon">
-						<svg
-							width="18"
-							height="18"
-							viewBox="0 0 24 24"
-							fill="none"
-							stroke="currentColor"
-							stroke-width="2"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-						>
+						<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 							<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
 							<polyline points="14 2 14 8 20 8"/>
 							<line x1="16" y1="13" x2="8" y2="13"/>
 							<line x1="16" y1="17" x2="8" y2="17"/>
 						</svg>
 					</div>
-
 					<div class="recent-note-info">
-						<div class="recent-note-title">
-							${escapeHtml(titleText)}
-						</div>
-
-						<div class="recent-note-preview">
-							${escapeHtml(preview)}
-						</div>
-
-						<div class="recent-note-date">
-							${escapeHtml(date)}
-						</div>
+						<div class="recent-note-title">${escapeHtml(titleText)}</div>
+						<div class="recent-note-preview">${escapeHtml(preview)}</div>
+						<div class="recent-note-date">${escapeHtml(date)}</div>
 					</div>
-
 				</div>
 			`;
 		})

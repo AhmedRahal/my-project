@@ -4,7 +4,8 @@ import { showModal } from "../modals.js";
 import { getNotesForUser } from "../../api/notes.js";
 import { updateProfileUi } from "../../auth/accountdetails.js";
 import { updatePasswordUI } from "../../auth/password.js";
-import { initImportNotes } from "../exeternalFilesManager/noteImportExport.js";
+import { initImportNotes } from "../exeternalFilesManager/noteImport.js";
+import { exportNotes } from "../exeternalFilesManager/noteExport.js";
 import {
 	editUsernameInput,
 	saveAccountBtn,
@@ -20,14 +21,20 @@ export async function initAccountSettings(loggedInUser) {
 		saveAccountBtn.onclick = () => {
 			const updatedUsername = editUsernameInput.value.trim();
 			if (!updatedUsername) {
-				showNotification("error", "Username field cannot be left blank.");
+				showNotification(
+					"error",
+					"Username field cannot be left blank.",
+				);
 				return;
 			}
 			//get an image file from the input
 			const updatedAvatar = editAvatarInput.files[0];
 			const sessionUser = getFromLocalStorage("loggedInUser");
 			updateProfileUi(updatedUsername, updatedAvatar, sessionUser.token);
-			showNotification("success", "Account details updated successfully!");
+			showNotification(
+				"success",
+				"Account details updated successfully!",
+			);
 		};
 	}
 
@@ -49,27 +56,12 @@ export async function initAccountSettings(loggedInUser) {
 
 	if (exportDataBtn) {
 		exportDataBtn.onclick = () => {
-			const localNotesData = getFromLocalStorage("notes") || [];
-
-			const parsedStream =
-				"data:text/json;charset=utf-8," +
-				encodeURIComponent(JSON.stringify(localNotesData, null, 2));
-			const temporalAnchorNode = document.createElement("a");
-
-			temporalAnchorNode.setAttribute("href", parsedStream);
-			temporalAnchorNode.setAttribute(
-				"download",
-				`notebook_backup_${new Date().toISOString().slice(0, 10)}.json`,
-			);
-			document.body.appendChild(temporalAnchorNode);
-
-			temporalAnchorNode.click();
-			temporalAnchorNode.remove();
-
-			showNotification(
-				"success",
-				"Encrypted notes vault exported successfully!",
-			);
+			let result = exportNotes();
+			if (result) {
+				showNotification("success", "Notes exported successfully!");
+			} else {
+				showNotification("error", "No notes found to export.");
+			}
 		};
 	}
 

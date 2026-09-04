@@ -2,8 +2,9 @@ import DOMPurify from "dompurify";
 
 // Whitelist matched to what Quill's toolbar can actually produce
 // (headers, formatting, lists/checklists, code blocks, links, images,
-// indent/align classes). Tighten or extend this if your toolbar config
-// changes — anything not listed here gets stripped, not just "hidden."
+// indent/align classes, and now color/background which Quill applies as
+// inline style). Tighten or extend this if your toolbar config changes —
+// anything not listed here gets stripped, not just "hidden."
 const ALLOWED_TAGS = [
 	"p", "br", "span",
 	"b", "strong", "i", "em", "u", "s", "strike",
@@ -19,6 +20,11 @@ const ALLOWED_ATTR = [
 	"src", "alt",
 	"class",
 	"data-list", "data-checked",
+	// Quill's color/background toolbar options apply as inline style
+	// (e.g. <span style="color: rgb(...)">). DOMPurify still filters
+	// dangerous CSS constructs within the attribute value even when it's
+	// allowed, so this doesn't reopen the original XSS hole.
+	"style",
 ];
 
 /**
