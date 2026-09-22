@@ -8,8 +8,9 @@ import { startLoading, stopLoading } from "../../utils/requestManager.js";
 import { sanitizeHtml } from "./sanitize.js";
 import { wireTagInput } from "./noteFormTags.js";
 import { addnoteCard } from "./dom.js";
-
+import { refreshUserTags } from "../../utils/tags.js";
 export function updateNoteUi(noteId, token) {
+		const sessionUser = getFromLocalStorage("loggedInUser");
 	const notes = getFromLocalStorage("notes") || [];
 	const note = notes.find((n) => n.noteId == noteId);
 
@@ -69,7 +70,9 @@ export function updateNoteUi(noteId, token) {
 				quillTitle ? quillTitle.root.innerHTML.trim() : note.title,
 			),
 			content: sanitizeHtml(
-				quillContent ? quillContent.root.innerHTML.trim() : note.content,
+				quillContent
+					? quillContent.root.innerHTML.trim()
+					: note.content,
 			),
 			isPinned: notePinnedInput.checked,
 			tags,
@@ -80,6 +83,9 @@ export function updateNoteUi(noteId, token) {
 
 		try {
 			await updateNote(noteId, updatedNote, token);
+			refreshUserTags(sessionUser.userId).catch((err) => {
+				console.error("Failed to refresh user tags:", err);
+			});
 			closeModal(addnoteCard);
 		} catch (error) {
 			console.error(error);

@@ -23,5 +23,5 @@ export function setQuillContentInstance(instance) {
 export const settings = {
 	darkMode: true,
 	currentView: "notes",
-	profileTab: "dashboard",
+	profileTab: "tab-stats",
 };

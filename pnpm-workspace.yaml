@@ -1,5 +1,6 @@
 allowBuilds:
-    "@parcel/watcher": false
-    better-sqlite3: true
-    electron: false
-    lzma-native: true
+  "@parcel/watcher": false
+  better-sqlite3: true
+  electron: false
+  electron-winstaller: true
+  lzma-native: true

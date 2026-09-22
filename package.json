@@ -8,8 +8,36 @@
 		"dev:vite": "vite",
 		"dev:electron": "wait-on http://localhost:5173 && electron .",
 		"start": "pnpm run --parallel \"/^dev:.*/\"",
-		"build": "vite build",
+		"build": "vite build && electron-builder",
 		"rebuild": "electron-rebuild"
+	},
+	"build": {
+		"appId": "com.nurov.app",
+		"productName": "Nurov",
+		"directories": {
+			"output": "C:/Users/rahal/Downloads/Nurov-build"
+		},
+		"files": [
+			"dist/**/*",
+			"main.js",
+			"main/**/*",
+			"preload.js",
+			"preload/**/*",
+			"assets/**/*",
+			"assets/**"
+		],
+		"extraResources": [
+			{
+				"from": "C:/DEV/python back end/",
+				"to": "python-backend",
+				"filter": [
+					"**/*"
+				]
+			}
+		],
+		"win": {
+			"target": "portable"
+		}
 	},
 	"keywords": [],
 	"author": "",
@@ -19,6 +47,7 @@
 		"@types/dompurify": "^3.2.0",
 		"concurrently": "^10.0.5",
 		"electron": "^40.4.1",
+		"electron-builder": "^26.15.3",
 		"electron-rebuild": "^3.2.9",
 		"sass": "^1.103.1",
 		"vite": "^8.2.2",
@@ -27,6 +56,7 @@
 	"dependencies": {
 		"better-sqlite3": "^12.6.2",
 		"dompurify": "^3.4.14",
-		"quill": "^2.0.3"
+		"quill": "^2.0.3",
+		"uuid": "^14.0.2"
 	}
 }

@@ -1,24 +1,22 @@
+import Quill from "quill";
+import "quill/dist/quill.snow.css";
+
+let stylesRegistered = false;
+
 export async function initializeQuillEditor(id, options) {
 	try {
-		await window.api.loadQuillScript();
-		if (!window.Quill) {
-			throw new Error(
-				"Quill script loaded, but window.Quill remains undefined.",
-			);
-		}
-
-		if (!window.Quill.__stylesRegistered) {
-			const ColorStyle = window.Quill.import("attributors/style/color");
-			const BackgroundStyle = window.Quill.import(
+		if (!stylesRegistered) {
+			const ColorStyle = Quill.import("attributors/style/color");
+			const BackgroundStyle = Quill.import(
 				"attributors/style/background",
 			);
-			const AlignStyle = window.Quill.import("attributors/style/align");
+			const AlignStyle = Quill.import("attributors/style/align");
 
-			window.Quill.register(ColorStyle, true);
-			window.Quill.register(BackgroundStyle, true);
-			window.Quill.register(AlignStyle, true);
+			Quill.register(ColorStyle, true);
+			Quill.register(BackgroundStyle, true);
+			Quill.register(AlignStyle, true);
 
-			window.Quill.__stylesRegistered = true;
+			stylesRegistered = true;
 		}
 		options.formats = options.formats || [
 			"background",
@@ -43,7 +41,7 @@ export async function initializeQuillEditor(id, options) {
 		];
 
 		// Create Instance safely
-		let quillInstance = new window.Quill(id, options);
+		let quillInstance = new Quill(id, options);
 		return quillInstance;
 	} catch (err) {
 		console.error("Editor Setup Error:", err);

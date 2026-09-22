@@ -15,8 +15,11 @@ import {
 	editAvatarInput,
 	importDataModal,
 } from "./dom.js";
-
+import { refreshUserTags } from "../../utils/tags.js";
 export async function initAccountSettings(loggedInUser) {
+	refreshUserTags(loggedInUser.userId).catch((err) => {
+		console.error("Failed to refresh user tags:", err);
+	});
 	if (saveAccountBtn) {
 		saveAccountBtn.onclick = () => {
 			const updatedUsername = editUsernameInput.value.trim();

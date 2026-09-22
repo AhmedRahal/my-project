@@ -1,8 +1,8 @@
 import { saveToLocalStorage, getFromLocalStorage } from "./storage.js";
 import getUserTagsApi from "../api/tags.js";
 
-export function refreshUserTags(userId) {
-	return getUserTagsApi(userId).then((response) => {
+export async function refreshUserTags(userId) {
+	return await getUserTagsApi(userId).then((response) => {
 		const tags = response.tags;
 		if (tags) saveToLocalStorage("userTags", tags);
 		return tags || [];

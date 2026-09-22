@@ -2,7 +2,7 @@ import { closeAllModals, closeModal } from "../modals.js";
 import { showNotification } from "../notification.js";
 import { loginUser } from "../../auth/login.js";
 import { signUp } from "../../auth/signup.js";
-import { checkStatus } from "../../utils/statue.js";
+import { isOnline } from "../../api/client.js";
 import { userDiv, usersignUpLogout, searchBar } from "./dom.js";
 
 export function renderGuestUi() {
@@ -27,7 +27,7 @@ export function renderGuestUi() {
 
 	signUpBtn.onclick = (e) => {
 		e.stopPropagation();
-		if (checkStatus(null, false)) {
+		if (isOnline()) {
 			signUp();
 		} else {
 			showNotification(
@@ -40,7 +40,7 @@ export function renderGuestUi() {
 
 	loginBtn.onclick = (e) => {
 		e.stopPropagation();
-		if (checkStatus(null, false)) {
+		if (isOnline()) {
 			loginUser();
 		} else {
 			showNotification(

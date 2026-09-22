@@ -9,7 +9,7 @@ import { sanitizeHtml } from "./sanitize.js";
 import { wireTagInput } from "./noteFormTags.js";
 import { createNotes } from "./noteList.js";
 import { addNoteBtn, addnoteCard } from "./dom.js";
-
+import { refreshUserTags } from "../../utils/tags.js";
 export function triggerAddNoteModal() {
 	const submitNoteBtn = document.getElementById("save-note-btn");
 	const noteTagsInput = document.querySelector(
@@ -98,6 +98,9 @@ export function triggerAddNoteModal() {
 			const createdNote = { noteId: result.noteId, ...newNote };
 			const currentNotes = getFromLocalStorage("notes") || [];
 			createNotes([createdNote, ...currentNotes]);
+			refreshUserTags(sessionUser.userId).catch((err) => {
+				console.error("Failed to refresh user tags:", err);
+			});
 		} catch (error) {
 			console.error(error);
 		} finally {

@@ -1,20 +1,12 @@
-import {apiUrl} from "./config.js";
-import {handleApiError} from "./errorHandler.js";
+import { apiRequest } from "./core.js";
 
-export default function getUserTagsApi(userId) {
-    return fetch(`${apiUrl}notes/tags`, {
-        method: 'GET',
-        headers: {
-            'Authorization': `Bearer ${JSON.parse(localStorage.getItem('userToken'))}`,
-            'Content-Type': 'application/json'
-        }
-    })
-        .then(response => {
-            if (!response.ok) {
-                console.log('Error fetching user tags:', response.status, response.statusText,response.body);
-            }
-            return response.json();
-        }).catch(error => {
-            handleApiError(error);
-        });
+export default async function getUserTagsApi(userId) {
+	// Tags are read-only here, so offline just means "nothing new to show" —
+	// the cached tags in utils/tags.js are still used elsewhere in the UI.
+	const data = await apiRequest({
+		endpoint: "notes/tags",
+		method: "GET",
+		offlineFallback: async () => ({ tags: [] }),
+	});
+	return data || { tags: [] };
 }
