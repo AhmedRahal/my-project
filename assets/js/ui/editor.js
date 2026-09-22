@@ -39,8 +39,6 @@ export async function initializeQuillEditor(id, options) {
 			"image",
 			"video",
 		];
-
-		// Create Instance safely
 		let quillInstance = new Quill(id, options);
 		return quillInstance;
 	} catch (err) {

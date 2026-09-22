@@ -83,7 +83,6 @@ export function toggleFilterDropdown() {
 	if (filterOnlyPinned) {
 		filterOnlyPinned.addEventListener("change", (e) => {
 			filterService.setPinnedOnly(e.target.checked);
-			// Mutual exclusion: Uncheck Unpinned if Pinned is selected
 			if (e.target.checked && filterOnlyUnpinned) {
 				filterOnlyUnpinned.checked = false;
 			}
@@ -93,7 +92,6 @@ export function toggleFilterDropdown() {
 	if (filterOnlyUnpinned) {
 		filterOnlyUnpinned.addEventListener("change", (e) => {
 			filterService.setUnpinnedOnly(e.target.checked);
-			// Mutual exclusion: Uncheck Pinned if Unpinned is selected
 			if (e.target.checked && filterOnlyPinned) {
 				filterOnlyPinned.checked = false;
 			}

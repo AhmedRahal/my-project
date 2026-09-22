@@ -6,12 +6,7 @@ import { getFromLocalStorage } from "../utils/storage.js";
 import { showNotification } from "../ui/notification.js";
 import { queueAction } from "../utils/offlineQueue.js";
 
-// The actual network call, with nothing swallowed — a rejected fetch or a
-// non-2xx response always throws. apiRequest() wraps this for normal UI use
-// (spinners, friendly error toasts, offline queueing). syncRequest() below
-// uses it directly, on purpose, because the sync engine needs to know for
-// certain whether a request actually made it to the backend before it marks
-// anything as synced or deletes it from the local queue.
+
 async function rawRequest({ endpoint, method = "GET", body = null, requiresAuth = true }) {
     const headers = { "Content-Type": "application/json" };
     if (requiresAuth) {
@@ -47,10 +42,7 @@ async function rawRequest({ endpoint, method = "GET", body = null, requiresAuth 
     return data;
 }
 
-// True if the error means "couldn't reach the server at all" (connection
-// refused, DNS failure, our own 8s abort) — as opposed to a real response
-// FROM the server (401, 404, a validation error, etc.), which should be
-// handled normally rather than treated as "we must be offline."
+
 function isConnectivityFailure(error) {
     return (
         error instanceof TypeError ||
@@ -93,17 +85,13 @@ export async function apiRequest({
     });
 
     try {
-        // Try the real request directly — no separate health check first.
-        // We only find out we're "offline" if this actually fails to
-        // connect, which is both faster (one round trip instead of two)
-        // and more accurate than trusting a cached flag from up to 5
-        // seconds ago.
+
         try {
             const data = await rawRequest({ endpoint, method, body, requiresAuth });
             markOnline();
             return data;
         } catch (err) {
-            if (!isConnectivityFailure(err)) throw err; // a real error FROM the backend — handle normally below
+            if (!isConnectivityFailure(err)) throw err;
 
             markOffline();
 
@@ -112,9 +100,6 @@ export async function apiRequest({
             }
 
             if (method !== 'GET') {
-                // Nobody wrote a specific offline handler for this endpoint —
-                // rather than losing the change, queue it generically so it
-                // syncs automatically the next time we're back online.
                 await queueAction({ endpoint, method, body, requiresAuth, label: label || endpoint });
                 showNotification(
                     "info",
@@ -122,17 +107,13 @@ export async function apiRequest({
                 );
                 return { success: true, queued: true };
             }
-
-            // A GET with nothing cached and no fallback — nothing to queue,
-            // just be upfront about it instead of throwing a scary error.
             showNotification("warning", "You're offline and this hasn't been loaded yet.");
             return null;
         }
 
     } catch (error) {
         handleApiError(error);
-        // Return null or re-throw depending on how you want to handle it in the caller
-        // For now, returning null prevents createNotes(undefined)
+
         return null;
     } finally {
         stopLoading({ buttonElement: loadingBtn, fullscreen: fullscreenLoad });

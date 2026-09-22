@@ -9,7 +9,7 @@ import {
 	cacheNotesBulk,
 } from "../db/notesLocal.js";
 
-// GET Notes
+
 export async function getNotesForUser() {
 	const user = getFromLocalStorage("loggedInUser");
 	if (!user) return [];
@@ -27,8 +27,6 @@ export async function getNotesForUser() {
 	});
 
 	createNotes(data);
-
-	// Cache what we just fetched, so it's available next time we're offline.
 	if (Array.isArray(data) && data.length) {
 		cacheNotesBulk(data.map(n => ({ ...n, userId: user.userId })));
 	}
@@ -36,7 +34,7 @@ export async function getNotesForUser() {
 	return data;
 }
 
-// POST Note
+
 export async function sendNoteToBackend(note) {
 	const user = getFromLocalStorage("loggedInUser");
 
@@ -45,18 +43,8 @@ export async function sendNoteToBackend(note) {
 		method: "POST",
 		body: note,
 		loadingBtn: "save-note-btn",
-		// Offline Fallback: Save to SQLite (flagged isDirty — synced later
-		// as part of the notes-specific bulk sync in syncEngine.js)
 		offlineFallback: async ({ body }) => {
 			if (!user) throw new Error("Not logged in");
-			// Generate the ID ONCE, here, and use it for both the SQLite row
-			// and the value handed back to the UI. Previously these were two
-			// separate random IDs (db:save-note generated its own server-side,
-			// while this returned a different crypto.randomUUID()) — meaning
-			// a note created offline was tracked under two different IDs, so
-			// editing it before a full refresh created a second row instead
-			// of updating the first. That's what caused it to show up twice
-			// once synced to the backend.
 			const noteId = crypto.randomUUID();
 			await saveLocalNote({ ...body, noteId, userId: user.userId });
 			showNotification("info", "Saved offline — this note will sync automatically once you're back online.");
@@ -65,17 +53,11 @@ export async function sendNoteToBackend(note) {
 	});
 }
 
-// DELETE Note
+
 export async function deleteNote(noteId) {
-	// Delete locally right away, so the UI feels responsive regardless of
-	// connectivity...
+
 	await deleteLocalNote(noteId);
 
-	// ...and let apiRequest's built-in generic offline queue handle the real
-	// DELETE if we're offline — no custom offlineFallback needed here. (This
-	// used to be a no-op console.log that never queued anything, so an
-	// offline delete would silently reappear once you reconnected and the
-	// app re-fetched from the still-untouched backend.)
 	await apiRequest({
 		endpoint: `notes/${noteId}`,
 		method: "DELETE",
@@ -85,7 +67,7 @@ export async function deleteNote(noteId) {
 	getNotesForUser();
 }
 
-// UPDATE Note
+
 export async function updateNote(noteId, updatedNote) {
 	const user = getFromLocalStorage("loggedInUser");
 
@@ -93,7 +75,7 @@ export async function updateNote(noteId, updatedNote) {
 		endpoint: `notes/${noteId}`,
 		method: "PUT",
 		body: updatedNote,
-		loadingBtn: "save-note-btn", // Reusing save btn for update
+		loadingBtn: "save-note-btn", 
 		offlineFallback: async ({ body }) => {
 			if (!user) throw new Error("Not logged in");
 			await saveLocalNote({ ...body, userId: user.userId });
@@ -105,7 +87,7 @@ export async function updateNote(noteId, updatedNote) {
 	getNotesForUser();
 }
 
-// BULK Import
+
 export async function addnotes(notes, overrideExisting) {
 	return await apiRequest({
 		endpoint: "notes/bulk",
@@ -117,7 +99,4 @@ export async function addnotes(notes, overrideExisting) {
 	});
 }
 
-// Re-exported so anything already importing { syncAll, syncOfflineNotes,
-// syncPendingActions } from "./notes.js" keeps working unchanged — the
-// actual implementation now lives in sync/syncEngine.js.
 export { syncAll, syncOfflineNotes, syncPendingActions } from "../sync/syncEngine.js";

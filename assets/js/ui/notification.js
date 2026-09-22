@@ -29,7 +29,7 @@ function renderNotification({ type, messageText }) {
         </div>
     `;
     activeNotifications.push({ id, element: box });
-    killNotificationAfterDelay(id, 5000); //
+    killNotificationAfterDelay(id, 5000); 
 
     box.querySelector(".close-message").addEventListener("click", () => {
         removeNotification(id);
