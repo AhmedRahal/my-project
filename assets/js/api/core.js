@@ -43,7 +43,7 @@ async function rawRequest({ endpoint, method = "GET", body = null, requiresAuth 
 }
 
 
-function isConnectivityFailure(error) {
+export function isConnectivityFailure(error) {
     return (
         error instanceof TypeError ||
         error?.name === "AbortError" ||

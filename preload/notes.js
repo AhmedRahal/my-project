@@ -10,4 +10,5 @@ module.exports = {
 	dbCacheNote: (note) => ipcRenderer.invoke("db:cache-note", note),
 	dbCacheNotesBulk: (notes) => ipcRenderer.invoke("db:cache-notes-bulk", notes),
 	dbDeleteNoteLocal: (noteId) => ipcRenderer.invoke("db:delete-note-local", noteId),
+	dbCountDirtyNotes: (userId) => ipcRenderer.invoke("db:count-dirty-notes", userId),
 };

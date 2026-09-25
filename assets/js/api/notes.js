@@ -46,7 +46,9 @@ export async function sendNoteToBackend(note) {
 		offlineFallback: async ({ body }) => {
 			if (!user) throw new Error("Not logged in");
 			const noteId = crypto.randomUUID();
-			await saveLocalNote({ ...body, noteId, userId: user.userId });
+			// isNew: true — this note has never existed on the server, so the
+			// sync engine knows to bulk-create it rather than PUT-overwrite it.
+			await saveLocalNote({ ...body, noteId, userId: user.userId, isNew: true });
 			showNotification("info", "Saved offline — this note will sync automatically once you're back online.");
 			return { noteId, success: true };
 		}
@@ -78,6 +80,10 @@ export async function updateNote(noteId, updatedNote) {
 		loadingBtn: "save-note-btn", 
 		offlineFallback: async ({ body }) => {
 			if (!user) throw new Error("Not logged in");
+			// no isNew flag here — this note already existed (it's being
+			// edited, not created), so it stays whatever it already was:
+			// isNew=0 if it had synced before, unchanged if it was already
+			// an offline-created note being edited again before its first sync.
 			await saveLocalNote({ ...body, userId: user.userId });
 			showNotification("info", "Updated offline — this will sync automatically once you're back online.");
 			return { success: true };

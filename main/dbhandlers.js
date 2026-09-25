@@ -4,7 +4,10 @@ const { v4: uuidv4 } = require("uuid");
 
 function registerDbHandlers() {
     const db = getDb();
-
+    ipcMain.handle("db:bump-action-fail-count", (event, id) => {
+    db.prepare("UPDATE pending_actions SET failCount = failCount + 1 WHERE id = ?").run(id);
+    return db.prepare("SELECT failCount FROM pending_actions WHERE id = ?").get(id)?.failCount ?? 0;
+});
     ipcMain.handle("db:cache-note", (event, note) => {
         // Mirrors an already-synced note into local SQLite as a read cache.
         // The WHERE isDirty = 0 guard means: if this note has local unsynced
@@ -48,49 +51,49 @@ function registerDbHandlers() {
         };
     });
 
-    ipcMain.handle("db:delete-note-local", (event, noteId) => {
-        db.prepare("DELETE FROM notes WHERE noteId = ?").run(noteId);
-        return { success: true, noteId };
-    });
-
+ipcMain.handle("db:delete-note-local", (event, noteId) => {
+    db.prepare("DELETE FROM notes WHERE noteId = ?").run(noteId);
+    db.prepare("DELETE FROM pending_actions WHERE json_extract(body, '$.noteId') = ?").run(noteId);
+    return { success: true, noteId };
+});
+    ipcMain.handle("db:count-dirty-notes", (event, userId) => {
+    const row = userId
+        ? db.prepare("SELECT COUNT(*) as count FROM notes WHERE userId = ? AND isDirty = 1").get(userId)
+        : db.prepare("SELECT COUNT(*) as count FROM notes WHERE isDirty = 1").get();
+    return row.count;
+});
     // Get all notes for a user
     ipcMain.handle("db:get-notes", (event, userId) => {
         return db.prepare("SELECT * FROM notes WHERE userId = ?").all(userId);
     });
 
     // Save/Update a note locally (offline create/edit — flags isDirty=1 so it syncs later)
-    ipcMain.handle("db:save-note", (event, note) => {
-        // Generate UUID4 if noteId is not provided (new note)
-        const noteToSave = {
-            ...note,
-            noteId: note.noteId || uuidv4(),
-            createdAt: note.createdAt || new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
-        };
-        
-        const stmt = db.prepare(`
-            INSERT INTO notes (noteId, userId, title, content, tags, isPinned, createdAt, updatedAt, isDirty)
-            VALUES (@noteId, @userId, @title, @content, @tags, @isPinned, @createdAt, @updatedAt, 1)
-            ON CONFLICT(noteId) DO UPDATE SET
-            title=@title, content=@content, tags=@tags, isPinned=@isPinned, updatedAt=@updatedAt, isDirty=1
-        `);
-        stmt.run({
-            ...noteToSave,
-            tags: JSON.stringify(noteToSave.tags),
-            isPinned: noteToSave.isPinned ? 1 : 0, // SQLite can't bind a boolean
-        });
-        return { success: true, noteId: noteToSave.noteId };
-    });
-
+ipcMain.handle("db:save-note", (event, note) => {
+    const noteToSave = {
+        ...note,
+        noteId: note.noteId || uuidv4(),
+        createdAt: note.createdAt || new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        isNew: note.isNew ? 1 : 0,
+    };
+    const stmt = db.prepare(`
+        INSERT INTO notes (noteId, userId, title, content, tags, isPinned, createdAt, updatedAt, isDirty, isNew)
+        VALUES (@noteId, @userId, @title, @content, @tags, @isPinned, @createdAt, @updatedAt, 1, @isNew)
+        ON CONFLICT(noteId) DO UPDATE SET
+        title=@title, content=@content, tags=@tags, isPinned=@isPinned, updatedAt=@updatedAt, isDirty=1
+    `); // isNew intentionally NOT touched on conflict — preserves whether this note ever synced before
+    stmt.run({ ...noteToSave, tags: JSON.stringify(noteToSave.tags), isPinned: noteToSave.isPinned ? 1 : 0 });
+    return { success: true, noteId: noteToSave.noteId };
+});
     ipcMain.handle("db:get-dirty-notes", () => {
         return db.prepare("SELECT * FROM notes WHERE isDirty = 1").all();
     });
 
-    ipcMain.handle("db:mark-synced", (event, noteIds) => {
-        const placeholders = noteIds.map(() => '?').join(',');
-        db.prepare(`UPDATE notes SET isDirty = 0 WHERE noteId IN (${placeholders})`).run(...noteIds);
-        return { success: true, noteIds };
-    });
+ipcMain.handle("db:mark-synced", (event, noteIds) => {
+    const placeholders = noteIds.map(() => '?').join(',');
+    db.prepare(`UPDATE notes SET isDirty = 0, isNew = 0 WHERE noteId IN (${placeholders})`).run(...noteIds);
+    return { success: true, noteIds };
+});
 
     // ---- Generic offline queue (any endpoint, not just notes) ----
 

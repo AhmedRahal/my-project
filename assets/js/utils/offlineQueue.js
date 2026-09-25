@@ -18,9 +18,15 @@ export async function queueAction({ endpoint, method, body, requiresAuth = true,
 }
 
 export async function getPendingActionsCount() {
-	const user = getFromLocalStorage("loggedInUser");
-	return await window.api.dbCountQueuedActions(user?.userId);
+    const user = getFromLocalStorage("loggedInUser");
+    const [actionsCount, dirtyNotesCount] = await Promise.all([
+        window.api.dbCountQueuedActions(user?.userId),
+        window.api.dbCountDirtyNotes(user?.userId),
+    ]);
+    return actionsCount + dirtyNotesCount;
 }
+
+
 
 export async function getPendingActions() {
 	const user = getFromLocalStorage("loggedInUser");
